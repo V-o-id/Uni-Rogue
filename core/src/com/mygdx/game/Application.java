@@ -15,6 +15,7 @@ import com.mygdx.game.states.MenuState;
 
 public class Application extends ApplicationAdapter {
 
+  //possible delete?
   public static final String TITLE = "Uni-Rogue";
   public static final int WIDTH = 800;
   public static final int HEIGHT = 600;
