@@ -16,19 +16,24 @@ public class Player extends Text {
 
 	public void characterControl() {
 
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			setPostiton(new Vector3(getPostiton().x, getPostiton().y + 2, 0));
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			setPostiton(new Vector3(getPostiton().x, getPostiton().y - 2, 0));
+		if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+			setPostiton(new Vector3(getPostiton().x, getPostiton().y + 10, 0));
 		}
 
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			setPostiton(new Vector3(getPostiton().x - 2, getPostiton().y, 0));
+		if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+			setPostiton(new Vector3(getPostiton().x, getPostiton().y - 10, 0));
 		}
 
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			setPostiton(new Vector3(getPostiton().x + 2, getPostiton().y, 0));
+		if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+			setPostiton(new Vector3(getPostiton().x - 10, getPostiton().y, 0));
 		}
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+			setPostiton(new Vector3(getPostiton().x + 10, getPostiton().y, 0));
+		}
+	}
+
+	public void dispose() {
+		dispose();
 	}
 }
