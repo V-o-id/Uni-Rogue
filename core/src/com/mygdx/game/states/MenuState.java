@@ -1,8 +1,11 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.sprites.Text;
+
+import javax.swing.text.html.Option;
 
 import static com.mygdx.game.Application.HEIGHT;
 import static com.mygdx.game.Application.WIDTH;
@@ -24,13 +27,13 @@ public class MenuState extends State {
 
   @Override
   protected void handleInput() {
-
     if(Gdx.input.isTouched()){
       if(startGameText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
         gsm.set(new PlayState(gsm));
       }
-      if(optionText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
-        Gdx.gl.glClearColor(1, 1, 0, 1);
+      if(optionText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())) {
+        //Gdx.gl.glClearColor(1, 1, 0, 1);
+        gsm.set(new OptionState(gsm));
       }
       if(highscoreText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
         Gdx.gl.glClearColor(1, 0, 1, 1);
