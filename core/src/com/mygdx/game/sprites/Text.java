@@ -9,13 +9,14 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Text {
 
-  private final CharSequence text;
+  private final String text;
   private final BitmapFont font;
   private final GlyphLayout glyphLayout;
-  private final Rectangle rectangle;
   private Vector3 postiton;
 
-  public Text(CharSequence text, float x, float y) {
+  private final Rectangle rectangle;
+
+  public Text(String text, float x, float y) {
     this.text = text;
 
     FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/unifont-15.0.01.ttf"));
@@ -30,20 +31,11 @@ public class Text {
     this.postiton = new Vector3(x - glyphLayout.width/2, y, 0);
 
     rectangle = new Rectangle();
-    rectangle.set(postiton.x, postiton.y, glyphLayout.width, glyphLayout.height);
-
+    rectangle.set(getPostiton().x, getPostiton().y, getGlyphLayout().width, getGlyphLayout().height);
   }
 
-  public void update(float dt){
-    rectangle.setPosition(postiton.x, postiton.y);
-  }
-
-  public CharSequence getText() {
+  public String getText() {
     return text;
-  }
-
-  public Rectangle getRectangle() {
-    return rectangle;
   }
 
   public GlyphLayout getGlyphLayout() {
@@ -52,6 +44,10 @@ public class Text {
 
   public BitmapFont getFont() {
     return font;
+  }
+
+  public Rectangle getRectangle() {
+    return rectangle;
   }
 
   public Vector3 getPostiton() {
