@@ -17,8 +17,8 @@ public class Application extends ApplicationAdapter {
 
   //possible delete?
   public static final String TITLE = "Uni-Rogue";
-  public static final int WIDTH = 1000;
-  public static final int HEIGHT = 1000;
+  public static final int WIDTH = 1920;
+  public static final int HEIGHT = 1080;
 
   private GameStateManager gsm;
   private SpriteBatch batch;
