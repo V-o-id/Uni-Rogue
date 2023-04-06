@@ -4,16 +4,17 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.Application;
+import com.mygdx.game.states.State;
 import sun.jvm.hotspot.gc.shared.Space;
 
 public class Grid extends Label {
 
   private Label[][] grid;
-  public final static int ROWS = 50;
-  public final static int COLUMS = 100;
+  public final static int ROWS = 60;
+  public final static int COLUMS = 120;
   private final static int SPACE_BETWEEN_CHARACTERS = 15;
-  private final static int START_POSX_GRID = (Application.WIDTH - (COLUMS * SPACE_BETWEEN_CHARACTERS))/2;
-  private final static int START_POSY_GRID = (Application.HEIGHT - (ROWS * SPACE_BETWEEN_CHARACTERS))/2;
+  private final static int START_POSX_GRID = (State.WIDTH - (COLUMS * SPACE_BETWEEN_CHARACTERS))/2;
+  private final static int START_POSY_GRID = (State.HEIGHT - (ROWS * SPACE_BETWEEN_CHARACTERS))/2;
 
   private String gridCharacter;
 

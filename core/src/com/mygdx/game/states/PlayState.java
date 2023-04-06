@@ -9,8 +9,6 @@ import com.mygdx.game.sprites.Enemy;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Player;
 
-import static com.mygdx.game.Application.HEIGHT;
-import static com.mygdx.game.Application.WIDTH;
 import static com.mygdx.game.sprites.Grid.COLUMS;
 import static com.mygdx.game.sprites.Grid.ROWS;
 
@@ -19,14 +17,13 @@ public class PlayState extends State {
 
     private Grid grid;
     private Player player;
-    private Enemy enemy;
 
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
 
         grid = new Grid("#", Color.WHITE);
-        player = new Player("@", Color.WHITE, grid,40, 40);
+        player = new Player("@", Color.WHITE, grid, COLUMS/2, ROWS/2);
     }
 
     @Override

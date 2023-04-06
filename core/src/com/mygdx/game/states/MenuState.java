@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.sprites.Text;
 
-import static com.mygdx.game.Application.HEIGHT;
-import static com.mygdx.game.Application.WIDTH;
 
 public class MenuState extends State {
 
@@ -16,10 +14,11 @@ public class MenuState extends State {
 
   public MenuState(GameStateManager gsm) {
     super(gsm);
-    startGameText = new Text("Start Game", WIDTH / 2F, HEIGHT/2 + 3*HEIGHT/8);
-    optionText = new Text("Options", WIDTH / 2F, HEIGHT/2 + HEIGHT/8);
-    highscoreText = new Text("Highscore", WIDTH / 2F, HEIGHT/2 - HEIGHT/8);
-    exitText = new Text("Exit Game", WIDTH / 2F, HEIGHT/2 - 3*HEIGHT/8);
+    System.out.println(State.WIDTH);
+    startGameText = new Text("Start Game", State.WIDTH / 2F, State.HEIGHT/2F + 3*State.HEIGHT/8F);
+    optionText = new Text("Options", State.WIDTH / 2F, State.HEIGHT/2F + State.HEIGHT/8F);
+    highscoreText = new Text("Highscore", State.WIDTH / 2F, State.HEIGHT/2F - State.HEIGHT/8F);
+    exitText = new Text("Exit Game", State.WIDTH / 2F, State.HEIGHT/2F - 3*State.HEIGHT/8F);
   }
 
   @Override
