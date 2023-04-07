@@ -2,27 +2,24 @@ package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.mygdx.game.sprites.Enemy;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Player;
 
-import static com.mygdx.game.sprites.Grid.COLUMS;
+import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
 
 
 public class PlayState extends State {
 
-    private Grid grid;
-    private Player player;
+    private final Grid grid;
+    private final Player player;
 
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        grid = new Grid("#", Color.WHITE);
-        player = new Player("@", Color.WHITE, grid, COLUMS/2, ROWS/2);
+        grid = new Grid(".", Color.WHITE);
+        player = new Player("@", Color.WHITE, grid, COLUMNS/2, ROWS/2);
     }
 
     @Override
@@ -51,7 +48,7 @@ public class PlayState extends State {
 
     private void drawGrid(SpriteBatch sb) {
         for(int y = 0; y < ROWS; y++){
-            for(int x = 0; x < COLUMS; x++){
+            for(int x = 0; x < COLUMNS; x++){
                 grid.getGrid()[y][x].draw(sb, 1);
             }
         }

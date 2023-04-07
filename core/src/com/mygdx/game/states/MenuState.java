@@ -17,7 +17,7 @@ public class MenuState extends State {
     System.out.println(State.WIDTH);
     startGameText = new Text("Start Game", State.WIDTH / 2F, State.HEIGHT/2F + 3*State.HEIGHT/8F);
     optionText = new Text("Options", State.WIDTH / 2F, State.HEIGHT/2F + State.HEIGHT/8F);
-    highscoreText = new Text("Highscore", State.WIDTH / 2F, State.HEIGHT/2F - State.HEIGHT/8F);
+    highscoreText = new Text("High-Score", State.WIDTH / 2F, State.HEIGHT/2F - State.HEIGHT/8F);
     exitText = new Text("Exit Game", State.WIDTH / 2F, State.HEIGHT/2F - 3*State.HEIGHT/8F);
   }
 

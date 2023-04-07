@@ -40,7 +40,7 @@ public class Player extends Label {
 			grid.setGridCharacter(gridPosY, gridPosX, this);
 		}
 
-		if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && (gridPosX + 1 < Grid.COLUMS)) {
+		if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && (gridPosX + 1 < Grid.COLUMNS)) {
 			grid.setGridCharacter(gridPosY, gridPosX, grid.getGridCharacter());
 			gridPosX++;
 			grid.setGridCharacter(gridPosY, gridPosX, this);
