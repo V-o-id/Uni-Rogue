@@ -13,9 +13,8 @@ public class Player extends Label {
 	private int gridPosX;
 	private int gridPosY;
 
-
 	public Player(String playerCharacter, Color color, Grid grid, int gridPosX, int gridPosY) {
-		super(playerCharacter, new LabelStyle(new BitmapFont(), color));
+		super(playerCharacter, new LabelStyle(new Font().setBitmapFont(), color));
 		this.gridPosX = gridPosX;
 		this.gridPosY = gridPosY;
 		grid.setGridCharacter(gridPosY, gridPosX, this);

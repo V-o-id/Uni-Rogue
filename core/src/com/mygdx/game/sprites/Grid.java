@@ -15,15 +15,17 @@ public class Grid extends Label {
   private final static int SPACE_BETWEEN_CHARACTERS = 15;
   private final static int START_POSX_GRID = (State.WIDTH - (COLUMS * SPACE_BETWEEN_CHARACTERS))/2;
   private final static int START_POSY_GRID = (State.HEIGHT - (ROWS * SPACE_BETWEEN_CHARACTERS))/2;
+  private final Color color;
 
   private String gridCharacter;
 
   public Grid(String gridCharacter, Color color){
-    super(gridCharacter, new LabelStyle(new BitmapFont(), color));
+    super(gridCharacter, new LabelStyle(new Font().setBitmapFont(), color));
     this.gridCharacter = gridCharacter;
+    this.color = color;
 
     this.grid = new Label[ROWS][COLUMS];
-    Label.LabelStyle style = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+    Label.LabelStyle style = new Label.LabelStyle(new Font().setBitmapFont(), color);
 
     for(int y = 0; y < ROWS; y++){
       for(int x = 0; x < COLUMS; x++){
@@ -44,7 +46,7 @@ public class Grid extends Label {
   }
 
   public void setGridCharacter(int y, int x, String labelCharacter) {
-    Label.LabelStyle style = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+    Label.LabelStyle style = new Label.LabelStyle(new Font().setBitmapFont(), color);
     Label label = new Label(labelCharacter, style);
 
     this.setGridCharacter(y, x, label);

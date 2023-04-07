@@ -21,7 +21,6 @@ public class PlayState extends State {
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-
         grid = new Grid("#", Color.WHITE);
         player = new Player("@", Color.WHITE, grid, COLUMS/2, ROWS/2);
     }
@@ -40,8 +39,8 @@ public class PlayState extends State {
     public void render(SpriteBatch sb) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         sb.begin();
-        player.draw(sb, 1);
         drawGrid(sb);
+        player.draw(sb, 1);
         sb.end();
     }
 
