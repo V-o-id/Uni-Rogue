@@ -1,7 +1,10 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.mygdx.game.sprites.Font;
 import com.mygdx.game.sprites.Text;
 
 
@@ -14,7 +17,6 @@ public class MenuState extends State {
 
   public MenuState(GameStateManager gsm) {
     super(gsm);
-    System.out.println(State.WIDTH);
     startGameText = new Text("Start Game", State.WIDTH / 2F, State.HEIGHT/2F + 3*State.HEIGHT/8F);
     optionText = new Text("Options", State.WIDTH / 2F, State.HEIGHT/2F + State.HEIGHT/8F);
     highscoreText = new Text("Highscore", State.WIDTH / 2F, State.HEIGHT/2F - State.HEIGHT/8F);

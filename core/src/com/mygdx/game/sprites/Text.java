@@ -1,9 +1,7 @@
 package com.mygdx.game.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -12,18 +10,13 @@ public class Text {
   private final String text;
   private final BitmapFont font;
   private final GlyphLayout glyphLayout;
-  private Vector3 postiton;
-
+  private final Vector3 postiton;
   private final Rectangle rectangle;
 
   public Text(String text, float x, float y) {
     this.text = text;
 
-    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/unifont-15.0.01.ttf"));
-    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-    parameter.size = 16;
-    font = generator.generateFont(parameter);
-    generator.dispose();
+    font = new Font().getBitmapFont();
 
     glyphLayout = new GlyphLayout();
     glyphLayout.setText(font, text);
@@ -54,7 +47,4 @@ public class Text {
     return postiton;
   }
 
-  public void setPostiton(Vector3 postiton) {
-    this.postiton = postiton;
-  }
 }

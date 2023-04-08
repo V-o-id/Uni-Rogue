@@ -2,10 +2,7 @@ package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.mygdx.game.sprites.Enemy;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Player;
 
@@ -15,13 +12,15 @@ import static com.mygdx.game.sprites.Grid.ROWS;
 
 public class PlayState extends State {
 
-    private Grid grid;
-    private Player player;
+    private final Grid grid;
+    private final Player player;
 
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        grid = new Grid("#", Color.WHITE);
+        //create grid
+        grid = new Grid(".", Color.WHITE);
+        //create player and place it into grid on specific position
         player = new Player("@", Color.WHITE, grid, COLUMS/2, ROWS/2);
     }
 
@@ -38,9 +37,10 @@ public class PlayState extends State {
     @Override
     public void render(SpriteBatch sb) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
+
         sb.begin();
+        //draw grid with all elements in it (and does update the grid automatically)
         drawGrid(sb);
-        player.draw(sb, 1);
         sb.end();
     }
 
