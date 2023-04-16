@@ -19,7 +19,7 @@ public class PlayState extends State {
     public PlayState(GameStateManager gsm) {
         super(gsm);
         grid = new Grid(".", Color.WHITE);
-        player = new Player("@", Color.WHITE, grid, COLUMNS/2, ROWS/2);
+        player = new Player("@", Color.WHITE, grid, COLUMNS / 2, ROWS / 2);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class PlayState extends State {
     }
 
     private void drawGrid(SpriteBatch sb) {
-        for(int y = 0; y < ROWS; y++){
-            for(int x = 0; x < COLUMNS; x++){
+        for (int y = 0; y < ROWS; y++) {
+            for (int x = 0; x < COLUMNS; x++) {
                 grid.getGrid()[y][x].draw(sb, 1);
             }
         }
