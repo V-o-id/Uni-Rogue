@@ -19,25 +19,22 @@ public class Player extends Label {
 	}
 
 	public void characterControl(Grid grid) {
-		if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && (gridPosY + 1 < Grid.ROWS) && grid.getGrid()[gridPosY + 1][gridPosX].getText().toString().equals(grid.getGridCharacter())) {
+		if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && (gridPosY + 1 < Grid.ROWS) && (grid.getGrid()[gridPosY + 1][gridPosX].getText().toString().equals(grid.getGridCharacter()) || grid.getGrid()[gridPosY + 1][gridPosX].getText().toString().equals(grid.getPathCharacter()))) {
 			grid.setGridCharacter(gridPosY, gridPosX, grid.getGrid()[gridPosY + 1][gridPosX]);
 			gridPosY++;
 			grid.setGridCharacter(gridPosY, gridPosX, this);
 		}
-
-		if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && (gridPosY > 0) && grid.getGrid()[gridPosY - 1][gridPosX].getText().toString().equals(grid.getGridCharacter())) {
+		if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && (gridPosY > 0) && (grid.getGrid()[gridPosY - 1][gridPosX].getText().toString().equals(grid.getGridCharacter()) || grid.getGrid()[gridPosY - 1][gridPosX].getText().toString().equals(grid.getPathCharacter()))) {
 			grid.setGridCharacter(gridPosY, gridPosX, grid.getGrid()[gridPosY - 1][gridPosX]);
 			gridPosY--;
 			grid.setGridCharacter(gridPosY, gridPosX, this);
 		}
-
-		if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && (gridPosX > 0) && grid.getGrid()[gridPosY][gridPosX - 1].getText().toString().equals(grid.getGridCharacter())) {
+		if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && (gridPosX > 0) && (grid.getGrid()[gridPosY][gridPosX - 1].getText().toString().equals(grid.getGridCharacter()) || grid.getGrid()[gridPosY][gridPosX - 1].getText().toString().equals(grid.getPathCharacter()))) {
 			grid.setGridCharacter(gridPosY, gridPosX, grid.getGrid()[gridPosY][gridPosX - 1]);
 			gridPosX--;
 			grid.setGridCharacter(gridPosY, gridPosX, this);
 		}
-
-		if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && (gridPosX + 1 < Grid.COLUMNS) && grid.getGrid()[gridPosY][gridPosX + 1].getText().toString().equals(grid.getGridCharacter())) {
+		if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && (gridPosX + 1 < Grid.COLUMNS) && (grid.getGrid()[gridPosY][gridPosX + 1].getText().toString().equals(grid.getGridCharacter()) || grid.getGrid()[gridPosY][gridPosX + 1].getText().toString().equals(grid.getPathCharacter()))) {
 			grid.setGridCharacter(gridPosY, gridPosX, grid.getGrid()[gridPosY][gridPosX + 1]);
 			gridPosX++;
 			grid.setGridCharacter(gridPosY, gridPosX, this);

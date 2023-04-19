@@ -9,32 +9,29 @@ import java.util.Random;
 public class Grid extends Label {
 
     private final Label[][] grid;
+    private final int ROOMSPERROW = 3;
+    private final int ROOMSPERCOLUMN = 4;
+    private final Room[] rooms = new Room[ROOMSPERROW * ROOMSPERCOLUMN];
     public final static int ROWS = 54;
     public final static int COLUMNS = 90;
     private final static int SPACE_BETWEEN_CHARACTERS = 20;
     private final static int START_POSX_GRID = (State.WIDTH - (COLUMNS * SPACE_BETWEEN_CHARACTERS)) / 2;
     private final static int START_POSY_GRID = (State.HEIGHT - (ROWS * SPACE_BETWEEN_CHARACTERS)) / 2;
     private final Color color;
-    private int[] startPosition;
 
     private final String gridCharacter;
+    private final String pathCharacter;
 
-    public Grid(String gridCharacter, Color color) {
+    public Grid(String gridCharacter, Color color, String pathCharacter) {
         super(gridCharacter, new LabelStyle(new Font().setBitmapFont(), color));
         this.gridCharacter = gridCharacter;
         this.color = color;
-
+        this.pathCharacter = pathCharacter;
         this.grid = new Label[ROWS][COLUMNS];
         Label.LabelStyle style = new Label.LabelStyle(new Font().setBitmapFont(), color);
 
-//        for (int y = 0; y < ROWS; y++) {
-//            for (int x = 0; x < COLUMNS; x++) {
-//
-//                grid[y][x] = new Label(" ", style);
-//                grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
-//            }
-//        }
         generateRooms(style);
+
     }
 
     public Label[][] getGrid() {
@@ -56,55 +53,61 @@ public class Grid extends Label {
     public String getGridCharacter() {
         return gridCharacter;
     }
+    public String getPathCharacter() {
+        return pathCharacter;
 
-    public int[] getStartPosition() {
-        return startPosition;
+   public Room[] getRooms() {
+        return rooms;
     }
 
     private void generateRooms(LabelStyle style) {
-        int parcelRows = ROWS / 3;
-        int parcelCols = COLUMNS / 3;
+        int parcelRows = ROWS / ROOMSPERCOLUMN;
+        int parcelCols = COLUMNS / ROOMSPERROW;
 
+        int roomCounter = 0, oldRoomCounter = 0;
         Random random = new Random();
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / 4, parcelCols);
-                int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / 4, parcelRows);
+        for (int row = 0; row < ROOMSPERCOLUMN; row++) {
+            for (int col = 0; col < ROOMSPERROW; col++) {
 
-                for (int y = parcelRows * i; y < roomHeight + parcelRows * i; y++) {
-                    for (int x = parcelCols * j; x < roomWidth + parcelCols * j; x++) {
-                        grid[y][x] = new Label(gridCharacter, style);
-                        grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
+                int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / ROOMSPERCOLUMN, parcelCols);
+                int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / ROOMSPERROW, parcelRows);
+
+                if(row % 2 == 0){
+                    //left to right
+                    if(col == 0 && row != 0){
+                        roomCounter = oldRoomCounter+ROOMSPERROW;
                     }
+                    rooms[roomCounter] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
+                    rooms[roomCounter].drawRoom(gridCharacter, grid, parcelRows*row, parcelCols*col, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
+                    roomCounter++;
+                } else {
+                    //right to left
+                    if(col == 0){
+                        oldRoomCounter = roomCounter;
+                        roomCounter = roomCounter + ROOMSPERROW-1;
+                    }
+                    rooms[roomCounter] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
+                    rooms[roomCounter].drawRoom(gridCharacter, grid, parcelRows*row, parcelCols*col, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
+                    roomCounter--;
                 }
             }
         }
-        boolean startPositionSet = false;
-        int startPositionX = random.nextInt(ROWS / 2);
-        int startPositionY = random.nextInt(COLUMNS / 2);
+
+        rooms[ROOMSPERCOLUMN * ROOMSPERROW - 1].setHasOutboundPath(true);
+
+        connectRooms(style);
 
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < COLUMNS; x++) {
-
-                if (y == startPositionY && x == startPositionX) {
-                    startPosition = new int[]{x, y};
-                    if (grid[y][x] != null) {
-                        startPositionSet = true;
-                    }
-                }
-
                 if (grid[y][x] == null) {
                     grid[y][x] = new Label(" ", style);
                     grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
-                } else {
-                    if (!startPositionSet && startPosition != null) {
-                        startPosition = new int[]{x, y};
-                        startPositionSet = true;
-                    }
                 }
             }
         }
+
+
     }
 
     private static int clamp(int value, int min, int max) {
@@ -112,4 +115,59 @@ public class Grid extends Label {
             return min;
         } else return Math.min(value, max);
     }
+
+
+    private void connectRooms(LabelStyle style) {
+
+        int roomCounter = ROOMSPERCOLUMN * ROOMSPERROW;
+
+        for(int i = 0; i < roomCounter-1; i++) {
+
+            Room r = rooms[i];
+            Room r2 = rooms[i+1];
+
+            int fromX = r.getX();
+            int fromY = r.getY();
+            int toX = r2.getX();
+            int toY = r2.getY();
+
+            if(r.isBelow(r2)) {
+                fromX = r.getX() + (r.getWidth()/2);
+                fromY = r.getY() + r.getHeight()-1;
+                toX = r2.getX() + (r2.getWidth()/2);
+                toY = r2.getY();
+            }
+            else if(r.isAbove(r2)) {
+                fromX = r.getX() + (r.getWidth()/2);
+                fromY = r.getY();
+                toX = r2.getX() + (r2.getWidth()/2);
+                toY = r2.getY() + r2.getHeight();
+            }
+            else if(r.isLeftOf(r2)){
+                fromX = r.getX() + r.getWidth()-1;
+                fromY = r.getY() + (r.getHeight()/2);
+                toX = r2.getX();
+                toY = r2.getY() + (r2.getHeight()/2);
+            }
+            else if(r.isRightOf(r2)) {
+                fromX = r.getX();
+                fromY = r.getY() + (r.getHeight()/2);
+                toX = r2.getX() + r2.getWidth();
+                toY = r2.getY() + (r2.getHeight()/2);
+            }
+
+            Path p = new Path(fromX, fromY, toX, toY, r.getRoomNumber(), r.getRoomNumber(), r2.getRoomNumber());
+            p.drawPath(pathCharacter, grid, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
+
+            r.setHasOutboundPath(true);
+            r2.setHasInboundPath(true);
+
+        }
+
+
+
+
+    }
+
+
 }
