@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Player;
 
-import static com.mygdx.game.sprites.Grid.COLUMS;
+import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
 
 
@@ -18,10 +18,8 @@ public class PlayState extends State {
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        //create grid
         grid = new Grid(".", Color.WHITE);
-        //create player and place it into grid on specific position
-        player = new Player("@", Color.WHITE, grid, COLUMS/2, ROWS/2);
+        player = new Player("@", Color.WHITE, grid, COLUMNS / 2, ROWS / 2);
     }
 
     @Override
@@ -37,10 +35,9 @@ public class PlayState extends State {
     @Override
     public void render(SpriteBatch sb) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
-
         sb.begin();
-        //draw grid with all elements in it (and does update the grid automatically)
         drawGrid(sb);
+        player.draw(sb, 1);
         sb.end();
     }
 
@@ -50,8 +47,8 @@ public class PlayState extends State {
     }
 
     private void drawGrid(SpriteBatch sb) {
-        for(int y = 0; y < ROWS; y++){
-            for(int x = 0; x < COLUMS; x++){
+        for (int y = 0; y < ROWS; y++) {
+            for (int x = 0; x < COLUMNS; x++) {
                 grid.getGrid()[y][x].draw(sb, 1);
             }
         }
