@@ -9,6 +9,7 @@ import java.util.Random;
 public class Grid extends Label {
 
     private final Label[][] grid;
+    private Room[] rooms;
     public final static int ROWS = 90;
     public final static int COLUMNS = 120;
     private final static int SPACE_BETWEEN_CHARACTERS = 20;
@@ -40,6 +41,10 @@ public class Grid extends Label {
         return grid;
     }
 
+    public Room[] getRooms() {
+        return rooms;
+    }
+
     public void setGridCharacter(int y, int x, Label label) {
         grid[y][x] = label;
         label.setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
@@ -60,20 +65,23 @@ public class Grid extends Label {
         int parcelRows = ROWS / 3;
         int parcelCols = COLUMNS / 3;
 
+        final int nRooms = 9; //try to make the loops like this number
+        int roomCounter = 0;
+        rooms = new Room[nRooms];
+
         Random random = new Random();
+
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
+
                 int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / 4, parcelCols);
                 int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / 4, parcelRows);
 
+                rooms[roomCounter] = new Room(parcelCols * j, parcelRows * i, roomWidth, roomHeight, roomCounter);
+                rooms[roomCounter].drawRoom(gridCharacter, grid, parcelRows*i, parcelCols*j, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
+                roomCounter++;
 
-                for (int y = parcelRows * i; y < roomHeight + parcelRows * i; y++) {
-                    for (int x = parcelCols * j; x < roomWidth + parcelCols * j; x++) {
-                        grid[y][x] = new Label(gridCharacter, style);
-                        grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
-                    }
-                }
             }
         }
         for (int y = 0; y < ROWS; y++) {
