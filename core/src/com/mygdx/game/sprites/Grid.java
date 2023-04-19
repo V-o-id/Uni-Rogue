@@ -58,7 +58,6 @@ public class Grid extends Label {
     }
 
     public int[] getStartPosition() {
-
         return startPosition;
     }
 
@@ -73,7 +72,6 @@ public class Grid extends Label {
                 int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / 4, parcelCols);
                 int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / 4, parcelRows);
 
-
                 for (int y = parcelRows * i; y < roomHeight + parcelRows * i; y++) {
                     for (int x = parcelCols * j; x < roomWidth + parcelCols * j; x++) {
                         grid[y][x] = new Label(gridCharacter, style);
@@ -82,11 +80,28 @@ public class Grid extends Label {
                 }
             }
         }
+        boolean startPositionSet = false;
+        int startPositionX = random.nextInt(ROWS / 2);
+        int startPositionY = random.nextInt(COLUMNS / 2);
+
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < COLUMNS; x++) {
+
+                if (y == startPositionY && x == startPositionX) {
+                    startPosition = new int[]{x, y};
+                    if (grid[y][x] != null) {
+                        startPositionSet = true;
+                    }
+                }
+
                 if (grid[y][x] == null) {
                     grid[y][x] = new Label(" ", style);
                     grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
+                } else {
+                    if (!startPositionSet && startPosition != null) {
+                        startPosition = new int[]{x, y};
+                        startPositionSet = true;
+                    }
                 }
             }
         }

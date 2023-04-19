@@ -19,7 +19,8 @@ public class PlayState extends State {
     public PlayState(GameStateManager gsm) {
         super(gsm);
         grid = new Grid(".", Color.WHITE);
-        player = new Player("@", Color.WHITE, grid, COLUMNS / 2, ROWS / 2);
+        int[] startPosition = grid.getStartPosition();
+        player = new Player("@", Color.WHITE, grid, startPosition[0], startPosition[1]);
     }
 
     @Override
