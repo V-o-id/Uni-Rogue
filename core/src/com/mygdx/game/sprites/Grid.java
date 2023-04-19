@@ -9,8 +9,8 @@ import java.util.Random;
 public class Grid extends Label {
 
     private final Label[][] grid;
-    public final static int ROWS = 90;
-    public final static int COLUMNS = 120;
+    public final static int ROWS = 45;
+    public final static int COLUMNS = 90;
     private final static int SPACE_BETWEEN_CHARACTERS = 20;
     private final static int START_POSX_GRID = (State.WIDTH - (COLUMNS * SPACE_BETWEEN_CHARACTERS)) / 2;
     private final static int START_POSY_GRID = (State.HEIGHT - (ROWS * SPACE_BETWEEN_CHARACTERS)) / 2;

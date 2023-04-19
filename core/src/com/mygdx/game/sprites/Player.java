@@ -42,6 +42,7 @@ public class Player extends Label {
 			gridPosX++;
 			grid.setGridCharacter(gridPosY, gridPosX, this);
 		}
+		System.out.printf("x: %d - y: %d \n", gridPosX, gridPosY);
 	}
 
 	public void dispose() {
