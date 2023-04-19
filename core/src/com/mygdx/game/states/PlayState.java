@@ -37,7 +37,6 @@ public class PlayState extends State {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         sb.begin();
         drawGrid(sb);
-        player.draw(sb, 1);
         sb.end();
     }
 
