@@ -10,18 +10,18 @@ public class Text {
   private final String text;
   private final BitmapFont font;
   private final GlyphLayout glyphLayout;
-  private final Vector3 postiton;
+  private final Vector3 position;
   private final Rectangle rectangle;
 
   public Text(String text, float x, float y) {
     this.text = text;
 
-    font = new Font().getBitmapFont();
+    font = new Font().setBitmapFont();
 
     glyphLayout = new GlyphLayout();
     glyphLayout.setText(font, text);
 
-    this.postiton = new Vector3(x - glyphLayout.width/2, y, 0);
+    this.position = new Vector3(x - glyphLayout.width/2, y, 0);
 
     rectangle = new Rectangle();
     rectangle.set(getPostiton().x, getPostiton().y, getGlyphLayout().width, getGlyphLayout().height);
@@ -44,7 +44,7 @@ public class Text {
   }
 
   public Vector3 getPostiton() {
-    return postiton;
+    return position;
   }
 
 }
