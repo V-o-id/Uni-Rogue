@@ -55,6 +55,7 @@ public class Grid extends Label {
     }
     public String getPathCharacter() {
         return pathCharacter;
+    }
 
    public Room[] getRooms() {
         return rooms;
