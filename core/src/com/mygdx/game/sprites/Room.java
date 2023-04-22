@@ -13,7 +13,7 @@ public class Room {
     private boolean hasOutboundPath = false;
 
 
-    Room (int x, int y, int width, int height, int roomNumber) {
+    public Room (int x, int y, int width, int height, int roomNumber) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -53,12 +53,11 @@ public class Room {
         this.hasOutboundPath = hasOutboundPath;
     }
 
-    void drawRoom(final String roomCharacter, Label[][] grid, final int heightRoom, final int widthRoom, final Label.LabelStyle style, final int SPACE_BETWEEN_CHARACTERS, final int START_POSX_GRID, final int START_POSY_GRID) {
-        for (int y = this.y; y < height + heightRoom; y++) {
-            for (int x = this.x; x < width + widthRoom; x++) {
-               // grid[y][x] = new Label(roomCharacter, style);
-                    grid[y][x] = new Label(roomCharacter, style);
-                    grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
+    public void drawRoom(final String roomCharacter, Label[][] grid, final Label.LabelStyle style, final int SPACE_BETWEEN_CHARACTERS, final int START_POSX_GRID, final int START_POSY_GRID) {
+        for (int y = this.y; y < height+this.y; y++) {
+            for (int x = this.x; x < width+this.x; x++) {
+                grid[y][x] = new Label(roomCharacter, style);
+                grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
             }
         }
     }
