@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.states.State;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Grid extends Label {
@@ -21,6 +23,7 @@ public class Grid extends Label {
 
     private final String gridCharacter;
     private final String pathCharacter;
+    List<Enemy> enemyList = new ArrayList<>();
 
     public Grid(String gridCharacter, Color color, String pathCharacter) {
         super(gridCharacter, new LabelStyle(new Font().setBitmapFont(), color));
@@ -53,12 +56,19 @@ public class Grid extends Label {
     public String getGridCharacter() {
         return gridCharacter;
     }
+
     public String getPathCharacter() {
         return pathCharacter;
     }
 
-   public Room[] getRooms() {
+    public Room[] getRooms() {
         return rooms;
+    }
+
+    public void updateEnemies() {
+        for (Enemy e : enemyList) {
+            e.updateMovement(this);
+        }
     }
 
     private void generateRooms(LabelStyle style) {
@@ -74,22 +84,22 @@ public class Grid extends Label {
                 int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / ROOMSPERCOLUMN, parcelCols);
                 int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / ROOMSPERROW, parcelRows);
 
-                if(row % 2 == 0){
+                if (row % 2 == 0) {
                     //left to right
-                    if(col == 0 && row != 0){
-                        roomCounter = oldRoomCounter+ROOMSPERROW;
+                    if (col == 0 && row != 0) {
+                        roomCounter = oldRoomCounter + ROOMSPERROW;
                     }
                     rooms[roomCounter] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
-                    rooms[roomCounter].drawRoom(gridCharacter, grid, parcelRows*row, parcelCols*col, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
+                    rooms[roomCounter].drawRoom(gridCharacter, grid, parcelRows * row, parcelCols * col, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
                     roomCounter++;
                 } else {
                     //right to left
-                    if(col == 0){
+                    if (col == 0) {
                         oldRoomCounter = roomCounter;
-                        roomCounter = roomCounter + ROOMSPERROW-1;
+                        roomCounter = roomCounter + ROOMSPERROW - 1;
                     }
                     rooms[roomCounter] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
-                    rooms[roomCounter].drawRoom(gridCharacter, grid, parcelRows*row, parcelCols*col, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
+                    rooms[roomCounter].drawRoom(gridCharacter, grid, parcelRows * row, parcelCols * col, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
                     roomCounter--;
                 }
             }
@@ -108,7 +118,7 @@ public class Grid extends Label {
             }
         }
 
-
+        enemyList.add(new Enemy("A", this, 30, 30)); //TODO: remove, just for debugging
     }
 
     private static int clamp(int value, int min, int max) {
@@ -122,39 +132,36 @@ public class Grid extends Label {
 
         int roomCounter = ROOMSPERCOLUMN * ROOMSPERROW;
 
-        for(int i = 0; i < roomCounter-1; i++) {
+        for (int i = 0; i < roomCounter - 1; i++) {
 
             Room r = rooms[i];
-            Room r2 = rooms[i+1];
+            Room r2 = rooms[i + 1];
 
             int fromX = r.getX();
             int fromY = r.getY();
             int toX = r2.getX();
             int toY = r2.getY();
 
-            if(r.isBelow(r2)) {
-                fromX = r.getX() + (r.getWidth()/2);
-                fromY = r.getY() + r.getHeight()-1;
-                toX = r2.getX() + (r2.getWidth()/2);
+            if (r.isBelow(r2)) {
+                fromX = r.getX() + (r.getWidth() / 2);
+                fromY = r.getY() + r.getHeight() - 1;
+                toX = r2.getX() + (r2.getWidth() / 2);
                 toY = r2.getY();
-            }
-            else if(r.isAbove(r2)) {
-                fromX = r.getX() + (r.getWidth()/2);
+            } else if (r.isAbove(r2)) {
+                fromX = r.getX() + (r.getWidth() / 2);
                 fromY = r.getY();
-                toX = r2.getX() + (r2.getWidth()/2);
+                toX = r2.getX() + (r2.getWidth() / 2);
                 toY = r2.getY() + r2.getHeight();
-            }
-            else if(r.isLeftOf(r2)){
-                fromX = r.getX() + r.getWidth()-1;
-                fromY = r.getY() + (r.getHeight()/2);
+            } else if (r.isLeftOf(r2)) {
+                fromX = r.getX() + r.getWidth() - 1;
+                fromY = r.getY() + (r.getHeight() / 2);
                 toX = r2.getX();
-                toY = r2.getY() + (r2.getHeight()/2);
-            }
-            else if(r.isRightOf(r2)) {
+                toY = r2.getY() + (r2.getHeight() / 2);
+            } else if (r.isRightOf(r2)) {
                 fromX = r.getX();
-                fromY = r.getY() + (r.getHeight()/2);
+                fromY = r.getY() + (r.getHeight() / 2);
                 toX = r2.getX() + r2.getWidth();
-                toY = r2.getY() + (r2.getHeight()/2);
+                toY = r2.getY() + (r2.getHeight() / 2);
             }
 
             Path p = new Path(fromX, fromY, toX, toY, r.getRoomNumber(), r.getRoomNumber(), r2.getRoomNumber());
@@ -164,8 +171,6 @@ public class Grid extends Label {
             r2.setHasInboundPath(true);
 
         }
-
-
 
 
     }
