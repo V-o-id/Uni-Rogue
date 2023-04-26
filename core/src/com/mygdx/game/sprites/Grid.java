@@ -2,6 +2,7 @@ package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.mygdx.game.sprites.roomstrategy.*;
 import com.mygdx.game.states.State;
 
 import java.util.ArrayList;
@@ -11,9 +12,10 @@ import java.util.Random;
 public class Grid extends Label {
 
     private final Label[][] grid;
-    private final int ROOMSPERROW = 3;
-    private final int ROOMSPERCOLUMN = 4;
-    private final Room[] rooms = new Room[ROOMSPERROW * ROOMSPERCOLUMN];
+    private final int ROOMS_PER_ROW = 3;
+    private final int ROOMS_PER_COLUMN = 3;
+    private Room[] roomsInOrder = new Room[ROOMS_PER_ROW * ROOMS_PER_COLUMN];
+    private Room[][] roomMatrix = new Room[ROOMS_PER_ROW][ROOMS_PER_COLUMN];
     public final static int ROWS = 54;
     public final static int COLUMNS = 90;
     private final static int SPACE_BETWEEN_CHARACTERS = 20;
@@ -25,6 +27,8 @@ public class Grid extends Label {
     private final String pathCharacter;
     List<Enemy> enemyList = new ArrayList<>();
 
+    private RoomStrategy roomStrategy = null;
+
     public Grid(String gridCharacter, Color color, String pathCharacter) {
         super(gridCharacter, new LabelStyle(new Font().setBitmapFont(), color));
         this.gridCharacter = gridCharacter;
@@ -32,6 +36,18 @@ public class Grid extends Label {
         this.pathCharacter = pathCharacter;
         this.grid = new Label[ROWS][COLUMNS];
         Label.LabelStyle style = new Label.LabelStyle(new Font().setBitmapFont(), color);
+
+        //get all vlaues from enum
+        int numberOfStrategies = Strategies.values().length;
+        while(roomStrategy == null){
+            int randomStrategy = (int) (Math.random() * numberOfStrategies);
+            try {
+                roomStrategy = Strategies.getStrategy(randomStrategy, ROOMS_PER_ROW, ROOMS_PER_COLUMN);
+            } catch (RoomStrategyException e) {
+                roomStrategy = null;
+            }
+        }
+
 
         generateRooms(style);
 
@@ -61,9 +77,9 @@ public class Grid extends Label {
         return pathCharacter;
     }
 
-    public Room[] getRooms() {
-        return rooms;
-    }
+     public Room[] getRooms() {
+          return roomsInOrder;
+     }
 
     public void updateEnemies() {
         for (Enemy e : enemyList) {
@@ -72,41 +88,10 @@ public class Grid extends Label {
     }
 
     private void generateRooms(LabelStyle style) {
-        int parcelRows = ROWS / ROOMSPERCOLUMN;
-        int parcelCols = COLUMNS / ROOMSPERROW;
 
-        int roomCounter = 0, oldRoomCounter = 0;
-        Random random = new Random();
-
-        for (int row = 0; row < ROOMSPERCOLUMN; row++) {
-            for (int col = 0; col < ROOMSPERROW; col++) {
-
-                int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / ROOMSPERCOLUMN, parcelCols);
-                int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / ROOMSPERROW, parcelRows);
-
-                if (row % 2 == 0) {
-                    //left to right
-                    if (col == 0 && row != 0) {
-                        roomCounter = oldRoomCounter + ROOMSPERROW;
-                    }
-                    rooms[roomCounter] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
-                    rooms[roomCounter].drawRoom(gridCharacter, grid, parcelRows * row, parcelCols * col, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
-                    roomCounter++;
-                } else {
-                    //right to left
-                    if (col == 0) {
-                        oldRoomCounter = roomCounter;
-                        roomCounter = roomCounter + ROOMSPERROW - 1;
-                    }
-                    rooms[roomCounter] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
-                    rooms[roomCounter].drawRoom(gridCharacter, grid, parcelRows * row, parcelCols * col, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
-                    roomCounter--;
-                }
-            }
-        }
-
-        rooms[ROOMSPERCOLUMN * ROOMSPERROW - 1].setHasOutboundPath(true);
-
+        roomMatrix = roomStrategy.alignRooms(ROWS, COLUMNS);
+        roomsInOrder = roomStrategy.getRoomsInOrder();
+        drawRoomMatrixToGrid(style);
         connectRooms(style);
 
         for (int y = 0; y < ROWS; y++) {
@@ -119,23 +104,26 @@ public class Grid extends Label {
         }
 
         enemyList.add(new Enemy("A", this, 30, 30)); //TODO: remove, just for debugging
+
     }
 
-    private static int clamp(int value, int min, int max) {
-        if (value < min) {
-            return min;
-        } else return Math.min(value, max);
+    private void drawRoomMatrixToGrid(LabelStyle style){
+        for(Room[] rArr : this.roomMatrix) {
+            for(Room r : rArr){
+                r.drawRoom(gridCharacter, grid, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
+            }
+        }
     }
 
 
     private void connectRooms(LabelStyle style) {
 
-        int roomCounter = ROOMSPERCOLUMN * ROOMSPERROW;
+        int roomCounter = ROOMS_PER_COLUMN * ROOMS_PER_ROW;
 
         for (int i = 0; i < roomCounter - 1; i++) {
 
-            Room r = rooms[i];
-            Room r2 = rooms[i + 1];
+            Room r = roomsInOrder[i];
+            Room r2 = roomsInOrder[i+1];
 
             int fromX = r.getX();
             int fromY = r.getY();
