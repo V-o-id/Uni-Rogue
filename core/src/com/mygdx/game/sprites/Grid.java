@@ -67,7 +67,7 @@ public class Grid extends Label {
 
     public void updateEnemies() {
         for (Enemy e : enemyList) {
-            e.updateMovement(this);
+            e.updateMovement();
         }
     }
 
