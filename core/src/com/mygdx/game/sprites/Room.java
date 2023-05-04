@@ -57,8 +57,13 @@ public class Room {
     public void drawRoom(final String roomCharacter, Label[][] grid, final Label.LabelStyle style, final int SPACE_BETWEEN_CHARACTERS, final int START_POSX_GRID, final int START_POSY_GRID) {
         for (int y = this.y; y < height+this.y; y++) {
             for (int x = this.x; x < width+this.x; x++) {
-                grid[y][x] = new Label(roomCharacter, style);
-                grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
+                try {
+                    grid[y][x] = new Label(roomCharacter, style);
+                    grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
+                } catch (Exception e) {
+                    System.out.println("Error drawing room: " + e);
+                    break;
+                }
             }
         }
     }

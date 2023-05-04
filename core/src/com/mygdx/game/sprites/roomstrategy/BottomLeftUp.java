@@ -35,8 +35,8 @@ public class BottomLeftUp extends RoomStrategy {
             int col = isLeftToRight ? 0 : roomsPerRow - 1;
             while(col < roomsPerRow && col >= 0){
 
-                int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / roomsPerColumn + 2, parcelCols);
-                int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / roomsPerRow + 2, parcelRows);
+                int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / roomsPerColumn, parcelCols);
+                int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / roomsPerRow, parcelRows);
 
                 roomMatrix[row][col] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
                 roomsInOrder[roomCounter] = roomMatrix[row][col];
