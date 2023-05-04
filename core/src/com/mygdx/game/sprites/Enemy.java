@@ -5,33 +5,46 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.util.Random;
 
+import static com.mygdx.game.sprites.Enemy.EnemyState.*;
+
 public class Enemy extends Label {
-    enum enemyStates {
-        IDLE {
-
-        },
-        AWAKE {
-
-        },
-        ATTACKING {
-
-        }
+    enum EnemyState {
+        IDLE, AWAKE, ATTACKING
     }
 
+    private final Grid grid;
     private int gridPosX;
     private int gridPosY;
+    private final Random random = new Random();
+    private EnemyState state = IDLE;
 
     public Enemy(String enemyCharacter, Grid grid, int gridPosX, int gridPosY) {
         super(enemyCharacter, new LabelStyle(new Font().setBitmapFont(), Color.WHITE));
+        this.grid = grid;
         this.gridPosX = gridPosX;
         this.gridPosY = gridPosY;
         grid.setGridCharacter(gridPosY, gridPosX, this);
     }
 
-    public void updateMovement(Grid grid) {
-        Random random = new Random();
-        int randInt = random.nextInt(5);
+    public void updateMovement() {
 
+        switch (state) {
+            case IDLE:
+                moveRandomly();
+                break;
+
+            case AWAKE:
+                moveTowardsPlayer();
+                break;
+
+            case ATTACKING:
+                break;
+        }
+
+    }
+
+    private void moveRandomly() {
+        int randInt = random.nextInt(5);
         if (randInt == 1 && (gridPosY + 1 < Grid.ROWS) && (grid.getGrid()[gridPosY + 1][gridPosX].getText().toString().equals(grid.getGridCharacter()) || grid.getGrid()[gridPosY + 1][gridPosX].getText().toString().equals(grid.getPathCharacter()))) {
             grid.setGridCharacter(gridPosY, gridPosX, grid.getGrid()[gridPosY + 1][gridPosX]);
             gridPosY++;
@@ -52,5 +65,9 @@ public class Enemy extends Label {
             gridPosX++;
             grid.setGridCharacter(gridPosY, gridPosX, this);
         }
+    }
+
+    private void moveTowardsPlayer() {
+
     }
 }
