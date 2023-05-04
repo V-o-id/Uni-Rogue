@@ -24,6 +24,7 @@ public class PlayState extends State {
 
         int playerX = grid.getRooms()[0].getX();
         int playerY = grid.getRooms()[0].getY();
+
         file = Gdx.files.local("selectedCharacter.txt");
         String playerCharacter = file.readString();
         player = new Player(playerCharacter, Color.WHITE, grid, COLUMNS / 2, ROWS / 2);
