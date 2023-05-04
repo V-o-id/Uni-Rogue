@@ -9,6 +9,7 @@ public class Text {
 
   private final String text;
   private final BitmapFont font;
+  private final BitmapFont emojiFont;
   private final GlyphLayout glyphLayout;
   private final Vector3 position;
   private final Rectangle rectangle;
@@ -17,6 +18,7 @@ public class Text {
     this.text = text;
 
     font = new Font().setBitmapFont();
+    emojiFont = new Font().setEmojiFont();
 
     glyphLayout = new GlyphLayout();
     glyphLayout.setText(font, text);
@@ -37,6 +39,10 @@ public class Text {
 
   public BitmapFont getFont() {
     return font;
+  }
+
+  public BitmapFont getEmojiFont() {
+    return emojiFont;
   }
 
   public Rectangle getRectangle() {

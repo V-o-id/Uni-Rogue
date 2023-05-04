@@ -19,7 +19,7 @@ public class Enemy extends Label {
     private EnemyState state = IDLE;
 
     public Enemy(String enemyCharacter, Grid grid, int gridPosX, int gridPosY) {
-        super(enemyCharacter, new LabelStyle(new Font().setBitmapFont(), Color.WHITE));
+        super(enemyCharacter, new LabelStyle(new Font().setEmojiFont(), Color.WHITE));
         this.grid = grid;
         this.gridPosX = gridPosX;
         this.gridPosY = gridPosY;
