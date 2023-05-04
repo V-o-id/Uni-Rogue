@@ -22,7 +22,7 @@ public class PlayState extends State {
 
         int playerX = grid.getRooms()[0].getX();
         int playerY = grid.getRooms()[0].getY();
-        player = new Player("\u1F40D", Color.WHITE, grid, COLUMNS / 2, ROWS / 2);
+        player = new Player("\u1F40D", Color.WHITE, grid, playerX, playerY);
     }
 
     @Override
