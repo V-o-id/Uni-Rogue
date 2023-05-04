@@ -1,21 +1,21 @@
 package com.mygdx.game.sprites.roomstrategy;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.sprites.Room;
 
 import java.util.Random;
 
-public class BottomLeftUp extends RoomStrategy {
+public class TopLeftDown extends RoomStrategy {
 
-    public BottomLeftUp(int roomsPerRow, int roomsPerColumn) throws RoomStrategyException {
+
+    public TopLeftDown(int roomsPerRow, int roomsPerColumn) throws RoomStrategyException {
         super(roomsPerRow, roomsPerColumn);
     }
 
     @Override
     public Room[][] alignRooms(final int gridRows, final int gridCols) {
-        System.out.println("BottomLeftUp");
+        System.out.println("TopLeftDown");
 
-        alignRoomsBottomLeftUp(gridRows, gridCols);
+        alignRoomsTopLeftDown(gridRows, gridCols);
 
         roomsInOrder[0].setHasInboundPath(true);
         roomsInOrder[roomsPerColumn * roomsPerRow - 1].setHasOutboundPath(true);
@@ -23,20 +23,22 @@ public class BottomLeftUp extends RoomStrategy {
         return this.roomMatrix;
     }
 
-    private void alignRoomsBottomLeftUp(final int gridRows, final int gridCols) {
+    private void alignRoomsTopLeftDown(final int gridRows, final int gridCols) {
         int parcelRows = (int) Math.floor(gridRows / (roomsPerColumn+0.7));
         int parcelCols = gridCols / roomsPerRow;
 
         int roomCounter = 0;
-        Random random = new Random();
+        Random r = new Random();
 
-        for(int row = 0; row < roomsPerColumn; row++){
-            boolean isLeftToRight = row % 2 == 0;
+        boolean isLeftToRight = true;
+
+        for(int row = this.roomsPerColumn - 1; row >= 0; row--) {
             int col = isLeftToRight ? 0 : roomsPerRow - 1;
-            while(col < roomsPerRow && col >= 0){
 
-                int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / roomsPerColumn + 2, parcelCols);
-                int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / roomsPerRow + 2, parcelRows);
+            while(col < this.roomsPerRow && col >= 0){
+
+                int roomWidth = clamp(r.nextInt(parcelCols), parcelCols / roomsPerColumn + 2, parcelCols);
+                int roomHeight = clamp(r.nextInt(parcelRows), parcelRows / roomsPerRow + 2, parcelRows);
 
                 roomMatrix[row][col] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
                 roomsInOrder[roomCounter] = roomMatrix[row][col];
@@ -49,13 +51,16 @@ public class BottomLeftUp extends RoomStrategy {
                 roomCounter++;
 
             }
+
+            isLeftToRight = !isLeftToRight;
+
         }
 
     }
 
     @Override
     public boolean isValidCombination(int roomsPerRow, int roomsPerColumn) {
-        this.errorMessage = "BottomLeftUp strategy requires at least 1 room per row and 1 room per column.";
+        this.errorMessage = "TopLeftDown strategy requires at least 1 room per row and 1 room per column.";
         return roomsPerRow > 0 && roomsPerColumn > 0;
     }
 

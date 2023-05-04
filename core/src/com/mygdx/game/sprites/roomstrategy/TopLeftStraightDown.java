@@ -22,8 +22,8 @@ public class TopLeftStraightDown extends RoomStrategy{
         return this.roomMatrix;
     }
 
-    private void alignRoomsTopLeftStraightDown(int gridRows, int gridCols) {
-        int parcelRows = gridRows / roomsPerColumn;
+    private void alignRoomsTopLeftStraightDown(final int gridRows, final int gridCols) {
+        int parcelRows = (int) Math.floor(gridRows / (roomsPerColumn+0.7));
         int parcelCols = gridCols / roomsPerRow;
 
         int roomCounter = 0;
@@ -31,7 +31,7 @@ public class TopLeftStraightDown extends RoomStrategy{
 
         for(int col = 0; col<this.roomsPerRow; col++) {
             boolean isTopToBottom = col % 2 == 0;
-            int row = !isTopToBottom ? 0 : roomsPerRow - 1; // flip this line
+            int row = !isTopToBottom ? 0 : roomsPerColumn - 1;
 
             while(row < this.roomsPerColumn && row >= 0) {
 
@@ -41,15 +41,13 @@ public class TopLeftStraightDown extends RoomStrategy{
                 roomMatrix[row][col] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
                 roomsInOrder[roomCounter] = roomMatrix[row][col];
 
-                if(isTopToBottom){ // flip this line to make it bottom to top
+                if(isTopToBottom){
                     row--;
                 } else {
                     row++;
                 }
                 roomCounter++;
             }
-            System.out.println(roomCounter);
-
 
         }
 
