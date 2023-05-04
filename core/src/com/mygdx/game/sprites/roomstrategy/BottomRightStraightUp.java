@@ -36,8 +36,8 @@ public class BottomRightStraightUp extends RoomStrategy {
 
             while(row < this.roomsPerColumn && row >= 0) {
 
-                int roomWidth = clamp(r.nextInt(parcelCols), parcelCols / roomsPerColumn + 2, parcelCols);
-                int roomHeight = clamp(r.nextInt(parcelRows), parcelRows / roomsPerRow + 2, parcelRows);
+                int roomWidth = clamp(r.nextInt(parcelCols), parcelCols / roomsPerColumn, parcelCols);
+                int roomHeight = clamp(r.nextInt(parcelRows), parcelRows / roomsPerRow, parcelRows);
 
                 roomMatrix[row][col] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
                 roomsInOrder[roomCounter] = roomMatrix[row][col];
