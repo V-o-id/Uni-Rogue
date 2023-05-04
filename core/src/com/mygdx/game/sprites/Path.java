@@ -60,10 +60,11 @@ public class Path {
             }
 
             if (grid[currY][currX] == null) {
-                grid[currY][currX] = new Label(pathCharacter, style);
-                grid[currY][currX].setPosition(currX * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, currY * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
-                grid[currY][currX].setColor(Color.RED);
+                    grid[currY][currX] = new Label(pathCharacter, style);
+                    grid[currY][currX].setPosition(currX * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, currY * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
+                    grid[currY][currX].setColor(Color.RED);
             }
+
         } while (currX != toX || currY != toY);
 
 
