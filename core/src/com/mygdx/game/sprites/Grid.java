@@ -103,7 +103,7 @@ public class Grid extends Label {
             }
         }
 
-        enemyList.add(new Enemy("A", this, 30, 30)); //TODO: remove, just for debugging
+        enemyList.add(new Enemy("\uD83D\uDC0D", this, 30, 30)); //TODO: remove, just for debugging
 
     }
 
