@@ -1,10 +1,11 @@
 package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
+import com.mygdx.game.sprites.gameObjects.PathLabel;
 
 public class Path {
-
     private final int fromX;
     private final int fromY;
     private final int toX;
@@ -24,7 +25,7 @@ public class Path {
     }
 
 
-    void drawPath(final String pathCharacter, Label[][] grid, final Label.LabelStyle style, final int SPACE_BETWEEN_CHARACTERS, final int START_POSX_GRID, final int START_POSY_GRID) {
+    void drawPath(GameObjectLabel[][] grid, LabelStyle style, final int SPACE_BETWEEN_CHARACTERS, final int START_POSX_GRID, final int START_POSY_GRID) {
 
         int currX = fromX;
         int currY = fromY;
@@ -60,7 +61,7 @@ public class Path {
             }
 
             if (grid[currY][currX] == null) {
-                    grid[currY][currX] = new Label(pathCharacter, style);
+                    grid[currY][currX] = new PathLabel(style);
                     grid[currY][currX].setPosition(currX * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, currY * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
                     grid[currY][currX].setColor(Color.RED);
             }
