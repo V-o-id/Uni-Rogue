@@ -33,6 +33,7 @@ public class Application extends ApplicationAdapter {
         gsm.push(new MenuState(gsm));
 
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
+        music.setVolume(0.01f);
         music.play();
         music.setLooping(true);
 
