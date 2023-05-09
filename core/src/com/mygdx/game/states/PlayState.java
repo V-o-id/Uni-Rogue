@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Text;
+import com.mygdx.game.sprites.gameObjects.GameTimer;
 
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
@@ -15,17 +16,24 @@ public class PlayState extends State {
 
     private final Text healthbar;
     private final Text attackDamage;
+    private final Text gameTimerText;
+
+    private static boolean running = true;
+
+    private long runningSeconds = 0;
+    private GameTimer gameTimer = new GameTimer(0, this);
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
         grid = new Grid();
         healthbar = new Text("Health: " + grid.getPlayer().getHealth(), State.WIDTH / 2F, State.HEIGHT - 50);
         attackDamage = new Text("Attack Damage: " + grid.getPlayer().getAttackDamage(), State.WIDTH / 2F, State.HEIGHT - healthbar.getGlyphLayout().height - 70);
+        gameTimerText = new Text("Time: " + gameTimer.getSeconds(), State.WIDTH / 2F, State.HEIGHT - healthbar.getGlyphLayout().height - attackDamage.getGlyphLayout().height - 90);
     }
 
     @Override
     protected void handleInput() {
-        grid.getPlayer().characterControl(grid);
+        grid.getPlayer().characterControl(grid, gsm, this);
     }
 
     @Override
@@ -42,6 +50,7 @@ public class PlayState extends State {
         drawGrid(sb);
         healthbar.getFont().draw(sb, healthbar.getText(), healthbar.getPostiton().x, healthbar.getPostiton().y + healthbar.getGlyphLayout().height);
         attackDamage.getFont().draw(sb, attackDamage.getText(), attackDamage.getPostiton().x, attackDamage.getPostiton().y + attackDamage.getGlyphLayout().height);
+        gameTimerText.getFont().draw(sb, gameTimerText.getText(), gameTimerText.getPostiton().x, gameTimerText.getPostiton().y + gameTimerText.getGlyphLayout().height);
         sb.end();
     }
 
@@ -57,4 +66,24 @@ public class PlayState extends State {
             }
         }
     }
+
+
+    public void pause() {
+        runningSeconds = gameTimer.getSeconds();
+        gameTimer.pause();
+        running = false;
+    }
+    public boolean isRunning() {
+        return running;
+    }
+    public void resume() {
+        running = true;
+        gameTimer = new GameTimer(runningSeconds, this); // resume doesn't work ? (would crash)
+    }
+
+    public void setGameTimerText(String text) {
+        gameTimerText.setText(text);
+    }
+
+
 }

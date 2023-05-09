@@ -40,9 +40,9 @@ public class Application extends ApplicationAdapter {
         gsm.update(Gdx.graphics.getDeltaTime());
         gsm.render(batch);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+       /* if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
-        }
+        }*/
     }
 
     @Override

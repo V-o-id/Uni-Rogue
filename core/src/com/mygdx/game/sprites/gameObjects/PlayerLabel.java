@@ -3,6 +3,9 @@ package com.mygdx.game.sprites.gameObjects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.mygdx.game.sprites.Grid;
+import com.mygdx.game.states.GameStateManager;
+import com.mygdx.game.states.PauseState;
+import com.mygdx.game.states.PlayState;
 
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
@@ -27,7 +30,8 @@ public class PlayerLabel extends GameObjectLabel {
 		this.previousCharacter = ROOM_CHARACTER;
 	}
 
-	public void characterControl(Grid grid) {
+	public void characterControl(Grid grid, GameStateManager gsm, PlayState playState) {
+
 		if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && (gridPosY + 1 < Grid.ROWS)) {
 
 					String topCharacter = grid.getGrid()[gridPosY + 1][gridPosX].getLabelString();
@@ -83,6 +87,13 @@ public class PlayerLabel extends GameObjectLabel {
 				grid.updateEnemies();
 			}
 		}
+
+		//open pause menu
+		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+			playState.pause();
+			gsm.push(new PauseState(gsm, playState));
+		}
+
 	}
 
 	private void collectItems(String character, Grid grid){
