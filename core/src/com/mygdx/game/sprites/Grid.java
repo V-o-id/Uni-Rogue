@@ -1,41 +1,42 @@
 package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.mygdx.game.sprites.font.Font;
+import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
+import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
+import com.mygdx.game.sprites.gameObjects.PlayerLabel;
+import com.mygdx.game.sprites.gameObjects.items.HealthLabel;
+import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
+import com.mygdx.game.sprites.gameObjects.items.SwordLabel;
 import com.mygdx.game.sprites.roomstrategy.*;
 import com.mygdx.game.states.State;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class Grid extends Label {
 
-    private final Label[][] grid;
-    private final int ROOMS_PER_ROW = 3;
-    private final int ROOMS_PER_COLUMN = 3;
-    private Room[] roomsInOrder = new Room[ROOMS_PER_ROW * ROOMS_PER_COLUMN];
-    private Room[][] roomMatrix = new Room[ROOMS_PER_ROW][ROOMS_PER_COLUMN];
+public class Grid {
+    private static final int ROOMS_PER_ROW = 3;
+    private static final int ROOMS_PER_COLUMN = 3;
     public final static int ROWS = 54;
     public final static int COLUMNS = 90;
     private final static int SPACE_BETWEEN_CHARACTERS = 20;
     private final static int START_POSX_GRID = (State.WIDTH - (COLUMNS * SPACE_BETWEEN_CHARACTERS)) / 2;
     private final static int START_POSY_GRID = (State.HEIGHT - (ROWS * SPACE_BETWEEN_CHARACTERS)) / 2;
-    private final Color color;
-
-    private final String gridCharacter;
-    private final String pathCharacter;
-    List<Enemy> enemyList = new ArrayList<>();
-
+    private final GameObjectLabel[][] grid;
+    private Room[] roomsInOrder = new Room[ROOMS_PER_ROW * ROOMS_PER_COLUMN];
+    private Room[][] roomMatrix = new Room[ROOMS_PER_ROW][ROOMS_PER_COLUMN];
     private RoomStrategy roomStrategy = null;
+    private final LabelStyle style;
+    private final PlayerLabel playerLabel;
+    List<EnemyLabel> enemyLabelList = new ArrayList<>();
+    List<ItemLabel> itemLabelList = new ArrayList<>();
 
-    public Grid(String gridCharacter, Color color, String pathCharacter) {
-        super(gridCharacter, new LabelStyle(new Font().setBitmapFont(), color));
-        this.gridCharacter = gridCharacter;
-        this.color = color;
-        this.pathCharacter = pathCharacter;
-        this.grid = new Label[ROWS][COLUMNS];
-        Label.LabelStyle style = new Label.LabelStyle(new Font().setBitmapFont(), color);
+
+    public Grid() {
+        this.grid = new GameObjectLabel[ROWS][COLUMNS];
+        style = new LabelStyle(new Font().setBitmapFont(), Color.WHITE);
 
         int numberOfStrategies = Strategies.values().length; //get all values from enum
         while(roomStrategy == null){
@@ -49,29 +50,47 @@ public class Grid extends Label {
 
         generateRooms(style);
 
+
+
+
+
+        //set player into grid
+        int playerX = getRooms()[0].getX();
+        int playerY = getRooms()[0].getY();
+        this.playerLabel = new PlayerLabel(this, style, playerX, playerY);
+
+        //only for testing
+        int swordX = getRooms()[1].getX();
+        int swordY = getRooms()[1].getY();
+
+        int healthX = getRooms()[2].getX();
+        int healthY = getRooms()[2].getY();
+
+        itemLabelList.add(new SwordLabel(this, style, swordX, swordY, 10));
+        itemLabelList.add(new HealthLabel(this, style, healthX, healthY, 100));
+        //
     }
 
-    public Label[][] getGrid() {
+    public List<ItemLabel> getItemList() {
+        return itemLabelList;
+    }
+
+    public GameObjectLabel[][] getGrid() {
         return grid;
     }
 
-    public void setGridCharacter(int y, int x, Label label) {
-        grid[y][x] = label;
-        label.setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
+    public void setGridCharacter(int y, int x, GameObjectLabel gameObjectLabel) {
+        grid[y][x] = gameObjectLabel;
+        gameObjectLabel.setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
     }
 
-    public void setGridCharacter(int y, int x, String labelCharacter) {
-        Label.LabelStyle style = new Label.LabelStyle(new Font().setBitmapFont(), color);
-        Label label = new Label(labelCharacter, style);
-        this.setGridCharacter(y, x, label);
+    public void setGridCharacter(int y, int x, String gridObjectCharacter) {
+        GameObjectLabel gameObjectLabel = new GameObjectLabel(gridObjectCharacter, style);
+        this.setGridCharacter(y, x, gameObjectLabel);
     }
 
-    public String getGridCharacter() {
-        return gridCharacter;
-    }
-
-    public String getPathCharacter() {
-        return pathCharacter;
+    public PlayerLabel getPlayer() {
+        return playerLabel;
     }
 
     public Room[] getRooms() {
@@ -79,7 +98,7 @@ public class Grid extends Label {
      }
 
     public void updateEnemies() {
-        for (Enemy e : enemyList) {
+        for (EnemyLabel e : enemyLabelList) {
             e.updateMovement();
         }
     }
@@ -94,22 +113,21 @@ public class Grid extends Label {
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < COLUMNS; x++) {
                 if (grid[y][x] == null) {
-                    grid[y][x] = new Label(" ", style);
+                    grid[y][x] = new GameObjectLabel(" ", style);
                     grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
                 }
             }
         }
 
-        enemyList.add(new Enemy("\uD83D\uDC0D", this, 30, 30)); //TODO: remove, just for debugging
-
-        enemyList.add(new Enemy("B", this, roomsInOrder[1].getX()+2, roomsInOrder[1].getY()+2)); //TODO: remove, just for debugging
+        enemyLabelList.add(new EnemyLabel("\uD83D\uDC0D", this, 30, 30)); //TODO: remove, just for debugging
+        enemyLabelList.add(new EnemyLabel("B", this, roomsInOrder[1].getX()+2, roomsInOrder[1].getY()+2)); //TODO: remove, just for debugging
 
     }
 
     private void drawRoomMatrixToGrid(LabelStyle style){
         for(Room[] rArr : this.roomMatrix) {
             for(Room r : rArr){
-                r.drawRoom(gridCharacter, grid, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
+                r.drawRoom(grid, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
             }
         }
     }
@@ -152,7 +170,7 @@ public class Grid extends Label {
             }
 
             Path p = new Path(fromX, fromY, toX, toY, r.getRoomNumber(), r.getRoomNumber(), r2.getRoomNumber());
-            p.drawPath(pathCharacter, grid, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
+            p.drawPath(grid, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
 
             r.setHasOutboundPath(true);
             r2.setHasInboundPath(true);

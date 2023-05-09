@@ -4,10 +4,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.sprites.font.Font;
 
 public class Text {
 
-  private final String text;
+  private String text;
   private final BitmapFont font;
   private final GlyphLayout glyphLayout;
   private final Vector3 position;
@@ -45,6 +46,10 @@ public class Text {
 
   public Vector3 getPostiton() {
     return position;
+  }
+
+  public void setText(String text) {
+    this.text = text;
   }
 
 }
