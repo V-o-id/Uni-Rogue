@@ -1,6 +1,5 @@
 package com.mygdx.game.sprites.roomstrategy;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.sprites.Room;
 
 public abstract class RoomStrategy {

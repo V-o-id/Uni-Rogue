@@ -52,4 +52,8 @@ public class Text {
     this.text = text;
   }
 
+  public boolean isClicked(int x, int y){
+    return rectangle.contains(x, y);
+  }
+
 }
