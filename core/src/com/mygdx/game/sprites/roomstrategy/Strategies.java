@@ -13,11 +13,13 @@ public enum Strategies {
     BOTTOM_LEFT_STRAIGHT_UP, //works
     BOTTOM_RIGHT_STRAIGHT_UP, // works
     TOP_LEFT_STRAIGHT_DOWN, // works
-    TOP_RIGHT_STRAIGHT_DOWN; // works
+    TOP_RIGHT_STRAIGHT_DOWN, // works
+
+    BOTTOM_LEFT_HALF_IN_UP; // works
 
 
     public static RoomStrategy getStrategy(int s, int roomsPerRow, int roomsPerColumn) throws RoomStrategyException {
-        Strategies strategy = Strategies.values()[3];
+        Strategies strategy = Strategies.values()[s];
         System.out.println("Strategy: " + strategy);
         switch (strategy) {
             case BOTTOM_LEFT_UP:
@@ -40,6 +42,8 @@ public enum Strategies {
                 return new TopLeftStraightDown(roomsPerRow, roomsPerColumn);
             case TOP_RIGHT_STRAIGHT_DOWN:
                 return new TopRightStraightDown(roomsPerRow, roomsPerColumn);
+            case BOTTOM_LEFT_HALF_IN_UP:
+                return new BottomLeftHalfInUp(roomsPerRow, roomsPerColumn);
             default:
                 return new BottomLeftUp(roomsPerRow, roomsPerColumn); // default strategy
         }
