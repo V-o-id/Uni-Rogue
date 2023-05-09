@@ -39,7 +39,7 @@ public class TopRightStraightDown extends RoomStrategy {
                 int roomWidth = clamp(r.nextInt(parcelCols), parcelCols / roomsPerColumn, parcelCols);
                 int roomHeight = clamp(r.nextInt(parcelRows), parcelRows / roomsPerRow, parcelRows);
 
-                roomMatrix[row][col] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
+                roomMatrix[row][col] = new Room(parcelCols * col, parcelRows * row + 1, roomWidth, roomHeight, roomCounter);
                 roomsInOrder[roomCounter] = roomMatrix[row][col];
 
                 if(isTopToBottom){

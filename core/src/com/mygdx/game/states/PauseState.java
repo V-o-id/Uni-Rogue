@@ -2,8 +2,16 @@ package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.mygdx.game.Application;
 import com.mygdx.game.sprites.Text;
 
 public class PauseState extends State {
@@ -13,19 +21,25 @@ public class PauseState extends State {
     private final Text restartText;
     private final Text returnToMenuText;
     private final Text closeGameText;
+    private final Text volumeSliderText;
+    private final Slider volumeSlider;
 
     private final int textHeight = 75; // ? how to get height of text
 
     PlayState playState;
-
+    Stage stage;
     public PauseState(GameStateManager gsm, PlayState playState) {
         super(gsm);
+        stage = new Stage();
         this.playState = playState;
         pauseText = new Text("Pause", State.WIDTH / 2F, State.HEIGHT * 0.9F);
         resumeText = new Text("Resume", State.WIDTH / 2F, State.HEIGHT * 0.6F);
         restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.6F - textHeight);
         returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.6F - 2 * textHeight);
         closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.6F - 3 * textHeight);
+        volumeSliderText = new Text("Volume", State.WIDTH / 2F, State.HEIGHT * 0.6F - 5 * textHeight);
+        volumeSlider = new Slider(0f, 1f, 0.001f, false, new Skin(Gdx.files.internal("uiskin.json")));
+        createSlider();
     }
 
     @Override
@@ -55,8 +69,25 @@ public class PauseState extends State {
                 //close game
                 Gdx.app.exit();
             }
+
         }
 
+    }
+
+    private void createSlider() {
+        volumeSlider.setValue(Application.getMusicVolume());
+        System.out.println(Application.getMusicVolume());
+        volumeSlider.setColor(new Color(255f,255f,255f,1f));
+        volumeSlider.setPosition(State.WIDTH / 2F - State.WIDTH/8F, State.HEIGHT * 0.575F - 6 * textHeight);
+        volumeSlider.setSize(State.WIDTH/4F, 100);
+        stage.addActor(volumeSlider);
+        Gdx.input.setInputProcessor(stage);
+        volumeSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Application.setMusicVolume(volumeSlider.getValue());
+            }
+        });
     }
 
     @Override
@@ -75,6 +106,9 @@ public class PauseState extends State {
         returnToMenuText.getFont().draw(sb, returnToMenuText.getText(), returnToMenuText.getPostiton().x, returnToMenuText.getPostiton().y + returnToMenuText.getGlyphLayout().height);
         closeGameText.getFont().draw(sb, closeGameText.getText(), closeGameText.getPostiton().x, closeGameText.getPostiton().y + closeGameText.getGlyphLayout().height);
 
+        volumeSliderText.getFont().draw(sb, volumeSliderText.getText(), volumeSliderText.getPostiton().x, volumeSliderText.getPostiton().y + volumeSliderText.getGlyphLayout().height);
+        volumeSlider.draw(sb, 1);
+        
         sb.end();
 
 

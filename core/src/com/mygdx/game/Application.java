@@ -22,7 +22,8 @@ public class Application extends ApplicationAdapter {
     private GameStateManager gsm;
     private SpriteBatch batch;
     private Viewport viewport;
-    private Music music;
+    private static Music music;
+    private static float musicVolume = 0.05f;
 
 
     @Override
@@ -33,7 +34,7 @@ public class Application extends ApplicationAdapter {
         gsm.push(new MenuState(gsm));
 
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
-        music.setVolume(0.01f);
+        music.setVolume(musicVolume);
         music.play();
         music.setLooping(true);
 
@@ -63,4 +64,13 @@ public class Application extends ApplicationAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
+
+    public static void setMusicVolume(float musicVolume) {
+        Application.musicVolume = musicVolume;
+        music.setVolume(musicVolume);
+    }
+    public static float getMusicVolume() {
+        return musicVolume;
+    }
+
 }
