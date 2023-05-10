@@ -3,19 +3,14 @@ package com.mygdx.game.sprites;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-
-public class Player extends Label {
+public class Player extends Entity {
 
 	private int gridPosX;
 	private int gridPosY;
 
 	public Player(String playerCharacter, Color color, Grid grid, int gridPosX, int gridPosY) {
-		super(playerCharacter, new LabelStyle(new Font().setBitmapFont(), color));
-		this.gridPosX = gridPosX;
-		this.gridPosY = gridPosY;
-		grid.setGridCharacter(gridPosY, gridPosX, this);
+		super(playerCharacter, color, grid, gridPosX, gridPosY);
 	}
 
 	public void characterControl(Grid grid) {
@@ -43,7 +38,6 @@ public class Player extends Label {
 			grid.setGridCharacter(gridPosY, gridPosX, this);
 			grid.updateEnemies();
 		}
-
 	}
 
 	public void dispose() {

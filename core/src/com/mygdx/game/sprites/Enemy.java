@@ -1,29 +1,20 @@
 package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.util.Random;
 
 import static com.mygdx.game.sprites.Enemy.EnemyState.*;
 
-public class Enemy extends Label {
+public class Enemy extends Entity {
     enum EnemyState {
         IDLE, AWAKE, ATTACKING
     }
-
-    private final Grid grid;
-    private int gridPosX;
-    private int gridPosY;
     private final Random random = new Random();
     private EnemyState state = IDLE;
 
-    public Enemy(String enemyCharacter, Grid grid, int gridPosX, int gridPosY) {
-        super(enemyCharacter, new LabelStyle(new Font().setBitmapFont(), Color.WHITE));
-        this.grid = grid;
-        this.gridPosX = gridPosX;
-        this.gridPosY = gridPosY;
-        grid.setGridCharacter(gridPosY, gridPosX, this);
+    public Enemy(String enemyCharacter, Color color, Grid grid, int gridPosX, int gridPosY) {
+        super(enemyCharacter, color, grid, gridPosX, gridPosY);
     }
 
     public void updateMovement() {
