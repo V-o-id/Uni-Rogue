@@ -22,6 +22,8 @@ public class PlayState extends State {
     private final Text goldText;
     private final Text gameTimerText;
     private final Text informationText;
+    public final Text pauseText;
+    private final Text roomText;
     BitmapFont font = new Font().setBitmapFont();
 
     private static boolean running = true;
@@ -36,7 +38,9 @@ public class PlayState extends State {
         attackDamageText = new Text("Attack Damage: " + grid.getPlayer().getAttackDamage(), 50, State.HEIGHT -50 -healthText.getGlyphLayout().height - 20, font, false);
         goldText = new Text("Gold: " + grid.getPlayer().getHealth(), 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height -40, font, false);
         gameTimerText = new Text("Time: " + gameTimer.getSeconds(), 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -60, font, false);
-        informationText = new Text("", 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -gameTimerText.getGlyphLayout().height -80, font, false);
+        roomText = new Text("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber()+1) + "/" + (grid.getRooms().length), 250, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -60, font, false);
+        informationText = new Text("", 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -gameTimerText.getGlyphLayout().height - 80, font, false);
+        pauseText = new Text("Pause", State.WIDTH-150,  State.HEIGHT-50, font, false);
     }
 
     @Override
@@ -52,6 +56,9 @@ public class PlayState extends State {
         goldText.setText("Gold: " + grid.getPlayer().getGold());
         informationText.setText(grid.getPlayer().getInformation());
     }
+    public void updateCurrentRoomText() {
+        roomText.setText("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber()+1) + "/" + (grid.getRooms().length));
+    }
 
     @Override
     public void render(SpriteBatch sb) {
@@ -63,6 +70,8 @@ public class PlayState extends State {
         goldText.getFont().draw(sb, goldText.getText(), goldText.getPostiton().x, goldText.getPostiton().y + goldText.getGlyphLayout().height);
         gameTimerText.getFont().draw(sb, gameTimerText.getText(), gameTimerText.getPostiton().x, gameTimerText.getPostiton().y + gameTimerText.getGlyphLayout().height);
         informationText.getFont().draw(sb, informationText.getText(), informationText.getPostiton().x, informationText.getPostiton().y + informationText.getGlyphLayout().height);
+        pauseText.getFont().draw(sb, pauseText.getText(), pauseText.getPostiton().x, pauseText.getPostiton().y + pauseText.getGlyphLayout().height);
+        roomText.getFont().draw(sb, roomText.getText(), roomText.getPostiton().x, roomText.getPostiton().y + roomText.getGlyphLayout().height);
         sb.end();
     }
 

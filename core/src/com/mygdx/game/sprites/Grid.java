@@ -59,7 +59,7 @@ public class Grid {
         //set player into grid
         int playerX = getRooms()[0].getX();
         int playerY = getRooms()[0].getY();
-        this.playerLabel = new PlayerLabel(this, style, playerX, playerY);
+        this.playerLabel = new PlayerLabel(this, style, playerX, playerY, getRooms()[0]);
 
         //only for testing
         int swordX = getRooms()[1].getX();
