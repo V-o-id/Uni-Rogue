@@ -11,11 +11,13 @@ import java.util.List;
 public class Grid extends Label {
 
     private final Label[][] grid;
+
     private final int ROOMS_PER_ROW = 3;
     private final int ROOMS_PER_COLUMN = 3;
     private Room[] roomsInOrder = new Room[ROOMS_PER_ROW * ROOMS_PER_COLUMN];
     private Room[][] roomMatrix = new Room[ROOMS_PER_ROW][ROOMS_PER_COLUMN];
     public final static int ROWS = 54;
+
     public final static int COLUMNS = 90;
     private final static int SPACE_BETWEEN_CHARACTERS = 20;
     private final static int START_POSX_GRID = (State.WIDTH - (COLUMNS * SPACE_BETWEEN_CHARACTERS)) / 2;
