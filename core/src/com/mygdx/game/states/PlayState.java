@@ -24,6 +24,8 @@ public class PlayState extends State {
     private final Text gameTimerText;
     private final Text informationText;
     BitmapFont font = new Font().setFont();
+    public final Text pauseText;
+    private final Text roomText;
 
     private static boolean running = true;
 
@@ -38,11 +40,20 @@ public class PlayState extends State {
         goldText = new Text("Gold: " + grid.getPlayer().getHealth(), 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height -40, font, false);
         gameTimerText = new Text("Time: " + gameTimer.getSeconds(), 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -60, font, false);
         informationText = new Text("", 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -gameTimerText.getGlyphLayout().height -80, font, false);
+        healthbar = new Text("Health: " + grid.getPlayer().getHealth(), State.WIDTH / 2F, State.HEIGHT - 50);
+        attackDamage = new Text("Attack Damage: " + grid.getPlayer().getAttackDamage(), State.WIDTH / 2F, State.HEIGHT - healthbar.getGlyphLayout().height - 70);
+        gameTimerText = new Text("Time: " + gameTimer.getSeconds(), State.WIDTH / 2F, State.HEIGHT - healthbar.getGlyphLayout().height - attackDamage.getGlyphLayout().height - 90);
+        roomText = new Text("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber()+1) + "/" + (grid.getRooms().length), State.WIDTH / 2F, State.HEIGHT - healthbar.getGlyphLayout().height - attackDamage.getGlyphLayout().height - gameTimerText.getGlyphLayout().height - 110);
+        pauseText = new Text("Pause", State.WIDTH-150,  State.HEIGHT-50);
     }
 
     @Override
     protected void handleInput() {
         grid.getPlayer().characterControl(grid, gsm, this);
+    }
+
+    public void updateCurrentRoomText() {
+        roomText.setText("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber()+1) + "/" + (grid.getRooms().length));
     }
 
     @Override
@@ -64,6 +75,8 @@ public class PlayState extends State {
         goldText.getFont().draw(sb, goldText.getText(), goldText.getPostiton().x, goldText.getPostiton().y + goldText.getGlyphLayout().height);
         gameTimerText.getFont().draw(sb, gameTimerText.getText(), gameTimerText.getPostiton().x, gameTimerText.getPostiton().y + gameTimerText.getGlyphLayout().height);
         informationText.getFont().draw(sb, informationText.getText(), informationText.getPostiton().x, informationText.getPostiton().y + informationText.getGlyphLayout().height);
+        roomText.getFont().draw(sb, roomText.getText(), roomText.getPostiton().x, roomText.getPostiton().y + roomText.getGlyphLayout().height);
+        pauseText.getFont().draw(sb, pauseText.getText(), pauseText.getPostiton().x, pauseText.getPostiton().y + pauseText.getGlyphLayout().height);
         sb.end();
     }
 

@@ -1,9 +1,8 @@
 package com.mygdx.game.sprites;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.gameObjects.RoomLabel;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class Room {
 
@@ -25,6 +24,10 @@ public class Room {
             hasInboundPath = true;
         }
 
+    }
+
+    public boolean isIn(int x, int y) {
+        return (x >= this.x && x < this.x + this.width && y >= this.y && y < this.y + this.height);
     }
 
     public int getX() {
@@ -82,4 +85,5 @@ public class Room {
         int yDistance = Math.abs(this.getY() - r2.getY());
         return xDistance + yDistance;
     }
+
 }

@@ -17,7 +17,12 @@ public class GameStateManager {
   }
 
   public void pop(){
-    states.pop().dispose();
+    try {
+      states.pop().dispose();
+    } catch (Exception e) {
+      System.err.println("ERROR. There was no state to pop.");
+      e.printStackTrace();
+    }
   }
 
   public void set(State state){

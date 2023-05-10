@@ -2,9 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,7 +20,8 @@ public class Application extends ApplicationAdapter {
     private GameStateManager gsm;
     private SpriteBatch batch;
     private Viewport viewport;
-    private Music music;
+    private static Music music;
+    private static float musicVolume = 0.025f;
 
 
     @Override
@@ -33,7 +32,7 @@ public class Application extends ApplicationAdapter {
         gsm.push(new MenuState(gsm));
 
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
-        music.setVolume(0.01f);
+        music.setVolume(musicVolume);
         music.play();
         music.setLooping(true);
 
@@ -63,4 +62,13 @@ public class Application extends ApplicationAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
+
+    public static void setMusicVolume(float musicVolume) {
+        Application.musicVolume = musicVolume;
+        music.setVolume(musicVolume);
+    }
+    public static float getMusicVolume() {
+        return musicVolume;
+    }
+
 }

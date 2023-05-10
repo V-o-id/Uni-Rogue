@@ -27,17 +27,21 @@ public class MenuState extends State {
   protected void handleInput() {
 
     if(Gdx.input.isTouched()){
-      if(startGameText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
-        gsm.set(new PlayState(gsm));
+      int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
+      if(startGameText.isClicked(x, y)){
+        PlayState playState = new PlayState(gsm);
+        gsm.push(playState);
+        gsm.set(playState);
       }
-      if(optionText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())) {
-        //Gdx.gl.glClearColor(1, 1, 0, 1);
-        gsm.set(new OptionState(gsm));
+      if(optionText.isClicked(x, y)) {
+        OptionState optionState = new OptionState(gsm);
+        gsm.push(optionState);
+        gsm.set(optionState);
       }
-      if(highscoreText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
+      if(highscoreText.isClicked(x, y)){
         Gdx.gl.glClearColor(1, 0, 1, 1);
       }
-      if(exitText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
+      if(exitText.isClicked(x, y)){
         Gdx.app.exit();
       }
     }

@@ -1,7 +1,7 @@
 package com.mygdx.game.sprites.gameObjects.items;
 
-import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.Grid;
+import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 
 public abstract class ItemLabel extends GameObjectLabel {
 

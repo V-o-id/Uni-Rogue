@@ -51,7 +51,13 @@ public class Text {
     this.text = text;
   }
 
+
   public BitmapFont getFont() {
     return font;
   }
+
+  public boolean isClicked(int x, int y){
+    return rectangle.contains(x, y);
+  }
+
 }

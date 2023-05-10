@@ -40,7 +40,7 @@ public class TopLeftDown extends RoomStrategy {
                 int roomWidth = clamp(r.nextInt(parcelCols), parcelCols / roomsPerColumn + 2, parcelCols);
                 int roomHeight = clamp(r.nextInt(parcelRows), parcelRows / roomsPerRow + 2, parcelRows);
 
-                roomMatrix[row][col] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
+                roomMatrix[row][col] = new Room(parcelCols * col, parcelRows * row + 1, roomWidth, roomHeight, roomCounter);
                 roomsInOrder[roomCounter] = roomMatrix[row][col];
 
                 if(isLeftToRight){

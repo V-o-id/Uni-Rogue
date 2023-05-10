@@ -3,9 +3,8 @@ package com.mygdx.game.sprites.font;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-
-
 import java.util.Arrays;
+
 
 public class Font {
 

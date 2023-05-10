@@ -1,17 +1,20 @@
 package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.RoomLabel;
 import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.gameObjects.PlayerLabel;
+import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.items.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 import com.mygdx.game.sprites.gameObjects.items.SwordLabel;
-import com.mygdx.game.sprites.roomstrategy.*;
+import com.mygdx.game.sprites.roomstrategy.RoomStrategy;
+import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
+import com.mygdx.game.sprites.roomstrategy.Strategies;
 import com.mygdx.game.states.State;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +60,7 @@ public class Grid {
         //set player into grid
         int playerX = getRooms()[0].getX();
         int playerY = getRooms()[0].getY();
-        this.playerLabel = new PlayerLabel(this, style, playerX, playerY);
+        this.playerLabel = new PlayerLabel(this, style, playerX, playerY, getRooms()[0]);
 
         //only for testing
         int swordX = getRooms()[1].getX();
@@ -122,7 +125,7 @@ public class Grid {
             }
         }
 
-        enemyLabelList.add(new EnemyLabel("\uD83D\uDC0D", this, 30, 30)); //TODO: remove, just for debugging
+        enemyLabelList.add(new EnemyLabel("\uD83D", this, 30, 30)); //TODO: remove, just for debugging
         enemyLabelList.add(new EnemyLabel("B", this, roomsInOrder[1].getX()+2, roomsInOrder[1].getY()+2)); //TODO: remove, just for debugging
 
     }
