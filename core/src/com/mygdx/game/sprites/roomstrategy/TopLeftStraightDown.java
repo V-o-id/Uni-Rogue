@@ -12,8 +12,6 @@ public class TopLeftStraightDown extends RoomStrategy{
 
     @Override
     public Room[][] alignRooms(int gridRows, int gridCols) {
-        System.out.println("TopLeftStraightDown");
-
         alignRoomsTopLeftStraightDown(gridRows, gridCols);
 
         roomsInOrder[0].setHasInboundPath(true);

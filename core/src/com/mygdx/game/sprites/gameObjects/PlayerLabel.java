@@ -72,10 +72,11 @@ public class PlayerLabel extends GameObjectLabel {
 				if(hasGoneOnPath && !topCharacter.equals(PATH_CHARACTER)){
 					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
 				}
+				if(!topCharacter.equals(PATH_CHARACTER)) {
+					hasGoneOnPath = false;
+				}
 			}
-			if(!topCharacter.equals(PATH_CHARACTER)) {
-				hasGoneOnPath = false;
-			}
+
 		}
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) && (gridPosY > 0)) {
@@ -96,10 +97,11 @@ public class PlayerLabel extends GameObjectLabel {
 				if(hasGoneOnPath && !bottomCharacter.equals(PATH_CHARACTER)){
 					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
 				}
+				if(!bottomCharacter.equals(PATH_CHARACTER)) {
+					hasGoneOnPath = false;
+				}
 			}
-			if(!bottomCharacter.equals(PATH_CHARACTER)) {
-				hasGoneOnPath = false;
-			}
+
 		}
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.A)) && (gridPosX > 0)) {
@@ -118,10 +120,11 @@ public class PlayerLabel extends GameObjectLabel {
 				if(hasGoneOnPath && !leftCharacter.equals(PATH_CHARACTER)){
 					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
 				}
+				if(!leftCharacter.equals(PATH_CHARACTER)) {
+					hasGoneOnPath = false;
+				}
 			}
-			if(!leftCharacter.equals(PATH_CHARACTER)) {
-				hasGoneOnPath = false;
-			}
+
 		}
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.D)) && (gridPosX + 1 < Grid.COLUMNS)) {
@@ -140,10 +143,11 @@ public class PlayerLabel extends GameObjectLabel {
 				if(hasGoneOnPath && !rightCharacter.equals(PATH_CHARACTER)){
 					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
 				}
+				if(!rightCharacter.equals(PATH_CHARACTER)) {
+					hasGoneOnPath = false;
+				}
 			}
-			if(!rightCharacter.equals(PATH_CHARACTER)) {
-				hasGoneOnPath = false;
-			}
+
 		}
 
 		if(Gdx.input.isTouched()) {

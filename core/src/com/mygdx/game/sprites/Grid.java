@@ -11,6 +11,7 @@ import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.items.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 import com.mygdx.game.sprites.gameObjects.items.SwordLabel;
+import com.mygdx.game.sprites.roomstrategy.BottomLeftHalfInUp;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategy;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
 import com.mygdx.game.sprites.roomstrategy.Strategies;
@@ -39,7 +40,7 @@ public class Grid {
     List<ItemLabel> itemLabelList = new ArrayList<>();
 
 
-    public Grid() {
+    public Grid()  {
         this.grid = new GameObjectLabel[ROWS][COLUMNS];
         style = new LabelStyle(new Font().setBitmapFont(), Color.WHITE);
 

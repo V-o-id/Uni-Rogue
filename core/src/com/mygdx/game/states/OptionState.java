@@ -52,7 +52,6 @@ public class OptionState extends State {
         textButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("clicked");
                 gsm.set(new MenuState(gsm));
                 //write character into textfile
                 FileHandle file = Gdx.files.local("selectedCharacter.txt");

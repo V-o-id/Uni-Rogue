@@ -20,7 +20,6 @@ public enum Strategies {
 
     public static RoomStrategy getStrategy(int s, int roomsPerRow, int roomsPerColumn) throws RoomStrategyException {
         Strategies strategy = Strategies.values()[s];
-        System.out.println("Strategy: " + strategy);
         switch (strategy) {
             case BOTTOM_LEFT_UP:
                 return new BottomLeftUp(roomsPerRow, roomsPerColumn);
