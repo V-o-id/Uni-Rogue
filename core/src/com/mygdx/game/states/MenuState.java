@@ -1,8 +1,10 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.sprites.Text;
+import com.mygdx.game.sprites.font.Font;
 
 
 public class MenuState extends State {
@@ -11,13 +13,14 @@ public class MenuState extends State {
   private final Text optionText;
   private final Text highscoreText;
   private final Text exitText;
+  private final BitmapFont font = new Font().setFont();
 
   public MenuState(GameStateManager gsm) {
     super(gsm);
-    startGameText = new Text("Start Game", State.WIDTH / 2F, State.HEIGHT/2F + 3*State.HEIGHT/8F);
-    optionText = new Text("Options", State.WIDTH / 2F, State.HEIGHT/2F + State.HEIGHT/8F);
-    highscoreText = new Text("High-Score", State.WIDTH / 2F, State.HEIGHT/2F - State.HEIGHT/8F);
-    exitText = new Text("Exit Game", State.WIDTH / 2F, State.HEIGHT/2F - 3*State.HEIGHT/8F);
+    startGameText = new Text("Start Game", State.WIDTH / 2F, State.HEIGHT/2F + 3*State.HEIGHT/8F, font, true);
+    optionText = new Text("Options", State.WIDTH / 2F, State.HEIGHT/2F + State.HEIGHT/8F, font, true);
+    highscoreText = new Text("High-Score", State.WIDTH / 2F, State.HEIGHT/2F - State.HEIGHT/8F, font, true);
+    exitText = new Text("Exit Game", State.WIDTH / 2F, State.HEIGHT/2F - 3*State.HEIGHT/8F, font, true);
   }
 
   @Override

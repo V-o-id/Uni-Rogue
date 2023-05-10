@@ -1,19 +1,23 @@
 package com.mygdx.game.sprites.font;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.PixmapPacker;
+
+
+import java.util.Arrays;
 
 public class Font {
 
-    public BitmapFont setBitmapFont() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/JetBrainsMono-Regular.ttf"));
+    public BitmapFont setFont() {
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(new FileHandle("C:/Windows/Fonts/seguiemj.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        //parameter.characters =  "\u1F40D";
-        parameter.size = 30;
+        parameter.size = 24;
         BitmapFont font = generator.generateFont(parameter);
         generator.dispose();
+
+
         return font;
     }
 }

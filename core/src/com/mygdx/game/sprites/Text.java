@@ -14,15 +14,18 @@ public class Text {
   private final Vector3 position;
   private final Rectangle rectangle;
 
-  public Text(String text, float x, float y) {
+  public Text(String text, float x, float y, BitmapFont font, boolean centered) {
     this.text = text;
-
-    font = new Font().setBitmapFont();
+    this.font = font;
 
     glyphLayout = new GlyphLayout();
     glyphLayout.setText(font, text);
 
-    this.position = new Vector3(x - glyphLayout.width/2, y, 0);
+    if(centered) {
+      this.position = new Vector3(x - glyphLayout.width/2, y, 0);
+    } else {
+      this.position = new Vector3(x, y, 0);
+    }
 
     rectangle = new Rectangle();
     rectangle.set(getPostiton().x, getPostiton().y, getGlyphLayout().width, getGlyphLayout().height);
@@ -34,10 +37,6 @@ public class Text {
 
   public GlyphLayout getGlyphLayout() {
     return glyphLayout;
-  }
-
-  public BitmapFont getFont() {
-    return font;
   }
 
   public Rectangle getRectangle() {
@@ -52,4 +51,7 @@ public class Text {
     this.text = text;
   }
 
+  public BitmapFont getFont() {
+    return font;
+  }
 }

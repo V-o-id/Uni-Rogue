@@ -2,6 +2,7 @@ package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.graphics.Color;
 import com.mygdx.game.sprites.font.Font;
+import com.mygdx.game.sprites.gameObjects.RoomLabel;
 import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.gameObjects.PlayerLabel;
@@ -36,7 +37,9 @@ public class Grid {
 
     public Grid() {
         this.grid = new GameObjectLabel[ROWS][COLUMNS];
-        style = new LabelStyle(new Font().setBitmapFont(), Color.WHITE);
+
+        this.style = new LabelStyle();
+        this.style.font = new Font().setFont();
 
         int numberOfStrategies = Strategies.values().length; //get all values from enum
         while(roomStrategy == null){
@@ -49,9 +52,6 @@ public class Grid {
         }
 
         generateRooms(style);
-
-
-
 
 
         //set player into grid
@@ -69,6 +69,9 @@ public class Grid {
         itemLabelList.add(new SwordLabel(this, style, swordX, swordY, 10));
         itemLabelList.add(new HealthLabel(this, style, healthX, healthY, 100));
         //
+
+        // 2 - two item types: sword, health
+        placeGameObjects(4, 7, 2, 0);
     }
 
     public List<ItemLabel> getItemList() {
@@ -176,9 +179,37 @@ public class Grid {
             r2.setHasInboundPath(true);
 
         }
-
-
     }
 
 
+    //param type: zero = item; one = enemy
+    public void placeGameObjects(int minObjects, int maxObjects, int amountOfPlaceableObjects, int type) {
+        int amountGameObjects = (int) Math.floor(Math.random() * ((maxObjects-minObjects)+1) + minObjects);
+
+        for(int i = 0; i < amountGameObjects; i++) {
+            int roomNumber = (int) Math.floor(Math.random() * (8+1));
+            int roomWidthFromGround = roomsInOrder[roomNumber].getWidth() + roomsInOrder[roomNumber].getX() - 1;
+            int roomHeightFromGround = roomsInOrder[roomNumber].getHeight() + roomsInOrder[roomNumber].getY() - 1;
+
+            int itemPosX = (int) Math.floor(Math.random() * ((roomWidthFromGround-roomsInOrder[roomNumber].getX())+1) + roomsInOrder[roomNumber].getX());
+            int itemPosY = (int) Math.floor(Math.random() * ((roomHeightFromGround-roomsInOrder[roomNumber].getY())+1) + roomsInOrder[roomNumber].getY());
+
+            int objectType = (int) Math.floor(Math.random() * (amountOfPlaceableObjects));
+
+            GameObjectLabel gameObjectLabel;
+
+            if(type == 0) {
+                switch(objectType) {
+                    case 0: gameObjectLabel = new SwordLabel(this, style, itemPosX, itemPosY, 30); break;
+                    case 1: gameObjectLabel = new HealthLabel(this, style, itemPosX, itemPosY, 50); break;
+                    default: return;
+                }
+
+            } else if(type == 1) {
+                //enemy switch
+            }
+
+        }
+
+    }
 }

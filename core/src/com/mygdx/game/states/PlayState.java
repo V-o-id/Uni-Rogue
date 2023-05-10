@@ -1,10 +1,14 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Text;
+import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.GameTimer;
+
+import java.util.concurrent.TimeUnit;
 
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
@@ -14,9 +18,12 @@ public class PlayState extends State {
 
     private final Grid grid;
 
-    private final Text healthbar;
-    private final Text attackDamage;
+    private final Text healthText;
+    private final Text attackDamageText;
+    private final Text goldText;
     private final Text gameTimerText;
+    private final Text informationText;
+    BitmapFont font = new Font().setFont();
 
     private static boolean running = true;
 
@@ -26,9 +33,11 @@ public class PlayState extends State {
     public PlayState(GameStateManager gsm) {
         super(gsm);
         grid = new Grid();
-        healthbar = new Text("Health: " + grid.getPlayer().getHealth(), State.WIDTH / 2F, State.HEIGHT - 50);
-        attackDamage = new Text("Attack Damage: " + grid.getPlayer().getAttackDamage(), State.WIDTH / 2F, State.HEIGHT - healthbar.getGlyphLayout().height - 70);
-        gameTimerText = new Text("Time: " + gameTimer.getSeconds(), State.WIDTH / 2F, State.HEIGHT - healthbar.getGlyphLayout().height - attackDamage.getGlyphLayout().height - 90);
+        healthText = new Text("Health: " + grid.getPlayer().getHealth(), 50, State.HEIGHT - 50, font, false);
+        attackDamageText = new Text("Attack Damage: " + grid.getPlayer().getAttackDamage(), 50, State.HEIGHT -50 -healthText.getGlyphLayout().height - 20, font, false);
+        goldText = new Text("Gold: " + grid.getPlayer().getHealth(), 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height -40, font, false);
+        gameTimerText = new Text("Time: " + gameTimer.getSeconds(), 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -60, font, false);
+        informationText = new Text("", 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -gameTimerText.getGlyphLayout().height -80, font, false);
     }
 
     @Override
@@ -39,8 +48,10 @@ public class PlayState extends State {
     @Override
     public void update(float dt) {
         handleInput();
-        healthbar.setText("Health: " + grid.getPlayer().getHealth());
-        attackDamage.setText("Attack Damage: " + grid.getPlayer().getAttackDamage());
+        healthText.setText("Health: " + grid.getPlayer().getHealth());
+        attackDamageText.setText("Attack Damage: " + grid.getPlayer().getAttackDamage());
+        goldText.setText("Gold: " + grid.getPlayer().getGold());
+        informationText.setText(grid.getPlayer().getInformation());
     }
 
     @Override
@@ -48,9 +59,11 @@ public class PlayState extends State {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         sb.begin();
         drawGrid(sb);
-        healthbar.getFont().draw(sb, healthbar.getText(), healthbar.getPostiton().x, healthbar.getPostiton().y + healthbar.getGlyphLayout().height);
-        attackDamage.getFont().draw(sb, attackDamage.getText(), attackDamage.getPostiton().x, attackDamage.getPostiton().y + attackDamage.getGlyphLayout().height);
+        healthText.getFont().draw(sb, healthText.getText(), healthText.getPostiton().x, healthText.getPostiton().y + healthText.getGlyphLayout().height);
+        attackDamageText.getFont().draw(sb, attackDamageText.getText(), attackDamageText.getPostiton().x, attackDamageText.getPostiton().y + attackDamageText.getGlyphLayout().height);
+        goldText.getFont().draw(sb, goldText.getText(), goldText.getPostiton().x, goldText.getPostiton().y + goldText.getGlyphLayout().height);
         gameTimerText.getFont().draw(sb, gameTimerText.getText(), gameTimerText.getPostiton().x, gameTimerText.getPostiton().y + gameTimerText.getGlyphLayout().height);
+        informationText.getFont().draw(sb, informationText.getText(), informationText.getPostiton().x, informationText.getPostiton().y + informationText.getGlyphLayout().height);
         sb.end();
     }
 
@@ -66,7 +79,6 @@ public class PlayState extends State {
             }
         }
     }
-
 
     public void pause() {
         runningSeconds = gameTimer.getSeconds();
@@ -84,6 +96,4 @@ public class PlayState extends State {
     public void setGameTimerText(String text) {
         gameTimerText.setText(text);
     }
-
-
 }

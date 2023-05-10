@@ -7,6 +7,8 @@ import com.mygdx.game.states.GameStateManager;
 import com.mygdx.game.states.PauseState;
 import com.mygdx.game.states.PlayState;
 
+import java.util.concurrent.TimeUnit;
+
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.items.HealthLabel.HEALTH_CHARACTER;
@@ -21,6 +23,8 @@ public class PlayerLabel extends GameObjectLabel {
 	private String previousCharacter;
 	private int health = 10;
 	private int attackDamage = 5;
+	private int gold = 0;
+	private String information = "";
 
 	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY) {
 		super(playerCharacter, style);
@@ -96,7 +100,7 @@ public class PlayerLabel extends GameObjectLabel {
 
 	}
 
-	private void collectItems(String character, Grid grid){
+	private void collectItems(String character, Grid grid) {
 
 		switch (character) {
 			case SWORD_CHARACTER: previousCharacter = ROOM_CHARACTER; setAttackDamage(grid.getGrid()[gridPosY][gridPosX].getObjectValue()); break;
@@ -110,7 +114,10 @@ public class PlayerLabel extends GameObjectLabel {
 	}
 
 	public void setHealth(int health) {
-		this.health = health;
+		if(this.health < health) {
+			this.health = health;
+			setInformation("Health collected with value: " + attackDamage);
+		}
 	}
 
 	public int getAttackDamage() {
@@ -118,7 +125,25 @@ public class PlayerLabel extends GameObjectLabel {
 	}
 
 	public void setAttackDamage(int attackDamage) {
-		this.attackDamage = attackDamage;
+		if(this.attackDamage < attackDamage) {
+			this.attackDamage = attackDamage;
+			setInformation("Sword collected with value: " + attackDamage);
+		} else {
+			this.gold += attackDamage;
+			setInformation("Sword was converted into gold");
+		}
+	}
+
+	public int getGold() {
+		return gold;
+	}
+
+	public String getInformation() {
+		return information;
+	}
+
+	public void setInformation(String information) {
+		this.information = information;
 	}
 
 	public void dispose() {

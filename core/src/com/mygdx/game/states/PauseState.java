@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.sprites.Text;
+import com.mygdx.game.sprites.font.Font;
 
 public class PauseState extends State {
 
@@ -13,6 +14,7 @@ public class PauseState extends State {
     private final Text restartText;
     private final Text returnToMenuText;
     private final Text closeGameText;
+    private final BitmapFont font = new Font().setFont();
 
     private final int textHeight = 75; // ? how to get height of text
 
@@ -21,11 +23,11 @@ public class PauseState extends State {
     public PauseState(GameStateManager gsm, PlayState playState) {
         super(gsm);
         this.playState = playState;
-        pauseText = new Text("Pause", State.WIDTH / 2F, State.HEIGHT * 0.9F);
-        resumeText = new Text("Resume", State.WIDTH / 2F, State.HEIGHT * 0.6F);
-        restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.6F - textHeight);
-        returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.6F - 2 * textHeight);
-        closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.6F - 3 * textHeight);
+        pauseText = new Text("Pause", State.WIDTH / 2F, State.HEIGHT * 0.9F, font, true);
+        resumeText = new Text("Resume", State.WIDTH / 2F, State.HEIGHT * 0.6F, font, true);
+        restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.6F - textHeight, font, true);
+        returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.6F - 2 * textHeight, font, true);
+        closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.6F - 3 * textHeight, font, true);
     }
 
     @Override
