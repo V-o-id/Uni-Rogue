@@ -41,6 +41,7 @@ public class PauseState extends State {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             //close pause
+            volumeSlider.remove();
             playState.resume();
             gsm.pop();
         }
@@ -49,6 +50,7 @@ public class PauseState extends State {
             int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
             if (resumeText.isClicked(x, y)) {
                 //close pause
+                volumeSlider.remove();
                 playState.resume();
                 gsm.pop();
             }
@@ -59,6 +61,7 @@ public class PauseState extends State {
             }
             if (returnToMenuText.isClicked(x, y)) {
                 //return to menu
+                volumeSlider.remove();
                 gsm.pop();
                 gsm.pop();
             }

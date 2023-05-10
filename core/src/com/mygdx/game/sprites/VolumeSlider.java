@@ -51,4 +51,9 @@ public class VolumeSlider extends Slider {
         super.draw(sb, parentAlpha);
     }
 
+    @Override
+    public boolean remove() {
+        return stage.getActors().removeValue(this, true);
+    }
+
 }
