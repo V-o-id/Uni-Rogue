@@ -17,7 +17,6 @@ public class Text {
     this.text = text;
 
     font = new Font().setBitmapFont();
-
     glyphLayout = new GlyphLayout();
     glyphLayout.setText(font, text);
 

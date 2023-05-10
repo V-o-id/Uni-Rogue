@@ -7,7 +7,6 @@ import com.mygdx.game.states.State;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Grid extends Label {
 
@@ -100,10 +99,9 @@ public class Grid extends Label {
             }
         }
 
-        enemyList.add(new Enemy("\uD83D\uDC0D", this, 30, 30)); //TODO: remove, just for debugging
-
-        enemyList.add(new Enemy("B", this, roomsInOrder[1].getX()+2, roomsInOrder[1].getY()+2)); //TODO: remove, just for debugging
-
+        enemyList.add(new Enemy("\uD83D\uDE00", Color.WHITE, this, 30, 30)); //TODO: remove, just for debugging
+        enemyList.add(new Enemy("\uD83D\uDC0D", Color.WHITE, this, 30, 30)); //TODO: remove, just for debugging
+        enemyList.add(new Enemy("B", Color.WHITE, this, roomsInOrder[1].getX()+2, roomsInOrder[1].getY()+2)); //TODO: remove, just for debugging
     }
 
     private void drawRoomMatrixToGrid(LabelStyle style){
