@@ -1,14 +1,15 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.mygdx.game.sprites.Text;
+import com.mygdx.game.sprites.VolumeSlider;
 
 public class OptionState extends State {
     //private final Text;
@@ -21,10 +22,14 @@ public class OptionState extends State {
 
     private TextButton textButton;
 
+    private final VolumeSlider volumeSlider;
+    private final Text backText;
+
     OptionState(final GameStateManager gsm){
         super(gsm);
-        ExtendViewport extendViewPort = new ExtendViewport(700, 1200, new OrthographicCamera());
-        stage = new Stage(extendViewPort);
+      //  ExtendViewport extendViewPort = new ExtendViewport(700, 1200, new OrthographicCamera());
+      //  stage = new Stage(extendViewPort);
+        stage = new Stage();
 
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         //skin.get("font-label", BitmapFont.class).getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -53,6 +58,15 @@ public class OptionState extends State {
                 file.writeString(inputField.getText(), false);
             }
         });
+
+
+
+
+        volumeSlider = new VolumeSlider(State.WIDTH / 2f, State.HEIGHT / 3.5f, State.WIDTH / 4F, 100, 0, 1, 0.001f, false, stage);
+        stage.addActor(volumeSlider);
+
+        backText = new Text("Back to Menu", State.WIDTH / 2f, 50);
+
 
         Gdx.input.setInputProcessor(stage);
 
@@ -83,15 +97,27 @@ public class OptionState extends State {
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
+        backText.getFont().draw(sb, backText.getText(), backText.getPostiton().x, backText.getPostiton().y + backText.getGlyphLayout().height);
         sb.end();
     }
 
     @Override
     protected void handleInput() {
+
+        if(Gdx.input.isTouched()){
+            if(backText.isClicked(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
+                gsm.pop();
+            }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            gsm.pop();
+        }
     }
 
     @Override
     public void update(float dt) {
+        handleInput();
     }
 
     @Override

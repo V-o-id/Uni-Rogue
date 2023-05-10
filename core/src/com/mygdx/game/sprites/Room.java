@@ -1,9 +1,8 @@
 package com.mygdx.game.sprites;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.gameObjects.RoomLabel;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class Room {
 

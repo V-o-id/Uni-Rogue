@@ -2,9 +2,10 @@ package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.sprites.Text;
+import com.mygdx.game.sprites.VolumeSlider;
 import com.mygdx.game.sprites.font.Font;
 
 public class PauseState extends State {
@@ -16,18 +17,22 @@ public class PauseState extends State {
     private final Text closeGameText;
     private final BitmapFont font = new Font().setFont();
 
+    private final VolumeSlider volumeSlider;
+
     private final int textHeight = 75; // ? how to get height of text
 
     PlayState playState;
-
+    Stage stage;
     public PauseState(GameStateManager gsm, PlayState playState) {
         super(gsm);
+        stage = new Stage();
         this.playState = playState;
-        pauseText = new Text("Pause", State.WIDTH / 2F, State.HEIGHT * 0.9F, font, true);
-        resumeText = new Text("Resume", State.WIDTH / 2F, State.HEIGHT * 0.6F, font, true);
-        restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.6F - textHeight, font, true);
-        returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.6F - 2 * textHeight, font, true);
-        closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.6F - 3 * textHeight, font, true);
+        pauseText = new Text("Pause", State.WIDTH / 2F, State.HEIGHT * 0.9F);
+        resumeText = new Text("Resume", State.WIDTH / 2F, State.HEIGHT * 0.65F);
+        restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.65F - textHeight);
+        returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.65F - 2 * textHeight);
+        closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.65F - 3 * textHeight);
+        volumeSlider = new VolumeSlider(State.WIDTH / 2F, State.HEIGHT * 0.65F - 6 * textHeight, State.WIDTH/4F, 100, 0f, 1f, 0.001f, false, new Stage());
     }
 
     @Override
@@ -40,26 +45,32 @@ public class PauseState extends State {
         }
 
         if (Gdx.input.isTouched()) {
-            if (resumeText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())) {
+            int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
+            if (resumeText.isClicked(x, y)) {
                 //close pause
                 playState.resume();
                 gsm.pop();
             }
-            if (restartText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())) {
+            if (restartText.isClicked(x, y)) {
                 //restart game
+                gsm.pop();
                 gsm.set(new PlayState(gsm));
             }
-            if (returnToMenuText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())) {
+            if (returnToMenuText.isClicked(x, y)) {
                 //return to menu
-                gsm.set(new MenuState(gsm));
+                gsm.pop();
+                gsm.pop();
             }
-            if (closeGameText.getRectangle().contains(Gdx.input.getX(), HEIGHT - Gdx.input.getY())) {
+            if (closeGameText.isClicked(x, y)) {
                 //close game
                 Gdx.app.exit();
             }
+
         }
 
     }
+
+
 
     @Override
     public void update(float dt) {
@@ -76,6 +87,8 @@ public class PauseState extends State {
         restartText.getFont().draw(sb, restartText.getText(), restartText.getPostiton().x, restartText.getPostiton().y + restartText.getGlyphLayout().height);
         returnToMenuText.getFont().draw(sb, returnToMenuText.getText(), returnToMenuText.getPostiton().x, returnToMenuText.getPostiton().y + returnToMenuText.getGlyphLayout().height);
         closeGameText.getFont().draw(sb, closeGameText.getText(), closeGameText.getPostiton().x, closeGameText.getPostiton().y + closeGameText.getGlyphLayout().height);
+
+        volumeSlider.draw(sb, 1);
 
         sb.end();
 

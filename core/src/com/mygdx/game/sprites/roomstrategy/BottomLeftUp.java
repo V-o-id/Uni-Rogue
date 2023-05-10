@@ -1,6 +1,5 @@
 package com.mygdx.game.sprites.roomstrategy;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.sprites.Room;
 
 import java.util.Random;
@@ -38,7 +37,7 @@ public class BottomLeftUp extends RoomStrategy {
                 int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / roomsPerColumn + 2, parcelCols);
                 int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / roomsPerRow + 2, parcelRows);
 
-                roomMatrix[row][col] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
+                roomMatrix[row][col] = new Room(parcelCols * col, parcelRows * row + 1, roomWidth, roomHeight, roomCounter);
                 roomsInOrder[roomCounter] = roomMatrix[row][col];
 
                 if(isLeftToRight){

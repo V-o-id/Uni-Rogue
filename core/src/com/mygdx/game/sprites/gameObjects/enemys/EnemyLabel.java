@@ -7,9 +7,9 @@ import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 
 import java.util.Random;
 
-import static com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel.EnemyState.*;
-import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
+import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
+import static com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel.EnemyState.IDLE;
 
 public class EnemyLabel extends GameObjectLabel {
     enum EnemyState {
