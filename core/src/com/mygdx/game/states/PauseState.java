@@ -38,6 +38,7 @@ public class PauseState extends State {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             //close pause
+            volumeSlider.remove();
             playState.resume();
             gsm.pop();
         }
@@ -46,16 +47,19 @@ public class PauseState extends State {
             int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
             if (resumeText.isClicked(x, y)) {
                 //close pause
+                volumeSlider.remove();
                 playState.resume();
                 gsm.pop();
             }
             if (restartText.isClicked(x, y)) {
                 //restart game
+                volumeSlider.remove();
                 gsm.pop();
                 gsm.set(new PlayState(gsm));
             }
             if (returnToMenuText.isClicked(x, y)) {
                 //return to menu
+                volumeSlider.remove();
                 gsm.pop();
                 gsm.pop();
             }

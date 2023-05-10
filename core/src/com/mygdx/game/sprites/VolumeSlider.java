@@ -43,6 +43,11 @@ public class VolumeSlider extends Slider {
     }
 
     @Override
+    public boolean remove() {
+        return stage.getActors().removeValue(this, true);
+    }
+
+    @Override
     public void draw(Batch sb, float parentAlpha) {
         volumeText.getFont().draw(sb, volumeText.getText(), volumeText.getPostiton().x, volumeText.getPostiton().y + volumeText.getGlyphLayout().height);
         super.draw(sb, parentAlpha);

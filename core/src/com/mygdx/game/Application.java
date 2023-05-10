@@ -21,7 +21,7 @@ public class Application extends ApplicationAdapter {
     private SpriteBatch batch;
     private Viewport viewport;
     private static Music music;
-    private static float musicVolume = 0.05f;
+    private static float musicVolume = 0.025f;
 
 
     @Override
