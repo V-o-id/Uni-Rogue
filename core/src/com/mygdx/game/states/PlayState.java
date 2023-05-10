@@ -32,7 +32,7 @@ public class PlayState extends State {
         attackDamage = new Text("Attack Damage: " + grid.getPlayer().getAttackDamage(), State.WIDTH / 2F, State.HEIGHT - healthbar.getGlyphLayout().height - 70);
         gameTimerText = new Text("Time: " + gameTimer.getSeconds(), State.WIDTH / 2F, State.HEIGHT - healthbar.getGlyphLayout().height - attackDamage.getGlyphLayout().height - 90);
         roomText = new Text("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber()+1) + "/" + (grid.getRooms().length), State.WIDTH / 2F, State.HEIGHT - healthbar.getGlyphLayout().height - attackDamage.getGlyphLayout().height - gameTimerText.getGlyphLayout().height - 110);
-        pauseText = new Text("Pause", 100,  State.HEIGHT-50);
+        pauseText = new Text("Pause", State.WIDTH-150,  State.HEIGHT-50);
     }
 
     @Override
