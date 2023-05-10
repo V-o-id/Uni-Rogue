@@ -2,6 +2,7 @@ package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.sprites.Text;
@@ -15,7 +16,7 @@ public class PauseState extends State {
     private final Text restartText;
     private final Text returnToMenuText;
     private final Text closeGameText;
-    private final BitmapFont font = new Font().setFont();
+    private final BitmapFont font = new Font().setBitmapFont();
 
     private final VolumeSlider volumeSlider;
 
@@ -27,11 +28,11 @@ public class PauseState extends State {
         super(gsm);
         stage = new Stage();
         this.playState = playState;
-        pauseText = new Text("Pause", State.WIDTH / 2F, State.HEIGHT * 0.9F);
-        resumeText = new Text("Resume", State.WIDTH / 2F, State.HEIGHT * 0.65F);
-        restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.65F - textHeight);
-        returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.65F - 2 * textHeight);
-        closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.65F - 3 * textHeight);
+        pauseText = new Text("Pause", State.WIDTH / 2F, State.HEIGHT * 0.9F, font, true);
+        resumeText = new Text("Resume", State.WIDTH / 2F, State.HEIGHT * 0.65F, font, true);
+        restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.65F - textHeight, font, true);
+        returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.65F - 2 * textHeight, font, true);
+        closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.65F - 3 * textHeight, font, true);
         volumeSlider = new VolumeSlider(State.WIDTH / 2F, State.HEIGHT * 0.65F - 6 * textHeight, State.WIDTH/4F, 100, 0f, 1f, 0.001f, false, new Stage());
     }
 

@@ -3,6 +3,7 @@ package com.mygdx.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.VolumeSlider;
+import com.mygdx.game.sprites.font.Font;
 
 public class OptionState extends State {
     //private final Text;
@@ -19,11 +21,10 @@ public class OptionState extends State {
     //String userInput;
     private Stage stage;
     Label character;
-
     private TextButton textButton;
-
     private final VolumeSlider volumeSlider;
     private final Text backText;
+    private final BitmapFont font = new Font().setBitmapFont();
 
     OptionState(final GameStateManager gsm){
         super(gsm);
@@ -65,7 +66,7 @@ public class OptionState extends State {
         volumeSlider = new VolumeSlider(State.WIDTH / 2f, State.HEIGHT / 3.5f, State.WIDTH / 4F, 100, 0, 1, 0.001f, false, stage);
         stage.addActor(volumeSlider);
 
-        backText = new Text("Back to Menu", State.WIDTH / 2f, 50);
+        backText = new Text("Back to Menu", State.WIDTH / 2f, 50, font, true);
 
 
         Gdx.input.setInputProcessor(stage);

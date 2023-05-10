@@ -56,9 +56,6 @@ public class Grid {
         generateRooms(style);
 
 
-
-
-
         //set player into grid
         int playerX = getRooms()[0].getX();
         int playerY = getRooms()[0].getY();
@@ -127,8 +124,8 @@ public class Grid {
             }
         }
 
-        enemyLabelList.add(new EnemyLabel("\uD83D\uDC0D", this, 30, 30)); //TODO: remove, just for debugging
-        enemyLabelList.add(new EnemyLabel("B", this, roomsInOrder[1].getX()+2, roomsInOrder[1].getY()+2)); //TODO: remove, just for debugging
+        enemyLabelList.add(new EnemyLabel("\uD83D\uDC0D", style,this, 30, 30)); //TODO: remove, just for debugging
+        enemyLabelList.add(new EnemyLabel("B", style, this, roomsInOrder[1].getX()+2, roomsInOrder[1].getY()+2)); //TODO: remove, just for debugging
 
     }
 

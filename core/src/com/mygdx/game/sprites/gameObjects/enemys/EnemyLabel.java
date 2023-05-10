@@ -22,8 +22,8 @@ public class EnemyLabel extends GameObjectLabel {
     private final Random random = new Random();
     private EnemyState state = IDLE;
 
-    public EnemyLabel(String enemyCharacter, Grid grid, int gridPosX, int gridPosY) {
-        super(enemyCharacter, new LabelStyle(new Font().setFont(), Color.WHITE));
+    public EnemyLabel(String enemyCharacter, LabelStyle style, Grid grid, int gridPosX, int gridPosY) {
+        super(enemyCharacter,style );
         this.grid = grid;
         this.gridPosX = gridPosX;
         this.gridPosY = gridPosY;

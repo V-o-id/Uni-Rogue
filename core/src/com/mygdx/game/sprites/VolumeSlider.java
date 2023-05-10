@@ -3,18 +3,21 @@ package com.mygdx.game.sprites;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.Application;
+import com.mygdx.game.sprites.font.Font;
 
 public class VolumeSlider extends Slider {
 
     private final Text volumeText;
     private final float x, y, width, height;
     private final Stage stage;
+    private final BitmapFont font = new Font().setBitmapFont();
 
     public VolumeSlider(float x, float y, float width, float height, float min, float max, float stepSize, boolean vertical, Stage stage) {
         super(min, max, stepSize, vertical, new Skin(Gdx.files.internal("uiskin.json")));
@@ -23,7 +26,7 @@ public class VolumeSlider extends Slider {
         this.y = y;
         this.width = width;
         this.height = height;
-        volumeText = new Text("Volume", x, y);
+        volumeText = new Text("Volume", x, y, font, true);
         createSlider();
     }
 

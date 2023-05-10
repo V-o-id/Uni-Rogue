@@ -8,7 +8,6 @@ import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.GameTimer;
 
-import java.util.concurrent.TimeUnit;
 
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
@@ -23,7 +22,7 @@ public class PlayState extends State {
     private final Text goldText;
     private final Text gameTimerText;
     private final Text informationText;
-    BitmapFont font = new Font().setFont();
+    BitmapFont font = new Font().setBitmapFont();
 
     private static boolean running = true;
 
