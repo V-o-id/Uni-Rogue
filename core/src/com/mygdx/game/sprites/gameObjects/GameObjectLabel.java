@@ -7,6 +7,7 @@ import com.mygdx.game.sprites.EmojiSupport;
 
 public class GameObjectLabel extends Label {
 
+
     public GameObjectLabel(String text, LabelStyle style) {
         super(text, style);
         if (isEmoji(text)) {

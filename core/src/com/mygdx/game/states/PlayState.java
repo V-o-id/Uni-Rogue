@@ -30,6 +30,8 @@ public class PlayState extends State {
 
     private long runningSeconds = 0;
     private GameTimer gameTimer = new GameTimer(0, this);
+    private Thread gameTimerThread = new Thread(gameTimer);
+
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
@@ -41,6 +43,8 @@ public class PlayState extends State {
         roomText = new Text("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber()+1) + "/" + (grid.getRooms().length), 250, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -60, font, false);
         informationText = new Text("", 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -gameTimerText.getGlyphLayout().height - 80, font, false);
         pauseText = new Text("Pause", State.WIDTH-150,  State.HEIGHT-50, font, false);
+        gameTimerThread.start();
+       // new Thread(gameTimer).start();
     }
 
     @Override
@@ -88,17 +92,23 @@ public class PlayState extends State {
         }
     }
 
-    public void pause() {
-        runningSeconds = gameTimer.getSeconds();
-        gameTimer.pause();
-        running = false;
-    }
     public boolean isRunning() {
         return running;
     }
+
+    public void pause() {
+        runningSeconds = gameTimer.getSeconds();
+        gameTimer.pause();
+        gameTimerThread = null;
+        gameTimer = null;
+        running = false;
+    }
+
     public void resume() {
         running = true;
-        gameTimer = new GameTimer(runningSeconds, this); // resume doesn't work ? (would crash)
+        gameTimer = new GameTimer(runningSeconds, this);
+        gameTimerThread = new Thread(gameTimer);
+        gameTimerThread.start();
     }
 
     public void setGameTimerText(String text) {

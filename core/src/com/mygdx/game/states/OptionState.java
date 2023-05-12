@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.VolumeSlider;
 import com.mygdx.game.sprites.font.Font;
+//import org.apache.commons.text.StringEscapeUtils;
 
 public class OptionState extends State {
     //private final Text;
@@ -55,6 +56,9 @@ public class OptionState extends State {
                 gsm.set(new MenuState(gsm));
                 //write character into textfile
                 FileHandle file = Gdx.files.local("selectedCharacter.txt");
+
+//                String text = inputField.getText();
+
                 file.writeString(inputField.getText(), false);
             }
         });
