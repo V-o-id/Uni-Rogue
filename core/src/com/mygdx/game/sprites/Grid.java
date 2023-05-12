@@ -17,8 +17,8 @@ public class Grid extends Label {
     private final int ROOMS_PER_COLUMN = 3;
     private Room[] roomsInOrder = new Room[ROOMS_PER_ROW * ROOMS_PER_COLUMN];
     private Room[][] roomMatrix = new Room[ROOMS_PER_ROW][ROOMS_PER_COLUMN];
-    public final static int ROWS = 47;
-    public final static int COLUMNS = 92;
+    public final static int ROWS = 45;
+    public final static int COLUMNS = 90;
     private final static int SPACE_BETWEEN_CHARACTERS = 20;
     private final static int START_POSX_GRID = (State.WIDTH - (COLUMNS * SPACE_BETWEEN_CHARACTERS)) / 2;
     private final static int START_POSY_GRID = (State.HEIGHT - (ROWS * SPACE_BETWEEN_CHARACTERS)) / 2;

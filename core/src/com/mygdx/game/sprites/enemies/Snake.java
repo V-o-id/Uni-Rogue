@@ -10,4 +10,5 @@ public class Snake extends Enemy {
         setHealth(30);
         setDamage(8);
     }
+
 }
