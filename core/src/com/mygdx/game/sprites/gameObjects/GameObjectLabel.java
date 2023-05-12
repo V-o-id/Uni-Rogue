@@ -38,7 +38,6 @@ public class GameObjectLabel extends Label {
     }
 
     public void setText(String newText, boolean isEmoji) {
-        System.out.println("setEmojiText " + newText);
         if (isEmoji && isEmoji(newText)) {
             handleEmojiInit(newText, this.getStyle());
         } else {
