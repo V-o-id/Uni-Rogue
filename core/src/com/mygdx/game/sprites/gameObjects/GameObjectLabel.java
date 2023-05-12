@@ -11,13 +11,13 @@ public class GameObjectLabel extends Label {
 
   public GameObjectLabel(String text, LabelStyle style) {
     super(text, style);
-    EmojiSupport emojiSupport = new EmojiSupport();
+   /* EmojiSupport emojiSupport = new EmojiSupport();
     emojiSupport.Load(Gdx.files.internal("fonts/emojis25.atlas"));
     emojiSupport.AddEmojisToFont(style.font);
 
-    String filteredCharacter = emojiSupport.FilterEmojis(text);
+    String filteredCharacter = emojiSupport.FilterEmojis(text);*/
     super.setStyle(style);
-    super.setText(filteredCharacter);
+   // super.setText(filteredCharacter);
   }
 
   public String getLabelString() {
