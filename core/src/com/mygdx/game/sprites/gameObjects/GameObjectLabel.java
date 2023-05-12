@@ -9,6 +9,7 @@ import com.mygdx.game.sprites.font.Font;
 
 public class GameObjectLabel extends Label {
 
+
     public GameObjectLabel(String text, LabelStyle style) {
         super(text, style);
         if (isEmoji(text)) {

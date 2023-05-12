@@ -2,7 +2,7 @@ package com.mygdx.game.sprites.gameObjects;
 
 import com.mygdx.game.states.PlayState;
 
-public class GameTimer  implements Runnable {
+public class GameTimer implements Runnable {
 
     private long seconds;
     private boolean running = true;
@@ -11,8 +11,6 @@ public class GameTimer  implements Runnable {
     public GameTimer(long seconds, PlayState playState) {
         this.seconds = seconds;
         this.playState = playState;
-        Thread thread = new Thread(this);
-        thread.start();
     }
     @Override
     public void run() {
