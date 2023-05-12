@@ -12,8 +12,6 @@ public class BottomLeftHalfInUp extends RoomStrategy {
 
     @Override
     public Room[][] alignRooms(int gridRows, int gridCols) {
-        System.out.println("BottomLeftHalfInUp");
-
         alignRoomsBottomLeftHalfInUp(gridRows, gridCols);
 
         roomsInOrder[0].setHasInboundPath(true);

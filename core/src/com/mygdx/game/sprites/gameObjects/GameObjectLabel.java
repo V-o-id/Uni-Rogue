@@ -2,26 +2,39 @@ package com.mygdx.game.sprites.gameObjects;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.sprites.EmojiSupport;
-import com.mygdx.game.sprites.font.Font;
 
 public class GameObjectLabel extends Label {
 
 
+    /**
+     * if isEmoji is unknown use this constructor
+     */
     public GameObjectLabel(String text, LabelStyle style) {
         super(text, style);
         if (isEmoji(text)) {
-            EmojiSupport emojiSupport = new EmojiSupport();
-            emojiSupport.Load(Gdx.files.internal("fonts/emojis25.atlas"));
-            emojiSupport.AddEmojisToFont(style.font);
-
-            String filteredCharacter = emojiSupport.FilterEmojis(text);
-            super.setStyle(style);
-            super.setText(filteredCharacter);
+            handleEmojiInit(text, style);
         }
+    }
 
+    /**
+     * if isEmoji is known (false or true) use this constructor
+     */
+    public GameObjectLabel(String text, LabelStyle style, boolean isEmoji) {
+        super(text, style);
+        if (isEmoji && isEmoji(text)) {
+            handleEmojiInit(text, style);
+        }
+    }
+
+    private void handleEmojiInit(String text, LabelStyle style) {
+        EmojiSupport emojiSupport = new EmojiSupport();
+        emojiSupport.Load(Gdx.files.internal("fonts/emojis25.atlas"));
+        emojiSupport.AddEmojisToFont(style.font);
+        String filteredCharacter = emojiSupport.FilterEmojis(text);
+        super.setStyle(style);
+        super.setText(filteredCharacter);
     }
 
     public String getLabelString() {

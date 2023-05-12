@@ -9,8 +9,6 @@ import com.mygdx.game.states.PauseState;
 import com.mygdx.game.states.PlayState;
 import com.mygdx.game.states.State;
 
-import java.util.concurrent.TimeUnit;
-
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.items.HealthLabel.HEALTH_CHARACTER;
@@ -72,9 +70,9 @@ public class PlayerLabel extends GameObjectLabel {
 				if(hasGoneOnPath && !topCharacter.equals(PATH_CHARACTER)){
 					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
 				}
-			}
-			if(!topCharacter.equals(PATH_CHARACTER)) {
-				hasGoneOnPath = false;
+				if(!topCharacter.equals(PATH_CHARACTER)) {
+					hasGoneOnPath = false;
+				}
 			}
 		}
 
@@ -96,9 +94,9 @@ public class PlayerLabel extends GameObjectLabel {
 				if(hasGoneOnPath && !bottomCharacter.equals(PATH_CHARACTER)){
 					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
 				}
-			}
-			if(!bottomCharacter.equals(PATH_CHARACTER)) {
-				hasGoneOnPath = false;
+				if(!bottomCharacter.equals(PATH_CHARACTER)) {
+					hasGoneOnPath = false;
+				}
 			}
 		}
 
@@ -118,9 +116,9 @@ public class PlayerLabel extends GameObjectLabel {
 				if(hasGoneOnPath && !leftCharacter.equals(PATH_CHARACTER)){
 					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
 				}
-			}
-			if(!leftCharacter.equals(PATH_CHARACTER)) {
-				hasGoneOnPath = false;
+				if(!leftCharacter.equals(PATH_CHARACTER)) {
+					hasGoneOnPath = false;
+				}
 			}
 		}
 
@@ -140,9 +138,9 @@ public class PlayerLabel extends GameObjectLabel {
 				if(hasGoneOnPath && !rightCharacter.equals(PATH_CHARACTER)){
 					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
 				}
-			}
-			if(!rightCharacter.equals(PATH_CHARACTER)) {
-				hasGoneOnPath = false;
+				if(!rightCharacter.equals(PATH_CHARACTER)) {
+					hasGoneOnPath = false;
+				}
 			}
 		}
 
