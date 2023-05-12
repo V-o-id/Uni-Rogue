@@ -2,9 +2,9 @@ package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.sprites.font.Font;
 
 public class Text {
 
@@ -28,7 +28,7 @@ public class Text {
     }
 
     rectangle = new Rectangle();
-    rectangle.set(getPostiton().x, getPostiton().y, getGlyphLayout().width, getGlyphLayout().height);
+    rectangle.set(getPosition().x, getPosition().y, getGlyphLayout().width, getGlyphLayout().height);
   }
 
   public String getText() {
@@ -43,14 +43,9 @@ public class Text {
     return font;
   }
 
-  public Rectangle getRectangle() {
-    return rectangle;
-  }
-
-  public Vector3 getPostiton() {
+  public Vector3 getPosition() {
     return position;
   }
-
   public void setText(String text) {
     this.text = text;
   }
@@ -59,4 +54,7 @@ public class Text {
     return rectangle.contains(x, y);
   }
 
+  public void drawText(SpriteBatch sb){
+    font.draw(sb, text, position.x, position.y + glyphLayout.height);
+  }
 }

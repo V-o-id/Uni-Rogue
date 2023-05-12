@@ -12,8 +12,6 @@ public class BottomRightStraightUp extends RoomStrategy {
 
     @Override
     public Room[][] alignRooms(int gridRows, int gridCols) {
-        System.out.println("BottomRightStraightUp");
-
         alignBottomRightStraightUp(gridRows, gridCols);
 
         roomsInOrder[0].setHasInboundPath(true);

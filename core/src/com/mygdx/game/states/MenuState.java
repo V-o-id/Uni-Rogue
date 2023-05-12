@@ -55,10 +55,10 @@ public class MenuState extends State {
   @Override
   public void render(SpriteBatch sb) {
     sb.begin();
-    startGameText.getFont().draw(sb, startGameText.getText(), startGameText.getPostiton().x, startGameText.getPostiton().y + startGameText.getGlyphLayout().height);
-    optionText.getFont().draw(sb, optionText.getText(), optionText.getPostiton().x, optionText.getPostiton().y + optionText.getGlyphLayout().height);
-    highscoreText.getFont().draw(sb, highscoreText.getText(), highscoreText.getPostiton().x, highscoreText.getPostiton().y + highscoreText.getGlyphLayout().height);
-    exitText.getFont().draw(sb, exitText.getText(), exitText.getPostiton().x, exitText.getPostiton().y + exitText.getGlyphLayout().height);
+    startGameText.drawText(sb);
+    optionText.drawText(sb);
+    highscoreText.drawText(sb);
+    exitText.drawText(sb);
     sb.end();
   }
 
