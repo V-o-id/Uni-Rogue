@@ -3,25 +3,20 @@ package com.mygdx.game.sprites;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.sprites.font.Font;
-import com.mygdx.game.sprites.gameObjects.RoomLabel;
-import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.gameObjects.PlayerLabel;
-import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
+import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
+import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.*;
 import com.mygdx.game.sprites.gameObjects.items.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 import com.mygdx.game.sprites.gameObjects.items.SwordLabel;
-import com.mygdx.game.sprites.roomstrategy.BottomLeftHalfInUp;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategy;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
 import com.mygdx.game.sprites.roomstrategy.Strategies;
 import com.mygdx.game.states.State;
-import com.mygdx.game.sprites.enemies.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Grid {
     private static final int ROOMS_PER_ROW = 3;
@@ -103,7 +98,7 @@ public class Grid {
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < COLUMNS; x++) {
                 if (grid[y][x] == null) {
-                    grid[y][x] = new Label(" ", style);
+                    grid[y][x] = new GameObjectLabel(" ", style);
                     grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
                 }
             }
@@ -112,12 +107,12 @@ public class Grid {
         //Spawn 1-3 random enemy types in every room
         for(Room room: roomsInOrder) {
             for(int i = (int)(Math.random() * 3); i < 3; i++){
-                if ((int) (Math.random() * Enemy.NUM_OF_ENEMY_TYPES) == 0) {
-                    enemyList.add(new Snake(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
-                } else if ((int) (Math.random() * Enemy.NUM_OF_ENEMY_TYPES) == 1) {
-                    enemyList.add(new Goblin(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                if ((int) (Math.random() * EnemyLabel.NUM_OF_ENEMY_TYPES) == 0) {
+                    enemyLabelList.add(new Snake(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                } else if ((int) (Math.random() * EnemyLabel.NUM_OF_ENEMY_TYPES) == 1) {
+                    enemyLabelList.add(new Goblin(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
                 } else {
-                    enemyList.add(new Bat(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                    enemyLabelList.add(new Bat(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
                 }
             }
         }
@@ -202,7 +197,7 @@ public class Grid {
             }
         }
     }
-    public void removeEnemy(Enemy enemy) {
-        enemyList.remove(enemy);
+    public void removeEnemy(EnemyLabel enemy) {
+        enemyLabelList.remove(enemy);
     }
 }
