@@ -12,6 +12,7 @@ public class Font {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         //parameter.characters =  "\u1F40D";
 
+
         parameter.characters += "☻" + "ダ";
         parameter.characters += "₿";
         parameter.characters += "\uD83D\uDE00";
