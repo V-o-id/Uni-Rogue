@@ -16,7 +16,7 @@ public class PauseState extends State {
     private final Text restartText;
     private final Text returnToMenuText;
     private final Text closeGameText;
-    private final BitmapFont font = new Font().setBitmapFont();
+    private final BitmapFont font = Font.getBitmapFont();
 
     private final VolumeSlider volumeSlider;
 

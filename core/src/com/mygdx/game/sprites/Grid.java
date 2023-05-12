@@ -3,8 +3,6 @@ package com.mygdx.game.sprites;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.sprites.font.Font;
-import com.mygdx.game.sprites.gameObjects.RoomLabel;
-import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.gameObjects.PlayerLabel;
 import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
@@ -16,7 +14,6 @@ import com.mygdx.game.sprites.roomstrategy.RoomStrategy;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
 import com.mygdx.game.sprites.roomstrategy.Strategies;
 import com.mygdx.game.states.State;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +39,7 @@ public class Grid {
 
     public Grid()  {
         this.grid = new GameObjectLabel[ROWS][COLUMNS];
-        style = new LabelStyle(new Font().setBitmapFont(), Color.WHITE);
+        style = new LabelStyle(Font.getBitmapFont(), Color.WHITE);
 
         int numberOfStrategies = Strategies.values().length; //get all values from enum
         while(roomStrategy == null){

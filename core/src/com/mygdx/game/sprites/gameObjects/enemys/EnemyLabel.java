@@ -1,8 +1,6 @@
 package com.mygdx.game.sprites.gameObjects.enemys;
 
-import com.badlogic.gdx.graphics.Color;
 import com.mygdx.game.sprites.Grid;
-import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 
 import java.util.Random;

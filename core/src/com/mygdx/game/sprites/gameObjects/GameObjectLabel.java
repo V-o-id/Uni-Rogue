@@ -1,25 +1,48 @@
 package com.mygdx.game.sprites.gameObjects;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.mygdx.game.sprites.EmojiSupport;
+import com.mygdx.game.sprites.font.EmojiSupport;
+import com.mygdx.game.sprites.font.EmojiSupportInstance;
 
 public class GameObjectLabel extends Label {
 
 
+    /**
+     * if isEmoji is unknown use this constructor
+     */
     public GameObjectLabel(String text, LabelStyle style) {
         super(text, style);
         if (isEmoji(text)) {
-            EmojiSupport emojiSupport = new EmojiSupport();
-            emojiSupport.Load(Gdx.files.internal("fonts/emojis25.atlas"));
-            emojiSupport.AddEmojisToFont(style.font);
-
-            String filteredCharacter = emojiSupport.FilterEmojis(text);
-            super.setStyle(style);
-            super.setText(filteredCharacter);
+            handleEmojiInit(text, style);
         }
+    }
 
+    /**
+     * if isEmoji is known (false or true) use this constructor
+     */
+    public GameObjectLabel(String text, LabelStyle style, boolean isEmoji) {
+        super(text, style);
+        if (isEmoji && isEmoji(text)) {
+            handleEmojiInit(text, style);
+        }
+    }
+
+    private void handleEmojiInit(String text, LabelStyle style) {
+        EmojiSupport emojiSupport = EmojiSupportInstance.getEmojiSupport();
+
+        String filteredCharacter = emojiSupport.FilterEmojis(text);
+
+        super.setStyle(style);
+        super.setText(filteredCharacter);
+    }
+
+    public void setText(String newText, boolean isEmoji) {
+        if (isEmoji && isEmoji(newText)) {
+            handleEmojiInit(newText, this.getStyle());
+        } else {
+            super.setText(newText);
+        }
     }
 
     public String getLabelString() {
@@ -32,7 +55,7 @@ public class GameObjectLabel extends Label {
         return 0;
     }
 
-    private static boolean isEmoji(String message) {
+    static boolean isEmoji(String message) {
         return message.matches("(?:[\uD83C\uDF00-\uD83D\uDDFF]|[\uD83E\uDD00-\uD83E\uDDFF]|" +
                 "[\uD83D\uDE00-\uD83D\uDE4F]|[\uD83D\uDE80-\uD83D\uDEFF]|" +
                 "[\u2600-\u26FF]\uFE0F?|[\u2700-\u27BF]\uFE0F?|\u24C2\uFE0F?|" +
@@ -45,4 +68,5 @@ public class GameObjectLabel extends Label {
                 "[\u00A9\u00AE]\uFE0F?|[\u2122\u2139]\uFE0F?|\uD83C\uDC04\uFE0F?|\uD83C\uDCCF\uFE0F?|" +
                 "[\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA]\uFE0F?)+");
     }
+
 }

@@ -13,7 +13,6 @@ public class TopLeftDown extends RoomStrategy {
 
     @Override
     public Room[][] alignRooms(final int gridRows, final int gridCols) {
-
         alignRoomsTopLeftDown(gridRows, gridCols);
 
         roomsInOrder[0].setHasInboundPath(true);

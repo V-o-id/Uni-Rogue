@@ -8,7 +8,6 @@ import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.GameTimer;
 
-
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
 
@@ -24,13 +23,12 @@ public class PlayState extends State {
     private final Text informationText;
     public final Text pauseText;
     private final Text roomText;
-    BitmapFont font = new Font().setBitmapFont();
+    BitmapFont font = Font.getBitmapFont();
 
-    private static boolean running = true;
+    private static boolean running = false;
 
-    private long runningSeconds = 0;
-    private GameTimer gameTimer = new GameTimer(0, this);
-    private Thread gameTimerThread = new Thread(gameTimer);
+    private final GameTimer gameTimer = new GameTimer(0, this);
+    private final Thread gameTimerThread = new Thread(gameTimer);
 
 
     public PlayState(GameStateManager gsm) {
@@ -43,8 +41,8 @@ public class PlayState extends State {
         roomText = new Text("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber()+1) + "/" + (grid.getRooms().length), 250, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -60, font, false);
         informationText = new Text("", 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -gameTimerText.getGlyphLayout().height - 80, font, false);
         pauseText = new Text("Pause", State.WIDTH-150,  State.HEIGHT-50, font, false);
+        running = true;
         gameTimerThread.start();
-       // new Thread(gameTimer).start();
     }
 
     @Override
@@ -97,18 +95,15 @@ public class PlayState extends State {
     }
 
     public void pause() {
-        runningSeconds = gameTimer.getSeconds();
-        gameTimer.pause();
-        gameTimerThread = null;
-        gameTimer = null;
+        gameTimerThread.interrupt();
         running = false;
     }
 
     public void resume() {
         running = true;
-        gameTimer = new GameTimer(runningSeconds, this);
-        gameTimerThread = new Thread(gameTimer);
-        gameTimerThread.start();
+        synchronized (gameTimerThread) {
+            gameTimerThread.notify();
+        }
     }
 
     public void setGameTimerText(String text) {

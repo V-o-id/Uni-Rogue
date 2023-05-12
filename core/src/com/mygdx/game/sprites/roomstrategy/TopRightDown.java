@@ -12,7 +12,6 @@ public class TopRightDown extends RoomStrategy {
 
     @Override
     public Room[][] alignRooms(int gridRows, int gridCols) {
-
         alignRoomsTopRightDown(gridRows, gridCols);
 
         roomsInOrder[0].setHasInboundPath(true);
