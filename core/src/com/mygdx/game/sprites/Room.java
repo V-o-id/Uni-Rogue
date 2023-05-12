@@ -14,13 +14,13 @@ public class Room {
     private boolean hasInboundPath = false;
     private boolean hasOutboundPath = false;
 
-    public Room (int x, int y, int width, int height, int roomNumber) {
+    public Room(int x, int y, int width, int height, int roomNumber) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.roomNumber = roomNumber;
-        if(roomNumber == 0){
+        if (roomNumber == 0) {
             hasInboundPath = true;
         }
 
@@ -33,55 +33,60 @@ public class Room {
     public int getX() {
         return x;
     }
+
     public int getY() {
         return y;
     }
+
     public int getWidth() {
         return width;
     }
+
     public int getHeight() {
         return height;
     }
+
     public int getRoomNumber() {
         return roomNumber;
     }
+
     public boolean getHasInboundPath() {
         return hasInboundPath;
     }
+
     public boolean getHasOutboundPath() {
         return hasOutboundPath;
     }
+
     public void setHasInboundPath(boolean hasInboundPath) {
         this.hasInboundPath = hasInboundPath;
     }
+
     public void setHasOutboundPath(boolean hasOutboundPath) {
         this.hasOutboundPath = hasOutboundPath;
     }
 
     public void drawRoom(GameObjectLabel[][] grid, LabelStyle style, final int SPACE_BETWEEN_CHARACTERS, final int START_POSX_GRID, final int START_POSY_GRID) {
-        for (int y = this.y; y < height+this.y; y++) {
-            for (int x = this.x; x < width+this.x; x++) {
-                try {
-                    grid[y][x] = new RoomLabel(style);
-                    grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+        for (int y = this.y; y < height + this.y; y++) {
+            for (int x = this.x; x < width + this.x; x++) {
+                grid[y][x] = new RoomLabel(style);
+                grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
             }
         }
-        System.out.println("Hi");
     }
 
     boolean isLeftOf(Room r2) {
         return r2.getX() > this.getX() + this.getWidth();
     }
+
     boolean isRightOf(Room r2) {
         return r2.getX() + r2.getWidth() < this.getX();
     }
+
     boolean isAbove(Room r2) {
         return this.getY() > r2.getY() + r2.getHeight();
     }
+
     boolean isBelow(Room r2) {
         return this.getY() + this.getHeight() < r2.getY();
     }
