@@ -97,7 +97,7 @@ public class OptionState extends State {
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-        backText.getFont().draw(sb, backText.getText(), backText.getPostiton().x, backText.getPostiton().y + backText.getGlyphLayout().height);
+        backText.getFont().draw(sb, backText.getText(), backText.getPosition().x, backText.getPosition().y + backText.getGlyphLayout().height);
         sb.end();
     }
 

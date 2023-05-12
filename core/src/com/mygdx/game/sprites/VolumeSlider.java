@@ -47,7 +47,7 @@ public class VolumeSlider extends Slider {
 
     @Override
     public void draw(Batch sb, float parentAlpha) {
-        volumeText.getFont().draw(sb, volumeText.getText(), volumeText.getPostiton().x, volumeText.getPostiton().y + volumeText.getGlyphLayout().height);
+        volumeText.getFont().draw(sb, volumeText.getText(), volumeText.getPosition().x, volumeText.getPosition().y + volumeText.getGlyphLayout().height);
         super.draw(sb, parentAlpha);
     }
 

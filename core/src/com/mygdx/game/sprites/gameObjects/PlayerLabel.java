@@ -2,14 +2,13 @@ package com.mygdx.game.sprites.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Room;
 import com.mygdx.game.states.GameStateManager;
 import com.mygdx.game.states.PauseState;
 import com.mygdx.game.states.PlayState;
 import com.mygdx.game.states.State;
-
-import java.util.concurrent.TimeUnit;
 
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
@@ -196,7 +195,7 @@ public class PlayerLabel extends GameObjectLabel {
 	public void setHealth(int health) {
 		if(this.health < health) {
 			this.health = health;
-			setInformation("Health collected with value: " + attackDamage);
+			setInformation("Health collected with value: " + health);
 		}
 	}
 
@@ -224,6 +223,18 @@ public class PlayerLabel extends GameObjectLabel {
 
 	public void setInformation(String information) {
 		this.information = information;
+		clearInformation();
+	}
+
+	public void clearInformation() {
+		if(!information.isEmpty()) {
+			Timer.schedule(new Timer.Task() {
+				@Override
+				public void run() {
+					information = "";
+				}
+			}, 3);
+		}
 	}
 
 	public void dispose() {

@@ -65,13 +65,13 @@ public class PlayState extends State {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         sb.begin();
         drawGrid(sb);
-        healthText.getFont().draw(sb, healthText.getText(), healthText.getPostiton().x, healthText.getPostiton().y + healthText.getGlyphLayout().height);
-        attackDamageText.getFont().draw(sb, attackDamageText.getText(), attackDamageText.getPostiton().x, attackDamageText.getPostiton().y + attackDamageText.getGlyphLayout().height);
-        goldText.getFont().draw(sb, goldText.getText(), goldText.getPostiton().x, goldText.getPostiton().y + goldText.getGlyphLayout().height);
-        gameTimerText.getFont().draw(sb, gameTimerText.getText(), gameTimerText.getPostiton().x, gameTimerText.getPostiton().y + gameTimerText.getGlyphLayout().height);
-        informationText.getFont().draw(sb, informationText.getText(), informationText.getPostiton().x, informationText.getPostiton().y + informationText.getGlyphLayout().height);
-        pauseText.getFont().draw(sb, pauseText.getText(), pauseText.getPostiton().x, pauseText.getPostiton().y + pauseText.getGlyphLayout().height);
-        roomText.getFont().draw(sb, roomText.getText(), roomText.getPostiton().x, roomText.getPostiton().y + roomText.getGlyphLayout().height);
+        healthText.getFont().draw(sb, healthText.getText(), healthText.getPosition().x, healthText.getPosition().y + healthText.getGlyphLayout().height);
+        attackDamageText.getFont().draw(sb, attackDamageText.getText(), attackDamageText.getPosition().x, attackDamageText.getPosition().y + attackDamageText.getGlyphLayout().height);
+        goldText.getFont().draw(sb, goldText.getText(), goldText.getPosition().x, goldText.getPosition().y + goldText.getGlyphLayout().height);
+        gameTimerText.getFont().draw(sb, gameTimerText.getText(), gameTimerText.getPosition().x, gameTimerText.getPosition().y + gameTimerText.getGlyphLayout().height);
+        informationText.getFont().draw(sb, informationText.getText(), informationText.getPosition().x, informationText.getPosition().y + informationText.getGlyphLayout().height);
+        pauseText.getFont().draw(sb, pauseText.getText(), pauseText.getPosition().x, pauseText.getPosition().y + pauseText.getGlyphLayout().height);
+        roomText.getFont().draw(sb, roomText.getText(), roomText.getPosition().x, roomText.getPosition().y + roomText.getGlyphLayout().height);
         sb.end();
     }
 
