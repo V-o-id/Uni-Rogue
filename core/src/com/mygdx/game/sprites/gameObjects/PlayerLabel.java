@@ -193,12 +193,8 @@ public class PlayerLabel extends GameObjectLabel {
 	}
 
 	public void setHealth(int health) {
-		if(this.health < health) {
-			this.health = health;
-			setInformation("Health collected with value: " + health);
-		} else {
-			setInformation("Max Health has already reached");
-		}
+		this.health += health;
+		setInformation("Health Potion collected with value: " + health);
 	}
 
 	public int getAttackDamage() {

@@ -56,29 +56,13 @@ public class Grid {
 
         generateRooms(style);
 
-
         //set player into grid
         int playerX = getRooms()[0].getX();
         int playerY = getRooms()[0].getY();
         this.playerLabel = new PlayerLabel(this, style, playerX, playerY, getRooms()[0]);
 
-        //only for testing
-        int swordX = getRooms()[1].getX();
-        int swordY = getRooms()[1].getY();
-
-        int healthX = getRooms()[2].getX();
-        int healthY = getRooms()[2].getY();
-
-        itemLabelList.add(new SwordLabel(this, style, swordX, swordY, 10));
-        itemLabelList.add(new HealthLabel(this, style, healthX, healthY, 100));
-        //
-
         // 2 - two item types: sword, health
         placeGameObjects(4, 7, 2, 0);
-    }
-
-    public List<ItemLabel> getItemList() {
-        return itemLabelList;
     }
 
     public GameObjectLabel[][] getGrid() {
@@ -199,12 +183,10 @@ public class Grid {
 
             int objectType = (int) Math.floor(Math.random() * (amountOfPlaceableObjects));
 
-            GameObjectLabel gameObjectLabel;
-
             if(type == 0) {
                 switch(objectType) {
-                    case 0: gameObjectLabel = new SwordLabel(this, style, itemPosX, itemPosY, 30); break;
-                    case 1: gameObjectLabel = new HealthLabel(this, style, itemPosX, itemPosY, 50); break;
+                    case 0: new SwordLabel(this, style, itemPosX, itemPosY, 30); break;
+                    case 1: new HealthLabel(this, style, itemPosX, itemPosY, 50); break;
                     default: return;
                 }
 

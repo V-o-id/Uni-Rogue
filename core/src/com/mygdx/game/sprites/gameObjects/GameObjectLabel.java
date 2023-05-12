@@ -2,10 +2,8 @@ package com.mygdx.game.sprites.gameObjects;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.sprites.EmojiSupport;
-import com.mygdx.game.sprites.font.Font;
 
 public class GameObjectLabel extends Label {
 
