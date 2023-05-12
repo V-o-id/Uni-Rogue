@@ -55,7 +55,6 @@ public class OptionState extends State {
                 gsm.set(new MenuState(gsm));
                 //write character into textfile
                 FileHandle file = Gdx.files.local("selectedCharacter.txt");
-                System.out.println(inputField.getText());
                 file.writeString(inputField.getText(), false);
             }
         });
