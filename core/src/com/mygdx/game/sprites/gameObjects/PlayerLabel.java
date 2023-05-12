@@ -2,6 +2,7 @@ package com.mygdx.game.sprites.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Room;
 import com.mygdx.game.states.GameStateManager;
@@ -91,6 +92,7 @@ public class PlayerLabel extends GameObjectLabel {
 					hasGoneOnPath = false;
 				}
 			}
+
 		}
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) && (gridPosY > 0)) {
@@ -115,6 +117,7 @@ public class PlayerLabel extends GameObjectLabel {
 					hasGoneOnPath = false;
 				}
 			}
+
 		}
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.A)) && (gridPosX > 0)) {
@@ -137,6 +140,7 @@ public class PlayerLabel extends GameObjectLabel {
 					hasGoneOnPath = false;
 				}
 			}
+
 		}
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.D)) && (gridPosX + 1 < Grid.COLUMNS)) {
@@ -159,6 +163,7 @@ public class PlayerLabel extends GameObjectLabel {
 					hasGoneOnPath = false;
 				}
 			}
+
 		}
 
 		if(Gdx.input.isTouched()) {
@@ -205,10 +210,8 @@ public class PlayerLabel extends GameObjectLabel {
 	}
 
 	public void setHealth(int health) {
-		if(this.health < health) {
-			this.health = health;
-			setInformation("Health collected with value: " + attackDamage);
-		}
+		this.health += health;
+		setInformation("Health Potion collected with value: " + health);
 	}
 
 	public int getAttackDamage() {
@@ -235,6 +238,18 @@ public class PlayerLabel extends GameObjectLabel {
 
 	public void setInformation(String information) {
 		this.information = information;
+		clearInformation();
+	}
+
+	public void clearInformation() {
+		if(!information.isEmpty()) {
+			Timer.schedule(new Timer.Task() {
+				@Override
+				public void run() {
+					information = "";
+				}
+			}, 3);
+		}
 	}
 
 	public void dispose() {

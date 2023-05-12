@@ -43,13 +43,8 @@ public class Application extends ApplicationAdapter {
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         gsm.update(Gdx.graphics.getDeltaTime());
         gsm.render(batch);
-
-       /* if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
-        }*/
     }
 
     @Override

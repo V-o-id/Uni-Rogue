@@ -41,6 +41,7 @@ public class PauseState extends State {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             //close pause
+            volumeSlider.remove();
             playState.resume();
             gsm.pop();
         }
@@ -49,6 +50,7 @@ public class PauseState extends State {
             int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
             if (resumeText.isClicked(x, y)) {
                 //close pause
+                volumeSlider.remove();
                 playState.resume();
                 gsm.pop();
             }
@@ -59,6 +61,7 @@ public class PauseState extends State {
             }
             if (returnToMenuText.isClicked(x, y)) {
                 //return to menu
+                volumeSlider.remove();
                 gsm.pop();
                 gsm.pop();
             }
@@ -83,11 +86,11 @@ public class PauseState extends State {
 
         sb.begin();
 
-        pauseText.getFont().draw(sb, pauseText.getText(), pauseText.getPostiton().x, pauseText.getPostiton().y + pauseText.getGlyphLayout().height);
-        resumeText.getFont().draw(sb, resumeText.getText(), resumeText.getPostiton().x, resumeText.getPostiton().y + resumeText.getGlyphLayout().height);
-        restartText.getFont().draw(sb, restartText.getText(), restartText.getPostiton().x, restartText.getPostiton().y + restartText.getGlyphLayout().height);
-        returnToMenuText.getFont().draw(sb, returnToMenuText.getText(), returnToMenuText.getPostiton().x, returnToMenuText.getPostiton().y + returnToMenuText.getGlyphLayout().height);
-        closeGameText.getFont().draw(sb, closeGameText.getText(), closeGameText.getPostiton().x, closeGameText.getPostiton().y + closeGameText.getGlyphLayout().height);
+        pauseText.getFont().draw(sb, pauseText.getText(), pauseText.getPosition().x, pauseText.getPosition().y + pauseText.getGlyphLayout().height);
+        resumeText.getFont().draw(sb, resumeText.getText(), resumeText.getPosition().x, resumeText.getPosition().y + resumeText.getGlyphLayout().height);
+        restartText.getFont().draw(sb, restartText.getText(), restartText.getPosition().x, restartText.getPosition().y + restartText.getGlyphLayout().height);
+        returnToMenuText.getFont().draw(sb, returnToMenuText.getText(), returnToMenuText.getPosition().x, returnToMenuText.getPosition().y + returnToMenuText.getGlyphLayout().height);
+        closeGameText.getFont().draw(sb, closeGameText.getText(), closeGameText.getPosition().x, closeGameText.getPosition().y + closeGameText.getGlyphLayout().height);
 
         volumeSlider.draw(sb, 1);
 
