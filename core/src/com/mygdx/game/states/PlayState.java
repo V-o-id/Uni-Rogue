@@ -23,7 +23,7 @@ public class PlayState extends State {
     private final Text informationText;
     public final Text pauseText;
     private final Text roomText;
-    BitmapFont font = new Font().setBitmapFont();
+    BitmapFont font = Font.getBitmapFont();
 
     private static boolean running = false;
 

@@ -24,7 +24,7 @@ public class OptionState extends State {
     private TextButton textButton;
     private final VolumeSlider volumeSlider;
     private final Text backText;
-    private final BitmapFont font = new Font().setBitmapFont();
+    private final BitmapFont font = Font.getBitmapFont();
 
     OptionState(final GameStateManager gsm){
         super(gsm);
@@ -55,12 +55,10 @@ public class OptionState extends State {
                 gsm.set(new MenuState(gsm));
                 //write character into textfile
                 FileHandle file = Gdx.files.local("selectedCharacter.txt");
+                System.out.println(inputField.getText());
                 file.writeString(inputField.getText(), false);
             }
         });
-
-
-
 
         volumeSlider = new VolumeSlider(State.WIDTH / 2f, State.HEIGHT / 3.5f, State.WIDTH / 4F, 100, 0, 1, 0.001f, false, stage);
         stage.addActor(volumeSlider);

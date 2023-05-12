@@ -5,7 +5,25 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class Font {
-    public BitmapFont setBitmapFont() {
+
+    private static Font fontSingleton;
+    private static BitmapFont bitmapFontSingleton;
+
+    public static Font getFont() {
+        if (fontSingleton == null) {
+            fontSingleton = new Font();
+        }
+        return fontSingleton;
+    }
+
+    public static BitmapFont getBitmapFont() {
+        if (bitmapFontSingleton == null) {
+            bitmapFontSingleton = Font.setBitmapFont();
+        }
+        return bitmapFontSingleton;
+    }
+
+    private static BitmapFont setBitmapFont() {
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/unifont-15.0.01.ttf"));
         //FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/JetBrainsMono-Regular.ttf"));
@@ -24,20 +42,13 @@ public class Font {
         parameter.size = 30;
         BitmapFont font = generator.generateFont(parameter);
 
+
+        EmojiSupport emojiSupport = new EmojiSupport();
+        emojiSupport.Load(Gdx.files.internal("fonts/emojis25.atlas"));
+        emojiSupport.AddEmojisToFont(font);
+
         generator.dispose();
         return font;
     }
 
-    //    public BitmapFont setEmojiFont() {
-//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/JetBrainsMono-Regular.ttf"));
-//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-//        parameter.characters += "₿";
-//        parameter.characters += "\uD83D\uDC0D";
-//        parameter.characters += "\uD83C\uDF1F";
-//        parameter.characters += "あ";
-//        parameter.size = 30;
-//        BitmapFont font = generator.generateFont(parameter);
-//        generator.dispose();
-//        return font;
-//    }
 }

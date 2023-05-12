@@ -38,7 +38,7 @@ public class Grid {
 
     public Grid() {
         this.grid = new GameObjectLabel[ROWS][COLUMNS];
-        style = new LabelStyle(new Font().setBitmapFont(), Color.WHITE);
+        style = new LabelStyle(Font.getBitmapFont(), Color.WHITE);
 
         int numberOfStrategies = Strategies.values().length; //get all values from enum
         while(roomStrategy == null){

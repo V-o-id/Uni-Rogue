@@ -13,7 +13,7 @@ public class MenuState extends State {
   private final Text optionText;
   private final Text highscoreText;
   private final Text exitText;
-  private final BitmapFont font = new Font().setBitmapFont();
+  private final BitmapFont font = Font.getBitmapFont();
 
   public MenuState(GameStateManager gsm) {
     super(gsm);

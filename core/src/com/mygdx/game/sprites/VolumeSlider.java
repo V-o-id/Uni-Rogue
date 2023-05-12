@@ -17,7 +17,7 @@ public class VolumeSlider extends Slider {
     private final Text volumeText;
     private final float x, y, width, height;
     private final Stage stage;
-    private final BitmapFont font = new Font().setBitmapFont();
+    private final BitmapFont font = Font.getBitmapFont();
 
     public VolumeSlider(float x, float y, float width, float height, float min, float max, float stepSize, boolean vertical, Stage stage) {
         super(min, max, stepSize, vertical, new Skin(Gdx.files.internal("uiskin.json")));

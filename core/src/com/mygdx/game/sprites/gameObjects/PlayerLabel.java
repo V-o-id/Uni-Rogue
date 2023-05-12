@@ -9,6 +9,9 @@ import com.mygdx.game.states.PauseState;
 import com.mygdx.game.states.PlayState;
 import com.mygdx.game.states.State;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.items.HealthLabel.HEALTH_CHARACTER;
@@ -42,12 +45,26 @@ public class PlayerLabel extends GameObjectLabel {
 		if(playerCharacter.equals("")){
 			playerCharacter = DEFAULT_PLAYER_CHARACTER;
 		}
-		this.setText(playerCharacter);
+		String filteredCharacter = convertUnicodeToEmoji(playerCharacter);
+		this.setText(filteredCharacter, GameObjectLabel.isEmoji(filteredCharacter));
+
 		this.gridPosX = gridPosX;
 		this.gridPosY = gridPosY;
 		this.currentRoom = currentRoom;
 		grid.setGridCharacter(gridPosY, gridPosX, this);
 		this.previousCharacter = ROOM_CHARACTER;
+	}
+
+	private static String convertUnicodeToEmoji(String input) {
+		Pattern pattern = Pattern.compile("\\\\u([0-9A-Fa-f]{4})");
+		Matcher matcher = pattern.matcher(input);
+		StringBuffer sb = new StringBuffer();
+		while (matcher.find()) {
+			int codePoint = Integer.parseInt(matcher.group(1), 16);
+			matcher.appendReplacement(sb, new String(Character.toChars(codePoint)));
+		}
+		matcher.appendTail(sb);
+		return sb.toString();
 	}
 
 	public void characterControl(Grid grid, GameStateManager gsm, PlayState playState) {
