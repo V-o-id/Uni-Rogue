@@ -23,7 +23,7 @@ public class BottomLeftStraightUp extends RoomStrategy {
     }
 
     private void alignBottomLeftStraightUp(int gridRows, int gridCols) {
-        int parcelRows = gridRows / roomsPerColumn;
+        int parcelRows = (int) Math.floor(gridRows / (roomsPerColumn+0.7));
         int parcelCols = gridCols / roomsPerRow;
 
         int roomCounter = 0;
@@ -35,8 +35,8 @@ public class BottomLeftStraightUp extends RoomStrategy {
 
             while(row < this.roomsPerColumn && row >= 0) {
 
-                int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / roomsPerColumn + 2, parcelCols);
-                int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / roomsPerRow + 2, parcelRows);
+                int roomWidth = clamp(random.nextInt(parcelCols), parcelCols / roomsPerColumn, parcelCols);
+                int roomHeight = clamp(random.nextInt(parcelRows), parcelRows / roomsPerRow, parcelRows);
 
                 roomMatrix[row][col] = new Room(parcelCols * col, parcelRows * row, roomWidth, roomHeight, roomCounter);
                 roomsInOrder[roomCounter] = roomMatrix[row][col];

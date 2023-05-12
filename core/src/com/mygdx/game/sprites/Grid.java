@@ -38,8 +38,7 @@ public class Grid extends Label {
         this.grid = new Label[ROWS][COLUMNS];
         Label.LabelStyle style = new Label.LabelStyle(new Font().setBitmapFont(), color);
 
-        //get all vlaues from enum
-        int numberOfStrategies = Strategies.values().length;
+        int numberOfStrategies = Strategies.values().length; //get all values from enum
         while(roomStrategy == null){
             int randomStrategy = (int) (Math.random() * numberOfStrategies);
             try {
@@ -63,7 +62,6 @@ public class Grid extends Label {
     public void setGridCharacter(int y, int x, String labelCharacter) {
         Label.LabelStyle style = new Label.LabelStyle(new Font().setBitmapFont(), color);
         Label label = new Label(labelCharacter, style);
-
         this.setGridCharacter(y, x, label);
     }
 
@@ -75,13 +73,13 @@ public class Grid extends Label {
         return pathCharacter;
     }
 
-     public Room[] getRooms() {
+    public Room[] getRooms() {
           return roomsInOrder;
      }
 
     public void updateEnemies() {
         for (Enemy e : enemyList) {
-            e.updateMovement(this);
+            e.updateMovement();
         }
     }
 
@@ -100,6 +98,7 @@ public class Grid extends Label {
                 }
             }
         }
+
 
         //Spawn 1-3 random enemy types in every room
         for(Room room: roomsInOrder) {

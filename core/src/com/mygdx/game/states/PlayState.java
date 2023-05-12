@@ -1,6 +1,7 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.sprites.Grid;
@@ -14,6 +15,7 @@ public class PlayState extends State {
 
     private final Grid grid;
     private final Player player;
+    private final FileHandle file;
 
 
     public PlayState(GameStateManager gsm) {
@@ -22,7 +24,10 @@ public class PlayState extends State {
 
         int playerX = grid.getRooms()[0].getX();
         int playerY = grid.getRooms()[0].getY();
-        player = new Player("@", Color.WHITE, grid, playerX, playerY);
+
+        file = Gdx.files.local("selectedCharacter.txt");
+        String playerCharacter = file.readString();
+        player = new Player(playerCharacter, Color.WHITE, grid, COLUMNS / 2, ROWS / 2);
     }
 
     @Override
