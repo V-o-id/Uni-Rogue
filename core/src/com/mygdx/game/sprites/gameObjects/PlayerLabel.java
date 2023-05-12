@@ -196,6 +196,8 @@ public class PlayerLabel extends GameObjectLabel {
 		if(this.health < health) {
 			this.health = health;
 			setInformation("Health collected with value: " + health);
+		} else {
+			setInformation("Max Health has already reached");
 		}
 	}
 
