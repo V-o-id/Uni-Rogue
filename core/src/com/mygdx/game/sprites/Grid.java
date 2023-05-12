@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.sprites.roomstrategy.*;
 import com.mygdx.game.states.State;
+import com.mygdx.game.sprites.enemies.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class Grid extends Label {
     private final int ROOMS_PER_COLUMN = 3;
     private Room[] roomsInOrder = new Room[ROOMS_PER_ROW * ROOMS_PER_COLUMN];
     private Room[][] roomMatrix = new Room[ROOMS_PER_ROW][ROOMS_PER_COLUMN];
-    public final static int ROWS = 54;
+    public final static int ROWS = 45;
     public final static int COLUMNS = 90;
     private final static int SPACE_BETWEEN_CHARACTERS = 20;
     private final static int START_POSX_GRID = (State.WIDTH - (COLUMNS * SPACE_BETWEEN_CHARACTERS)) / 2;
@@ -46,9 +47,7 @@ public class Grid extends Label {
                 roomStrategy = null;
             }
         }
-
         generateRooms(style);
-
     }
 
     public Label[][] getGrid() {
@@ -100,10 +99,19 @@ public class Grid extends Label {
             }
         }
 
-        enemyList.add(new Enemy("\uD83D\uDC0D", this, 30, 30)); //TODO: remove, just for debugging
 
-        enemyList.add(new Enemy("B", this, roomsInOrder[1].getX()+2, roomsInOrder[1].getY()+2)); //TODO: remove, just for debugging
-
+        //Spawn 1-3 random enemy types in every room
+        for(Room room: roomsInOrder) {
+            for(int i = (int)(Math.random() * 3); i < 3; i++){
+                if ((int) (Math.random() * Enemy.NUM_OF_ENEMY_TYPES) == 0) {
+                    enemyList.add(new Snake(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                } else if ((int) (Math.random() * Enemy.NUM_OF_ENEMY_TYPES) == 1) {
+                    enemyList.add(new Goblin(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                } else {
+                    enemyList.add(new Bat(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                }
+            }
+        }
     }
 
     private void drawRoomMatrixToGrid(LabelStyle style){
@@ -113,7 +121,6 @@ public class Grid extends Label {
             }
         }
     }
-
 
     private void connectRooms(LabelStyle style) {
 
@@ -158,9 +165,9 @@ public class Grid extends Label {
             r2.setHasInboundPath(true);
 
         }
-
-
     }
 
-
+    public void removeEnemy(Enemy enemy) {
+        enemyList.remove(enemy);
+    }
 }
