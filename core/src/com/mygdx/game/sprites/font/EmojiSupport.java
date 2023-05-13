@@ -105,7 +105,6 @@ public class EmojiSupport {
             try {
                 String regsFormatted = regs.get(i).name.replaceAll("-", "");
                 BigInteger unicodeCode = new BigInteger(regsFormatted, 16);
-                System.out.println(unicodeCode);
                 //int unicodeCode = Integer.parseInt(regs.get(i).name, 16);
                 int page = 0;
                 if (textures.size() > 1) {    // Multi pages emojis, we must find the page where it's located
