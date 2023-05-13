@@ -119,7 +119,6 @@ public class Grid {
         }
     }
 
-
     private void connectRooms(LabelStyle style) {
 
         int roomCounter = ROOMS_PER_COLUMN * ROOMS_PER_ROW;

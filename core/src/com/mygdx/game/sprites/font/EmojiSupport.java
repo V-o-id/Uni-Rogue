@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StringBuilder;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -81,7 +82,7 @@ public class EmojiSupport {
 
     public TextureAtlas textureAtlas;                   // Emojis texture atlas
     public ArrayList<Texture> textures;                 // If multiple pages of emojis
-    public HashMap<Integer, EmojiRegionIndex> regions;  // Maps unicode emoji -> injected index
+    public HashMap<BigInteger, EmojiRegionIndex> regions;  // Maps unicode emoji -> injected index
 
     public void Load(FileHandle fileHandle) {
         // Default Linear filter (sometimes Nearest looks better with emojis)
@@ -96,11 +97,16 @@ public class EmojiSupport {
             textures.add(t);
         }
 
-        regions = new HashMap<Integer, EmojiRegionIndex>();
+        regions = new HashMap<BigInteger, EmojiRegionIndex>();
         Array<TextureAtlas.AtlasRegion> regs = textureAtlas.getRegions();
+
+
         for (int i = 0; i < regs.size; i++) {
             try {
-                int unicodeCode = Integer.parseInt(regs.get(i).name, 16);
+                String regsFormatted = regs.get(i).name.replaceAll("-", "");
+                BigInteger unicodeCode = new BigInteger(regsFormatted, 16);
+                System.out.println(unicodeCode);
+                //int unicodeCode = Integer.parseInt(regs.get(i).name, 16);
                 int page = 0;
                 if (textures.size() > 1) {    // Multi pages emojis, we must find the page where it's located
                     for (int j = 0; j < textures.size(); j++) {
@@ -162,7 +168,7 @@ public class EmojiSupport {
             char ch = str.charAt(i);
             boolean isCharSurrogate = (ch >= '\uD800' && ch <= '\uDFFF'); // Special 2-chars surrogates (uses two chars)
             boolean isCharVariations = (ch >= '\uFE00' && ch <= '\uFE0F'); // Special char for skin-variations (omit)
-            int codePoint = str.codePointAt(i);
+            BigInteger codePoint = new BigInteger(String.valueOf(str.codePointAt(i)));
             EmojiRegionIndex eri = regions.get(codePoint);
             if (eri != null) sb.append((char) (START_CHAR + eri.index));         // Add found emoji
             else if (!isCharSurrogate && !isCharVariations) sb.append(ch);  // Exclude special chars

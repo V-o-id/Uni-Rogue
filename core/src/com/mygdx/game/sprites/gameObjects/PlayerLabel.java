@@ -43,9 +43,11 @@ public class PlayerLabel extends GameObjectLabel {
 	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, Room currentRoom) {
 		super(playerCharacter, style);
 		playerCharacter = Gdx.files.local("selectedCharacter.txt").readString().trim();
+
 		if(playerCharacter.equals("")){
 			playerCharacter = DEFAULT_PLAYER_CHARACTER;
 		}
+
 		String filteredCharacter = convertUnicodeToEmoji(playerCharacter);
 		this.setText(filteredCharacter, GameObjectLabel.isEmoji(filteredCharacter));
 

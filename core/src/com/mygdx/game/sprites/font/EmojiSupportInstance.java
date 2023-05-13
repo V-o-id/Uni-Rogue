@@ -11,7 +11,7 @@ public class EmojiSupportInstance extends EmojiSupport {
     public static EmojiSupport getEmojiSupport() {
         if (emojiSupportSingleton == null) {
             emojiSupportSingleton = new EmojiSupport();
-            emojiSupportSingleton.Load(Gdx.files.internal("fonts/emojis25.atlas"));
+            emojiSupportSingleton.Load(Gdx.files.internal("fonts/emojis/emojiAtlas.atlas"));
             emojiSupportSingleton.AddEmojisToFont(Font.getBitmapFont());
         }
         return emojiSupportSingleton;
