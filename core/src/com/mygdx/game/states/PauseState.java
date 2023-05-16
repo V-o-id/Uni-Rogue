@@ -57,7 +57,7 @@ public class PauseState extends State {
             if (restartText.isClicked(x, y)) {
                 //restart game
                 gsm.pop();
-                gsm.set(new PlayState(gsm));
+                gsm.set(new PlayState(gsm, 1,  10, 5, 0, 0));
             }
             if (returnToMenuText.isClicked(x, y)) {
                 //return to menu

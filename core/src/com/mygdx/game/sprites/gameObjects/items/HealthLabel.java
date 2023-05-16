@@ -6,10 +6,9 @@ public class HealthLabel extends ItemLabel{
 
   private final int healthValue;
   public final static String HEALTH_CHARACTER = "H";
-
-  public HealthLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, int healthValue) {
-    super(HEALTH_CHARACTER, style, grid, gridPosX, gridPosY);
-    this.healthValue = healthValue;
+  public HealthLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, int level) {
+    super(HEALTH_CHARACTER, style, grid, gridPosX, gridPosY, level);
+    this.healthValue = level;
   }
 
   @Override
