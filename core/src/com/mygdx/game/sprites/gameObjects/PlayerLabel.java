@@ -2,6 +2,7 @@ package com.mygdx.game.sprites.gameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Room;
@@ -32,6 +33,7 @@ public class PlayerLabel extends GameObjectLabel {
 	private Room currentRoom;
 	private static final String DEFAULT_PLAYER_CHARACTER = "*";
 	private boolean hasGoneOnPath = false; // to check if its possible that player is in a new room
+	private Sound stepSound;
 
 	public void setCurrentRoom(Room currentRoom) {
 		this.currentRoom = currentRoom;
@@ -54,6 +56,8 @@ public class PlayerLabel extends GameObjectLabel {
 		this.currentRoom = currentRoom;
 		grid.setGridCharacter(gridPosY, gridPosX, this);
 		this.previousCharacter = ROOM_CHARACTER;
+
+		this.stepSound = Gdx.audio.newSound(Gdx.files.internal("audio/Step.wav"));
 	}
 
 	private static String convertUnicodeToEmoji(String input) {
@@ -71,6 +75,7 @@ public class PlayerLabel extends GameObjectLabel {
 	public void characterControl(Grid grid, GameStateManager gsm, PlayState playState) {
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) && (gridPosY + 1 < Grid.ROWS)) {
+			stepSound.play(1.0f);
 
 			String topCharacter = grid.getGrid()[gridPosY + 1][gridPosX].getLabelString();
 
@@ -96,6 +101,7 @@ public class PlayerLabel extends GameObjectLabel {
 		}
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) && (gridPosY > 0)) {
+			stepSound.play(1.0f);
 
 			String bottomCharacter = grid.getGrid()[gridPosY - 1][gridPosX].getLabelString();
 
@@ -121,6 +127,7 @@ public class PlayerLabel extends GameObjectLabel {
 		}
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.A)) && (gridPosX > 0)) {
+			stepSound.play(1.0f);
 
 			String leftCharacter = grid.getGrid()[gridPosY][gridPosX - 1].getLabelString();
 			if(leftCharacter.equals(PATH_CHARACTER)){
@@ -144,6 +151,7 @@ public class PlayerLabel extends GameObjectLabel {
 		}
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.D)) && (gridPosX + 1 < Grid.COLUMNS)) {
+			stepSound.play(1.0f);
 
 			String rightCharacter = grid.getGrid()[gridPosY][gridPosX + 1].getLabelString();
 			if(rightCharacter.equals(PATH_CHARACTER)){

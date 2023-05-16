@@ -30,11 +30,11 @@ public class Application extends ApplicationAdapter {
         gsm = new GameStateManager();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         gsm.push(new MenuState(gsm));
-
-        music = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
-        music.setVolume(musicVolume);
-        music.play();
-        music.setLooping(true);
+//        todo: play other song and only in PlayState
+//        music = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
+//        music.setVolume(musicVolume);
+//        music.play();
+//        music.setLooping(true);
 
         Camera camera = new OrthographicCamera();
         viewport = new FitViewport(1920, 1080, camera);
@@ -50,7 +50,7 @@ public class Application extends ApplicationAdapter {
     @Override
     public void dispose() {
         super.dispose();
-        music.dispose();
+//        music.dispose();
     }
 
     @Override
