@@ -4,24 +4,20 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.sprites.font.Font;
-import com.mygdx.game.sprites.gameObjects.RoomLabel;
 import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.gameObjects.PlayerLabel;
 import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.*;
-import com.mygdx.game.sprites.gameObjects.items.HealthLabel;
+import com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
-import com.mygdx.game.sprites.gameObjects.items.SwordLabel;
-import com.mygdx.game.sprites.roomstrategy.BottomLeftHalfInUp;
+import com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategy;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
 import com.mygdx.game.sprites.roomstrategy.Strategies;
 import com.mygdx.game.states.State;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import static com.mygdx.game.sprites.gameObjects.LevelLabel.LEVEL_CHARACTER;
 

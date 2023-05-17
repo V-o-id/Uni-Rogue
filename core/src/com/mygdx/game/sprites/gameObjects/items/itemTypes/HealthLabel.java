@@ -1,8 +1,9 @@
-package com.mygdx.game.sprites.gameObjects.items;
+package com.mygdx.game.sprites.gameObjects.items.itemTypes;
 
 import com.mygdx.game.sprites.Grid;
+import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 
-public class HealthLabel extends ItemLabel{
+public class HealthLabel extends ItemLabel {
 
   private final int healthValue;
   public final static String HEALTH_CHARACTER = "H";

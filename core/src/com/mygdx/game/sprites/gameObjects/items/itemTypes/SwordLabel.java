@@ -1,6 +1,7 @@
-package com.mygdx.game.sprites.gameObjects.items;
+package com.mygdx.game.sprites.gameObjects.items.itemTypes;
 
 import com.mygdx.game.sprites.Grid;
+import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 
 public class SwordLabel extends ItemLabel {
 
