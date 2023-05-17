@@ -1,0 +1,114 @@
+{
+"playerList": [
+	{
+		"name": "Player1",
+		"playerCharacter": null,
+		"totalScore": 0,
+		"totalKills": 0,
+		"totalDeaths": 0,
+		"totalGamesPlayed": 0,
+		"totalGamesWon": 0,
+		"totalGamesLost": 0,
+		"playTimeInSeconds": 0
+	},
+	{
+		"name": "Player2",
+		"playerCharacter": null,
+		"totalScore": 0,
+		"totalKills": 0,
+		"totalDeaths": 0,
+		"totalGamesPlayed": 0,
+		"totalGamesWon": 0,
+		"totalGamesLost": 0,
+		"playTimeInSeconds": 0
+	},
+	{
+		"name": "Player3",
+		"playerCharacter": null,
+		"totalScore": 0,
+		"totalKills": 0,
+		"totalDeaths": 0,
+		"totalGamesPlayed": 0,
+		"totalGamesWon": 0,
+		"totalGamesLost": 0,
+		"playTimeInSeconds": 0
+	},
+	{
+		"name": "Player4",
+		"playerCharacter": null,
+		"totalScore": 0,
+		"totalKills": 0,
+		"totalDeaths": 0,
+		"totalGamesPlayed": 0,
+		"totalGamesWon": 0,
+		"totalGamesLost": 0,
+		"playTimeInSeconds": 0
+	},
+	{
+		"name": "Player5",
+		"playerCharacter": null,
+		"totalScore": 0,
+		"totalKills": 0,
+		"totalDeaths": 0,
+		"totalGamesPlayed": 0,
+		"totalGamesWon": 0,
+		"totalGamesLost": 0,
+		"playTimeInSeconds": 0
+	},
+	{
+		"name": "Player6",
+		"playerCharacter": null,
+		"totalScore": 0,
+		"totalKills": 0,
+		"totalDeaths": 0,
+		"totalGamesPlayed": 0,
+		"totalGamesWon": 0,
+		"totalGamesLost": 0,
+		"playTimeInSeconds": 0
+	},
+	{
+		"name": "Player7",
+		"playerCharacter": null,
+		"totalScore": 0,
+		"totalKills": 0,
+		"totalDeaths": 0,
+		"totalGamesPlayed": 0,
+		"totalGamesWon": 0,
+		"totalGamesLost": 0,
+		"playTimeInSeconds": 0
+	},
+	{
+		"name": "Player8",
+		"playerCharacter": null,
+		"totalScore": 0,
+		"totalKills": 0,
+		"totalDeaths": 0,
+		"totalGamesPlayed": 0,
+		"totalGamesWon": 0,
+		"totalGamesLost": 0,
+		"playTimeInSeconds": 0
+	},
+	{
+		"name": "Player9",
+		"playerCharacter": null,
+		"totalScore": 0,
+		"totalKills": 0,
+		"totalDeaths": 0,
+		"totalGamesPlayed": 0,
+		"totalGamesWon": 0,
+		"totalGamesLost": 0,
+		"playTimeInSeconds": 0
+	},
+	{
+		"name": "Player10",
+		"playerCharacter": null,
+		"totalScore": 0,
+		"totalKills": 0,
+		"totalDeaths": 0,
+		"totalGamesPlayed": 0,
+		"totalGamesWon": 0,
+		"totalGamesLost": 0,
+		"playTimeInSeconds": 0
+	}
+]
+}
