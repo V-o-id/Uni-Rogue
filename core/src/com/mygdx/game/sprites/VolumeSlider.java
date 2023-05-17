@@ -31,7 +31,7 @@ public class VolumeSlider extends Slider {
     }
 
     private void createSlider() {
-        setValue(Application.getMusicVolume());
+        setValue(Application.getVolume());
         setColor(new Color(255f,255f,255f,1f));
         setPosition(x - width/2, y - 100);
         setSize(width, height);
@@ -40,7 +40,7 @@ public class VolumeSlider extends Slider {
         addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Application.setMusicVolume(getValue());
+                Application.setVolume(getValue());
             }
         });
     }
@@ -55,5 +55,4 @@ public class VolumeSlider extends Slider {
     public boolean remove() {
         return stage.getActors().removeValue(this, true);
     }
-
 }

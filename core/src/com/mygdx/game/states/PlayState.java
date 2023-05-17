@@ -1,6 +1,7 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.sprites.Grid;
@@ -8,8 +9,10 @@ import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.GameTimer;
 
+import static com.mygdx.game.Application.getVolume;
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
+import static com.mygdx.game.Application.getVolume;
 
 
 public class PlayState extends State {
@@ -49,6 +52,12 @@ public class PlayState extends State {
         pauseText = new Text("Pause", State.WIDTH-150,  State.HEIGHT-50, font, false);
         running = true;
         gameTimerThread.start();
+
+        //todo: play other song and only in PlayState
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
+        music.setVolume(getVolume());
+        music.play();
+        music.setLooping(true);
     }
 
     @Override
