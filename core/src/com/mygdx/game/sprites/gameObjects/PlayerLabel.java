@@ -3,11 +3,9 @@ package com.mygdx.game.sprites.gameObjects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.sprites.Constants;
 import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
-import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.*;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Room;
 import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.Snake;
@@ -304,9 +302,8 @@ public class PlayerLabel extends GameObjectLabel {
 			poisonDuration--;
 		}
 		if(health <= 0) {
-			System.out.println("GAME OVER");
+			System.out.println("GAME OVER :(((((( 👀🎂🤞😢🐱‍👓😆");
 		}
-		System.out.println(health);
 	}
 
 	private void attack(int damage, EnemyLabel target, Grid grid) {
