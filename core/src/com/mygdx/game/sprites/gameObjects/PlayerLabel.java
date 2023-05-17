@@ -14,6 +14,7 @@ import com.mygdx.game.states.State;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.mygdx.game.sprites.gameObjects.LevelLabel.LEVEL_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.items.HealthLabel.HEALTH_CHARACTER;
@@ -26,9 +27,9 @@ public class PlayerLabel extends GameObjectLabel {
 	private int gridPosY;
 	private static String playerCharacter = Gdx.files.local("selectedCharacter.txt").readString();
 	private String previousCharacter;
-	private int health = 10;
-	private int attackDamage = 5;
-	private int gold = 0;
+	private int health;
+	private int attackDamage;
+	private int gold;
 	private String information = "";
 	private Room currentRoom;
 	private static final String DEFAULT_PLAYER_CHARACTER = "*";
@@ -42,12 +43,14 @@ public class PlayerLabel extends GameObjectLabel {
 		return currentRoom;
 	}
 
-	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, Room currentRoom) {
+	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, Room currentRoom, int health, int attackDamage, int gold) {
 		super(playerCharacter, style);
 		playerCharacter = Gdx.files.local("selectedCharacter.txt").readString().trim();
+
 		if(playerCharacter.equals("")){
 			playerCharacter = DEFAULT_PLAYER_CHARACTER;
 		}
+
 		String filteredCharacter = convertUnicodeToEmoji(playerCharacter);
 		this.setText(filteredCharacter, GameObjectLabel.isEmoji(filteredCharacter));
 
@@ -56,6 +59,9 @@ public class PlayerLabel extends GameObjectLabel {
 		this.currentRoom = currentRoom;
 		grid.setGridCharacter(gridPosY, gridPosX, this);
 		this.previousCharacter = ROOM_CHARACTER;
+		this.health = health;
+		this.attackDamage = attackDamage;
+		this.gold = gold;
 
 		this.stepSound = Gdx.audio.newSound(Gdx.files.internal("audio/Step.wav"));
 	}
@@ -84,7 +90,7 @@ public class PlayerLabel extends GameObjectLabel {
 			}
 
 			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
-			if (topCharacter.equals(ROOM_CHARACTER) || topCharacter.equals(PATH_CHARACTER) || topCharacter.equals(SWORD_CHARACTER) || topCharacter.equals(HEALTH_CHARACTER)) {
+			if (topCharacter.equals(ROOM_CHARACTER) || topCharacter.equals(PATH_CHARACTER) || topCharacter.equals(SWORD_CHARACTER) || topCharacter.equals(HEALTH_CHARACTER) || topCharacter.equals(LEVEL_CHARACTER)) {
 				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
 				gridPosY++;
 				collectItems(topCharacter, grid);
@@ -110,7 +116,7 @@ public class PlayerLabel extends GameObjectLabel {
 			}
 
 			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
-			if (bottomCharacter.equals(ROOM_CHARACTER) || bottomCharacter.equals(PATH_CHARACTER) || bottomCharacter.equals(SWORD_CHARACTER) || bottomCharacter.equals(HEALTH_CHARACTER)) {
+			if (bottomCharacter.equals(ROOM_CHARACTER) || bottomCharacter.equals(PATH_CHARACTER) || bottomCharacter.equals(SWORD_CHARACTER) || bottomCharacter.equals(HEALTH_CHARACTER) || bottomCharacter.equals(LEVEL_CHARACTER)) {
 				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
 				gridPosY--;
 				collectItems(bottomCharacter, grid);
@@ -134,7 +140,7 @@ public class PlayerLabel extends GameObjectLabel {
 				hasGoneOnPath = true;
 			}
 			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
-			if (leftCharacter.equals(ROOM_CHARACTER) || leftCharacter.equals(PATH_CHARACTER) || leftCharacter.equals(SWORD_CHARACTER) || leftCharacter.equals(HEALTH_CHARACTER)) {
+			if (leftCharacter.equals(ROOM_CHARACTER) || leftCharacter.equals(PATH_CHARACTER) || leftCharacter.equals(SWORD_CHARACTER) || leftCharacter.equals(HEALTH_CHARACTER) || leftCharacter.equals(LEVEL_CHARACTER)) {
 				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
 				gridPosX--;
 				collectItems(leftCharacter, grid);
@@ -158,7 +164,7 @@ public class PlayerLabel extends GameObjectLabel {
 				hasGoneOnPath = true;
 			}
 			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
-			if (rightCharacter.equals(ROOM_CHARACTER) || rightCharacter.equals(PATH_CHARACTER) || rightCharacter.equals(SWORD_CHARACTER) || rightCharacter.equals(HEALTH_CHARACTER)) {
+			if (rightCharacter.equals(ROOM_CHARACTER) || rightCharacter.equals(PATH_CHARACTER) || rightCharacter.equals(SWORD_CHARACTER) || rightCharacter.equals(HEALTH_CHARACTER) || rightCharacter.equals(LEVEL_CHARACTER)) {
 				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
 				gridPosX++;
 				collectItems(rightCharacter, grid);
@@ -209,6 +215,7 @@ public class PlayerLabel extends GameObjectLabel {
 		switch (character) {
 			case SWORD_CHARACTER: previousCharacter = ROOM_CHARACTER; setAttackDamage(grid.getGrid()[gridPosY][gridPosX].getObjectValue()); break;
 			case HEALTH_CHARACTER: previousCharacter = ROOM_CHARACTER; setHealth(grid.getGrid()[gridPosY][gridPosX].getObjectValue()); break;
+			case LEVEL_CHARACTER: setInformation("New Level");
 			default: previousCharacter = character;
 		}
 	}

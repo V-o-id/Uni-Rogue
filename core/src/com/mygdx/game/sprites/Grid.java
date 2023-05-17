@@ -1,6 +1,7 @@
 package com.mygdx.game.sprites;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
@@ -9,7 +10,6 @@ import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.items.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 import com.mygdx.game.sprites.gameObjects.items.SwordLabel;
-import com.mygdx.game.sprites.roomstrategy.BottomLeftHalfInUp;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategy;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
 import com.mygdx.game.sprites.roomstrategy.Strategies;
@@ -17,6 +17,9 @@ import com.mygdx.game.states.State;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+
+import static com.mygdx.game.sprites.gameObjects.LevelLabel.LEVEL_CHARACTER;
 
 
 public class Grid {
@@ -33,12 +36,14 @@ public class Grid {
     private RoomStrategy roomStrategy = null;
     private final LabelStyle style;
     private final PlayerLabel playerLabel;
+    private final int level;
     List<EnemyLabel> enemyLabelList = new ArrayList<>();
     List<ItemLabel> itemLabelList = new ArrayList<>();
 
 
-    public Grid()  {
+    public Grid(int playerHealth, int playerAttackDamage, int playerGold, int level)  {
         this.grid = new GameObjectLabel[ROWS][COLUMNS];
+        this.level = level;
         style = new LabelStyle(Font.getBitmapFont(), Color.WHITE);
 
         int numberOfStrategies = Strategies.values().length; //get all values from enum
@@ -53,13 +58,15 @@ public class Grid {
 
         generateRooms(style);
 
-        //set player into grid
-        int playerX = getRooms()[0].getX();
-        int playerY = getRooms()[0].getY();
-        this.playerLabel = new PlayerLabel(this, style, playerX, playerY, getRooms()[0]);
+        Vector2 playerPos = new Vector2(getRooms()[0].getX(), getRooms()[0].getY());
+        this.playerLabel = new PlayerLabel(this, style, (int) playerPos.x, (int) playerPos.y, getRooms()[0], playerHealth, playerAttackDamage, playerGold);
 
         // 2 - two item types: sword, health
         placeGameObjects(4, 7, 2, 0);
+
+        //place level label object to enter new level; 8 = last room
+        Vector2 levelPos = setRandomPosition(8);
+        setGridCharacter((int) levelPos.y, (int) levelPos.x, LEVEL_CHARACTER);
     }
 
     public GameObjectLabel[][] getGrid() {
@@ -119,7 +126,6 @@ public class Grid {
         }
     }
 
-
     private void connectRooms(LabelStyle style) {
 
         int roomCounter = ROOMS_PER_COLUMN * ROOMS_PER_ROW;
@@ -168,22 +174,20 @@ public class Grid {
 
     //param type: zero = item; one = enemy
     public void placeGameObjects(int minObjects, int maxObjects, int amountOfPlaceableObjects, int type) {
+
         int amountGameObjects = (int) Math.floor(Math.random() * ((maxObjects-minObjects)+1) + minObjects);
 
         for(int i = 0; i < amountGameObjects; i++) {
             int roomNumber = (int) Math.floor(Math.random() * (8+1));
-            int roomWidthFromGround = roomsInOrder[roomNumber].getWidth() + roomsInOrder[roomNumber].getX() - 1;
-            int roomHeightFromGround = roomsInOrder[roomNumber].getHeight() + roomsInOrder[roomNumber].getY() - 1;
 
-            int itemPosX = (int) Math.floor(Math.random() * ((roomWidthFromGround-roomsInOrder[roomNumber].getX())+1) + roomsInOrder[roomNumber].getX());
-            int itemPosY = (int) Math.floor(Math.random() * ((roomHeightFromGround-roomsInOrder[roomNumber].getY())+1) + roomsInOrder[roomNumber].getY());
+            Vector2 gameObjectPos = setRandomPosition(roomNumber);
 
             int objectType = (int) Math.floor(Math.random() * (amountOfPlaceableObjects));
 
             if(type == 0) {
                 switch(objectType) {
-                    case 0: new SwordLabel(this, style, itemPosX, itemPosY, 30); break;
-                    case 1: new HealthLabel(this, style, itemPosX, itemPosY, 50); break;
+                    case 0: new SwordLabel(this, style, (int) gameObjectPos.x, (int) gameObjectPos.y, getRandomNumber(level)); break;
+                    case 1: new HealthLabel(this, style, (int) gameObjectPos.x, (int) gameObjectPos.y, getRandomNumber(level)); break;
                     default: return;
                 }
 
@@ -192,6 +196,22 @@ public class Grid {
             }
 
         }
+    }
 
+    //returns a number be in a range, e.g. input = 1 return 1 - 10, input = 2 return 11 - 19
+    private static int getRandomNumber (int input) {
+        int min = (input - 1) * 10 + 1; // Berechne den Mindestwert
+        int max = input * 10; // Berechne den Höchstwert
+        return (int) (Math.random() * (max - min + 1)) + min;
+    }
+
+    public Vector2 setRandomPosition(int roomNumber) {
+        int roomWidthFromGround = roomsInOrder[roomNumber].getWidth() + roomsInOrder[roomNumber].getX() - 1;
+        int roomHeightFromGround = roomsInOrder[roomNumber].getHeight() + roomsInOrder[roomNumber].getY() - 1;
+
+        float itemPosX = (float) Math.floor(Math.random() * ((roomWidthFromGround-roomsInOrder[roomNumber].getX())+1) + roomsInOrder[roomNumber].getX());
+        float itemPosY = (float) Math.floor(Math.random() * ((roomHeightFromGround-roomsInOrder[roomNumber].getY())+1) + roomsInOrder[roomNumber].getY());
+
+        return new Vector2(itemPosX, itemPosY);
     }
 }

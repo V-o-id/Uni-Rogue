@@ -7,9 +7,9 @@ public class SwordLabel extends ItemLabel {
   private final int attackDamage;
   public final static String SWORD_CHARACTER = "S";
 
-  public SwordLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, int attackDamage) {
-    super(SWORD_CHARACTER, style, grid, gridPosX, gridPosY);
-    this.attackDamage = attackDamage;
+  public SwordLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, int level) {
+    super(SWORD_CHARACTER, style, grid, gridPosX, gridPosY, level);
+    this.attackDamage = level;
   }
 
   @Override
