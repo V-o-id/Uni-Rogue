@@ -4,16 +4,21 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.sprites.font.Font;
+import com.mygdx.game.sprites.gameObjects.RoomLabel;
+import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.gameObjects.PlayerLabel;
-import com.mygdx.game.sprites.gameObjects.enemys.EnemyLabel;
+import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
+import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.*;
 import com.mygdx.game.sprites.gameObjects.items.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 import com.mygdx.game.sprites.gameObjects.items.SwordLabel;
+import com.mygdx.game.sprites.roomstrategy.BottomLeftHalfInUp;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategy;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
 import com.mygdx.game.sprites.roomstrategy.Strategies;
 import com.mygdx.game.states.State;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,9 +118,18 @@ public class Grid {
             }
         }
 
-        enemyLabelList.add(new EnemyLabel("\uD83D\uDC0D", style,this, 30, 30)); //TODO: remove, just for debugging
-        enemyLabelList.add(new EnemyLabel("B", style, this, roomsInOrder[1].getX()+2, roomsInOrder[1].getY()+2)); //TODO: remove, just for debugging
-
+        //Spawn 1-3 random enemy types in every room
+        for(Room room: roomsInOrder) {
+            for(int i = (int)(Math.random() * 3); i < 3; i++){
+                if ((int) (Math.random() * EnemyLabel.NUM_OF_ENEMY_TYPES) == 0) {
+                    enemyLabelList.add(new Snake(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                } else if ((int) (Math.random() * EnemyLabel.NUM_OF_ENEMY_TYPES) == 1) {
+                    enemyLabelList.add(new Goblin(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                } else {
+                    enemyLabelList.add(new Bat(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                }
+            }
+        }
     }
 
     private void drawRoomMatrixToGrid(LabelStyle style){
@@ -125,6 +139,7 @@ public class Grid {
             }
         }
     }
+
 
     private void connectRooms(LabelStyle style) {
 
@@ -179,15 +194,18 @@ public class Grid {
 
         for(int i = 0; i < amountGameObjects; i++) {
             int roomNumber = (int) Math.floor(Math.random() * (8+1));
+            int roomWidthFromGround = roomsInOrder[roomNumber].getWidth() + roomsInOrder[roomNumber].getX() - 1;
+            int roomHeightFromGround = roomsInOrder[roomNumber].getHeight() + roomsInOrder[roomNumber].getY() - 1;
 
-            Vector2 gameObjectPos = setRandomPosition(roomNumber);
+            int itemPosX = (int) Math.floor(Math.random() * ((roomWidthFromGround-roomsInOrder[roomNumber].getX())+1) + roomsInOrder[roomNumber].getX());
+            int itemPosY = (int) Math.floor(Math.random() * ((roomHeightFromGround-roomsInOrder[roomNumber].getY())+1) + roomsInOrder[roomNumber].getY());
 
             int objectType = (int) Math.floor(Math.random() * (amountOfPlaceableObjects));
 
             if(type == 0) {
                 switch(objectType) {
-                    case 0: new SwordLabel(this, style, (int) gameObjectPos.x, (int) gameObjectPos.y, getRandomNumber(level)); break;
-                    case 1: new HealthLabel(this, style, (int) gameObjectPos.x, (int) gameObjectPos.y, getRandomNumber(level)); break;
+                    case 0: new SwordLabel(this, style, itemPosX, itemPosY, 30); break;
+                    case 1: new HealthLabel(this, style, itemPosX, itemPosY, 50); break;
                     default: return;
                 }
 
@@ -213,5 +231,9 @@ public class Grid {
         float itemPosY = (float) Math.floor(Math.random() * ((roomHeightFromGround-roomsInOrder[roomNumber].getY())+1) + roomsInOrder[roomNumber].getY());
 
         return new Vector2(itemPosX, itemPosY);
+    }
+
+    public void removeEnemy(EnemyLabel enemy) {
+        enemyLabelList.remove(enemy);
     }
 }

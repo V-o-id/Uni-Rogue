@@ -3,9 +3,14 @@ package com.mygdx.game.sprites.gameObjects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.sprites.Constants;
+import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
+import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.*;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Room;
+import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.Snake;
 import com.mygdx.game.states.GameStateManager;
 import com.mygdx.game.states.PauseState;
 import com.mygdx.game.states.PlayState;
@@ -29,6 +34,7 @@ public class PlayerLabel extends GameObjectLabel {
 	private String previousCharacter;
 	private int health;
 	private int attackDamage;
+	private int poisonDuration = 0;
 	private int gold;
 	private String information = "";
 	private Room currentRoom;
@@ -91,6 +97,7 @@ public class PlayerLabel extends GameObjectLabel {
 
 			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
 			if (topCharacter.equals(ROOM_CHARACTER) || topCharacter.equals(PATH_CHARACTER) || topCharacter.equals(SWORD_CHARACTER) || topCharacter.equals(HEALTH_CHARACTER) || topCharacter.equals(LEVEL_CHARACTER)) {
+				damage(0);
 				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
 				gridPosY++;
 				collectItems(topCharacter, grid);
@@ -117,6 +124,7 @@ public class PlayerLabel extends GameObjectLabel {
 
 			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
 			if (bottomCharacter.equals(ROOM_CHARACTER) || bottomCharacter.equals(PATH_CHARACTER) || bottomCharacter.equals(SWORD_CHARACTER) || bottomCharacter.equals(HEALTH_CHARACTER) || bottomCharacter.equals(LEVEL_CHARACTER)) {
+				damage(0);
 				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
 				gridPosY--;
 				collectItems(bottomCharacter, grid);
@@ -141,6 +149,7 @@ public class PlayerLabel extends GameObjectLabel {
 			}
 			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
 			if (leftCharacter.equals(ROOM_CHARACTER) || leftCharacter.equals(PATH_CHARACTER) || leftCharacter.equals(SWORD_CHARACTER) || leftCharacter.equals(HEALTH_CHARACTER) || leftCharacter.equals(LEVEL_CHARACTER)) {
+				damage(0);
 				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
 				gridPosX--;
 				collectItems(leftCharacter, grid);
@@ -165,6 +174,7 @@ public class PlayerLabel extends GameObjectLabel {
 			}
 			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
 			if (rightCharacter.equals(ROOM_CHARACTER) || rightCharacter.equals(PATH_CHARACTER) || rightCharacter.equals(SWORD_CHARACTER) || rightCharacter.equals(HEALTH_CHARACTER) || rightCharacter.equals(LEVEL_CHARACTER)) {
+				damage(0);
 				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
 				gridPosX++;
 				collectItems(rightCharacter, grid);
@@ -178,6 +188,11 @@ public class PlayerLabel extends GameObjectLabel {
 				}
 			}
 
+		}
+
+		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+			attackEnemies(grid, gridPosX, gridPosY);
+			grid.updateEnemies();
 		}
 
 		if(Gdx.input.isTouched()) {
@@ -265,6 +280,45 @@ public class PlayerLabel extends GameObjectLabel {
 				}
 			}, 3);
 		}
+	}
+
+	private void attackEnemies(Grid grid, int gridPosX, int gridPosY) {
+		EnemyLabel enemy;
+		for(int i = -1; i <= 1; i++) {
+			for(int j = -1; j <= 1; j++) {
+				if(gridPosX + j < 0 || gridPosY + i < 0) break;
+				if(grid.getGrid()[i + gridPosY][j + gridPosX] instanceof EnemyLabel) {
+					enemy = (EnemyLabel) grid.getGrid()[i + gridPosY][j + gridPosX];
+					attack(attackDamage, enemy, grid);
+					damage(enemy.getDamage());
+					if(enemy instanceof Snake) poison(5);
+				}
+			}
+		}
+	}
+
+	public void damage(int damage) {
+		health -= damage;
+		if(poisonDuration > 0) {
+			health -= 3; //poison damage
+			poisonDuration--;
+		}
+		if(health <= 0) {
+			System.out.println("GAME OVER");
+		}
+		System.out.println(health);
+	}
+
+	private void attack(int damage, EnemyLabel target, Grid grid) {
+		target.damage(damage);
+		if(target.getHealth() <= 0) {
+			grid.removeEnemy(target);
+			grid.setGridCharacter(target.getGridPosY(), target.getGridPosX(), new RoomLabel(Constants.STYLE));
+		}
+	}
+
+	public void poison(int duration) {
+		poisonDuration = duration;
 	}
 
 	public void dispose() {
