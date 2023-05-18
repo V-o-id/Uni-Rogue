@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.data.CurrentPlayer;
+import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 
@@ -30,8 +31,11 @@ public class MenuState extends State {
     if(Gdx.input.isTouched()){
       int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
       if(startGameText.isClicked(x, y)){
+        System.out.println(CurrentPlayer.getCurrentPlayer().getName());
         CurrentPlayer.getCurrentPlayer().savePlayerdata(); // we only save the playerdata when the player starts a game
-        PlayState playState = new PlayState(gsm, 1, 100, 5, 0, 0);
+        GameInstance gameInstanceData = new GameInstance(CurrentPlayer.getCurrentPlayer());
+
+        PlayState playState = new PlayState(gsm, 1, 100, 5, 0, 0, gameInstanceData);
         gsm.push(playState);
         gsm.set(playState);
       }

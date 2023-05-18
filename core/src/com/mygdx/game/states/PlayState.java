@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
@@ -31,6 +32,8 @@ public class PlayState extends State {
     private final Text roomText;
     BitmapFont font = Font.getBitmapFont();
 
+    private GameInstance currentGameInstanceData;
+
     private int level;
     private static boolean running = false;
 
@@ -39,12 +42,13 @@ public class PlayState extends State {
     private static Music music;
 
 
-    public PlayState(GameStateManager gsm, int level, int playerHealth, int playerAttackDamage, int gold, long gameTime) {
+    public PlayState(GameStateManager gsm, int level, int playerHealth, int playerAttackDamage, int gold, long gameTime, GameInstance gameInstanceData) {
         super(gsm);
-        grid = new Grid(playerHealth, playerAttackDamage, gold, level);
+        grid = new Grid(playerHealth, playerAttackDamage, gold, level, gameInstanceData);
         this.level = level;
-        this.gameTimer = new GameTimer(gameTime, this);
+        this.gameTimer = new GameTimer(gameTime, this, gameInstanceData);
         this.gameTimerThread = new Thread(gameTimer);
+        this.currentGameInstanceData = gameInstanceData;
         healthText = new Text("Health: " + grid.getPlayer().getHealth(), 50, State.HEIGHT - 50, font, false);
         attackDamageText = new Text("Attack Damage: " + grid.getPlayer().getAttackDamage(), 50, State.HEIGHT - 50 - healthText.getGlyphLayout().height - 20, font, false);
         goldText = new Text("Gold: " + grid.getPlayer().getHealth(), 50, State.HEIGHT - 50 - healthText.getGlyphLayout().height - attackDamageText.getGlyphLayout().height - 40, font, false);
@@ -78,8 +82,8 @@ public class PlayState extends State {
         goldText.setText("Gold: " + grid.getPlayer().getGold());
         if (grid.getPlayer().getInformation().equals("New Level")) {
             gsm.pop();
-            gsm.push(new PlayState(gsm, level++, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds()));
-            gsm.set(new PlayState(gsm, level++, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds()));
+            gsm.push(new PlayState(gsm, level++, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds(), currentGameInstanceData));
+            gsm.set(new PlayState(gsm, level++, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds(), currentGameInstanceData));
         }
         informationText.setText(grid.getPlayer().getInformation());
     }
