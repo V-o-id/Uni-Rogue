@@ -33,7 +33,7 @@ public class PlayState extends State {
     private static boolean running = false;
 
     private final GameTimer gameTimer;
-    private final Thread gameTimerThread;
+    private volatile Thread gameTimerThread;
 
 
     public PlayState(GameStateManager gsm, int level, int playerHealth, int playerAttackDamage, int gold, long gameTime, GameInstance gameInstanceData) {
@@ -117,9 +117,8 @@ public class PlayState extends State {
 
     public void resume() {
         running = true;
-        synchronized (gameTimerThread) {
-            gameTimerThread.notify();
-        }
+        gameTimerThread = new Thread(gameTimer);
+        gameTimerThread.start();
     }
 
     public void setGameTimerText(String text) {

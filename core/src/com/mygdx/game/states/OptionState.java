@@ -66,7 +66,7 @@ public class OptionState extends State {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 //write character into textfile
-                FileHandle file = Gdx.files.local("selectedCharacter.txt");
+                FileHandle file = Gdx.files.local("files/selectedCharacter.txt");
                 file.writeString(inputField.getText(), false);
                 CurrentPlayer.getCurrentPlayer().setPlayerCharacter(inputField.getText());
             }

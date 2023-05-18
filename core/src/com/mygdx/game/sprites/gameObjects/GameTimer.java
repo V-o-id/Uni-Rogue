@@ -26,7 +26,8 @@ public class GameTimer implements Runnable {
                     playState.setGameTimerText("Time: " + seconds);
                 }
             } catch (InterruptedException e) {
-                // do nothing
+                Thread.currentThread().interrupt();
+                return;
             }
         }
     }

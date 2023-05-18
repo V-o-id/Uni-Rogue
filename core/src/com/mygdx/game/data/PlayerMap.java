@@ -45,7 +45,7 @@ public class PlayerMap {
 
     private void readPlayerdata() {
 
-        FileHandle file = Gdx.files.local("playerdata.json");
+        FileHandle file = Gdx.files.local("files/playerdata.json");
         if(!file.exists()) { // if file does not exist there is no data to read
             return;
         }
@@ -64,14 +64,14 @@ public class PlayerMap {
 
     }
 
-    public void writePlayerdata() {
+    private void writePlayerdata() {
 
         Json json = new Json();
         json.setUsePrototypes(false);
         json.setOutputType(JsonWriter.OutputType.json);
 
         String jsonStr = json.prettyPrint(this.playerMap);
-        FileHandle file = Gdx.files.local("playerdata.json");
+        FileHandle file = Gdx.files.local("files/playerdata.json");
         file.writeString(jsonStr, false); // TODO : try to append instead of overwrite - so we dont have to write the whole file every time
 
     }

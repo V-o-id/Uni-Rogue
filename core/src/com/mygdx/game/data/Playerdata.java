@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.TreeSet;
 
 public class Playerdata {
 
@@ -18,6 +19,7 @@ public class Playerdata {
     private int totalGamesLost;
     private long playTimeInSeconds;
     private int totalLevelsCompleted;
+    private int totalRoomsBeaten;
 
     public String getName() {
         return name;
@@ -48,7 +50,7 @@ public class Playerdata {
 
     private Playerdata createNewPlayer(String name) {
         Playerdata p = new Playerdata();
-        FileHandle file = Gdx.files.local("selectedCharacter.txt");
+        FileHandle file = Gdx.files.local("files/selectedCharacter.txt");
         if(file.exists() && !file.readString().equals("")) {
             p.playerCharacter = file.readString();
         } else {
@@ -63,6 +65,7 @@ public class Playerdata {
         p.totalGamesLost = 0;
         p.playTimeInSeconds = 0;
         p.totalLevelsCompleted = 0;
+        p.totalRoomsBeaten = 0;
         return p;
     }
 
@@ -75,7 +78,6 @@ public class Playerdata {
         Playerdata currentPlayer = pMap.getPlayerByName(name);
         if(currentPlayer == null) { // if player does not exist, create new player
             currentPlayer = createNewPlayer(name);
-            //pMap.addPlayer(currentPlayer);
         }
         this.name = currentPlayer.name;
         this.playerCharacter = currentPlayer.playerCharacter;
@@ -87,6 +89,7 @@ public class Playerdata {
         this.totalGamesLost = currentPlayer.totalGamesLost;
         this.playTimeInSeconds = currentPlayer.playTimeInSeconds;
         this.totalLevelsCompleted = currentPlayer.totalLevelsCompleted;
+        this.totalRoomsBeaten = currentPlayer.totalRoomsBeaten;
     }
 
     public void setPlayerCharacter(String playerCharacter) {
@@ -102,35 +105,22 @@ public class Playerdata {
 
     public void playedGame(GameInstance g) {
         incrementTotalGamesPlayed();
-        changeTotalScore(totalScore + g.getScore());
-        changeTotalKillCount(totalKills + g.getKills());
+        changeTotalScore(g.getScore());
+        changeTotalKillCount(g.getKills());
         if(!g.isGameWon()){
             incrementTotalGamesLost();
         } else {
             incrementTotalGamesWon();
         }
-        changePlayTimeInSeconds(playTimeInSeconds + g.getDurationInSeconds());
-        changeTotalLevelsCompleted(totalLevelsCompleted + g.getLevel());
-        commitPlayerdata();
+        changeRoomsBeaten(g.getBeatenRooms());
+        changePlayTimeInSeconds(g.getDurationInSeconds());
+        changeTotalLevelsCompleted(g.getLevel()-1); // -1 because here it is beaten levels, not played levels
+        savePlayerdata();
     }
-
-    private void commitPlayerdata() {
-        PlayerMap pMap = PlayerMap.getPlayerMap();
-        pMap.addPlayer(this);
-    }
-    
 
     public void savePlayerdata() {
-        // save data to file
         PlayerMap playerList = PlayerMap.getPlayerMap();
         playerList.addPlayer(this);
-        playerList.writePlayerdata();
-        /*Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-
-        String jsonStr = json.prettyPrint(this); // Create a list containing the two objects
-        FileHandle file = Gdx.files.local("playerdata.json");
-        file.writeString(jsonStr, false);*/
     }
 
     private void incrementTotalGamesPlayed() {
@@ -156,5 +146,8 @@ public class Playerdata {
         totalLevelsCompleted += amount;
     }
 
+    private void changeRoomsBeaten(int amount) {
+        totalRoomsBeaten += amount;
+    }
 
 }

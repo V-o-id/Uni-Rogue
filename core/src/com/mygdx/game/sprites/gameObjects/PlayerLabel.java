@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.data.CurrentPlayer;
 import com.mygdx.game.data.GameInstance;
+import com.mygdx.game.data.GamesMap;
 import com.mygdx.game.sprites.Constants;
 import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.sprites.Grid;
@@ -29,7 +31,7 @@ public class PlayerLabel extends GameObjectLabel {
 
 	private int gridPosX;
 	private int gridPosY;
-	private static String playerCharacter = Gdx.files.local("selectedCharacter.txt").readString();
+	private static String playerCharacter = "*";
 	private String previousCharacter;
 	private int health;
 	private int attackDamage;
@@ -41,6 +43,7 @@ public class PlayerLabel extends GameObjectLabel {
 	private static float SOUND_VOLUME = 0.01f;
 	private boolean hasGoneOnPath = false; // to check if its possible that player is in a new room
 	private Sound stepSound;
+	private int maxRoom = 0; // to check if player was in a specific room
 
 	private GameInstance gameInstance;
 
@@ -53,7 +56,8 @@ public class PlayerLabel extends GameObjectLabel {
 
 	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, Room currentRoom, int health, int attackDamage, int gold, GameInstance gameInstance) {
 		super(playerCharacter, style);
-		playerCharacter = gameInstance.getPlayer().getPlayerCharacter().trim();
+		System.out.println("PlayerLabel created");
+		playerCharacter = CurrentPlayer.getCurrentPlayer().getPlayerCharacter();
 		this.gameInstance = gameInstance;
 		gameInstance.setGold(gold);
 		if(playerCharacter.equals("")){
@@ -210,6 +214,22 @@ public class PlayerLabel extends GameObjectLabel {
 			gsm.push(new PauseState(gsm, playState));
 		}
 
+		//if p is pressed, game over
+		if (Gdx.input.isKeyJustPressed(Input.Keys.P)) { // safe data TODO: remove
+			//safe data
+			gameFinishedDataHandler(false);
+		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.H)) { // increase Health TODO: remove
+			//load data
+			health = 1000;
+		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.L)) { // check functions TODO: remove
+			//load data
+			GamesMap gamesMap = GamesMap.getPlayerMap();
+			System.out.println(gamesMap.getGamesByHighestPlayTime());
+		}
+
+
 	}
 
 	private void checkNewRoom(Grid grid, PlayState playState, int lastRoomNumber) {
@@ -224,6 +244,11 @@ public class PlayerLabel extends GameObjectLabel {
 				break;
 			}
 		}
+		if(currentRoom.getRoomNumber() > maxRoom) {
+			System.out.println("New room: " + currentRoom.getRoomNumber());
+			maxRoom = currentRoom.getRoomNumber();
+			gameInstance.incrementBeatenRooms();
+		}
 		grid.getPlayer().setCurrentRoom(currentRoom);
 		playState.updateCurrentRoomText();
 	}
@@ -233,7 +258,10 @@ public class PlayerLabel extends GameObjectLabel {
 		switch (character) {
 			case SWORD_CHARACTER: previousCharacter = ROOM_CHARACTER; setAttackDamage(grid.getGrid()[gridPosY][gridPosX].getObjectValue()); break;
 			case HEALTH_CHARACTER: previousCharacter = ROOM_CHARACTER; setHealth(grid.getGrid()[gridPosY][gridPosX].getObjectValue()); break;
-			case LEVEL_CHARACTER: setInformation("New Level");
+			case LEVEL_CHARACTER: {
+				gameInstance.incrementBeatenRooms();
+				setInformation("New Level");
+			}
 			default: previousCharacter = character;
 		}
 	}
@@ -309,9 +337,15 @@ public class PlayerLabel extends GameObjectLabel {
 		if(health <= 0) {
 			System.out.println("GAME OVER :(((((( 👀🎂🤞😢🐱‍👓😆");
 			System.out.println(gameInstance.getDurationInSeconds());
-			gameInstance.setGameWon(false);
-			gameInstance.setGameFinished(true);
+			gameFinishedDataHandler(false);
 		}
+	}
+
+	private void gameFinishedDataHandler(boolean won) {
+		gameInstance.setGold(gold);
+		gameInstance.setGameWon(won);
+		gameInstance.setGameFinished(true);
+		CurrentPlayer.getCurrentPlayer().playedGame(gameInstance);
 	}
 
 	private void attack(int damage, EnemyLabel target, Grid grid) {

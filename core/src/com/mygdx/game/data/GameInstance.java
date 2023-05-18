@@ -1,32 +1,64 @@
 package com.mygdx.game.data;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class GameInstance {
 
-    private Playerdata player;
+    private String playerName;
     private String startDateTime;
-    private int score = 0; // TODO: CALCULATE SCORE BASED ON KILLS, TIME, DEATHS, GOLD, LEVEL, ETC.
+    private int score = 0;
     private int gold = 0;
     private int kills = 0;
     private long durationInSeconds = 0;
     private boolean isGameWon = false;
     private boolean isGameFinished = false;
     private int level = 0;
+    private int beatenRooms = 0;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        GameInstance that = (GameInstance) o;
+
+        if (!Objects.equals(playerName, that.playerName)) {
+            return false;
+        }
+        return Objects.equals(startDateTime, that.startDateTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(playerName, startDateTime);
+    }
 
     public void setGold(int gold) {
         this.gold = gold;
+    }
+    public void incrementBeatenRooms() {
+        beatenRooms++;
+    }
+
+    public int getBeatenRooms() {
+        return beatenRooms;
     }
 
     public GameInstance() {}
 
     public GameInstance(Playerdata player) {
-        this.player = player;
+        this.playerName = player.getPlayerName();
         this.startDateTime = String.valueOf(new Date());
     }
 
-    public Playerdata getPlayer() {
-        return player;
+    public String getPlayerName() {
+        return playerName;
     }
 
     public void setScore(int score) {
@@ -45,11 +77,17 @@ public class GameInstance {
     public boolean isGameWon() {
         return isGameWon;
     }
+
+    /**
+     * if the game is finished, the score is calculated and the game is saved to the file ("gameHistory.json")
+     * @param gameFinished true if the game is finished, false otherwise
+     */
     public void setGameFinished(boolean gameFinished) {
         isGameFinished = gameFinished;
         if(isGameFinished) {
-            //TODO: SAVE GAMEINSTANCE TO FILE
-            System.out.println(this);
+            this.score = calculateScore(kills, gold, level, durationInSeconds);
+            GamesMap gamesMap = GamesMap.getPlayerMap();
+            gamesMap.addGame(this);
         }
     }
     public void incrementLevel() {
@@ -76,19 +114,19 @@ public class GameInstance {
         return durationInSeconds;
     }
 
-    public static int calculateScore() {
-        //todo
-        return -1;
+    public static int calculateScore(int kills, int gold, int level, long durationInSeconds) {
+            int killsScore = kills * 10;  // Each kill is worth 10 points
+            int goldScore = gold / 100;  // Each 100 gold is worth 1 point
+            int levelScore = level * 50;  // Each level is worth 50 points
+            int timeScore = (int) (durationInSeconds / 10) * -2;  // Each 10 seconds is worth -2 points
+            return  killsScore + goldScore + levelScore + timeScore;
     }
 
-    private void saveGameInstance() {
-        this.player.playedGame(this);
-    }
 
     @Override
     public String toString() {
         return "GameInstance{" +
-                "player=" + player +
+                "player=" + playerName +
                 ", startDateTime='" + startDateTime + '\'' +
                 ", score=" + score +
                 ", gold=" + gold +
