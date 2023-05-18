@@ -6,7 +6,6 @@ import com.mygdx.game.sprites.gameObjects.PlayerLabel;
 
 import java.util.Random;
 
-import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel.EnemyState.IDLE;
 

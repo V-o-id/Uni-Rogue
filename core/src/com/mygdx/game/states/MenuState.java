@@ -29,7 +29,7 @@ public class MenuState extends State {
     if(Gdx.input.isTouched()){
       int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
       if(startGameText.isClicked(x, y)){
-        PlayState playState = new PlayState(gsm, 1,10, 5, 0, 0);
+        PlayState playState = new PlayState(gsm, 1,100, 5, 0, 0);
         gsm.push(playState);
         gsm.set(playState);
       }

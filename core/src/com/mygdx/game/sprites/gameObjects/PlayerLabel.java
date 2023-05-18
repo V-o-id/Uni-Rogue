@@ -3,11 +3,16 @@ package com.mygdx.game.sprites.gameObjects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.sprites.Constants;
-import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Room;
+import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
+import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
+import com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel;
+import com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel;
 import com.mygdx.game.states.GameStateManager;
 import com.mygdx.game.states.PauseState;
 import com.mygdx.game.states.PlayState;
@@ -16,11 +21,8 @@ import com.mygdx.game.states.State;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.mygdx.game.sprites.gameObjects.LevelLabel.LEVEL_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
-import static com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel.HEALTH_CHARACTER;
-import static com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel.SWORD_CHARACTER;
 
 
 public class PlayerLabel extends GameObjectLabel {
@@ -37,7 +39,7 @@ public class PlayerLabel extends GameObjectLabel {
 	private Room currentRoom;
 	private static final String DEFAULT_PLAYER_CHARACTER = "*";
 	private static float SOUND_VOLUME = 0.6f;
-	private boolean hasGoneOnPath = false; // to check if its possible that player is in a new room
+	private boolean onPath = false; // to check if its possible that player is in a new room
 	private Sound stepSound;
 
 	public void setCurrentRoom(Room currentRoom) {
@@ -83,109 +85,39 @@ public class PlayerLabel extends GameObjectLabel {
 	}
 
 	public void characterControl(Grid grid, GameStateManager gsm, PlayState playState) {
+		if (poisonDuration == 0) PlayState.setHealthTextColor(Color.WHITE);
+		Label direction;
+		int dirDeltaX = 0;
+		int dirDeltaY = 0;
 
-		if ((Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) && (gridPosY + 1 < Grid.ROWS)) {
-			stepSound.play(SOUND_VOLUME);
-
-			String topCharacter = grid.getGrid()[gridPosY + 1][gridPosX].getLabelString();
-
-			if(topCharacter.equals(PATH_CHARACTER)){
-				hasGoneOnPath = true;
+		{
+			if ((Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) && (gridPosY + 1 < Grid.ROWS)) {
+				dirDeltaY = 1;
+			} else if ((Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) && (gridPosY > 0)) {
+				dirDeltaY = -1;
+			} else if ((Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.A)) && (gridPosX > 0)) {
+				dirDeltaX = -1;
+			} else if ((Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.D)) && (gridPosX + 1 < Grid.COLUMNS)) {
+				dirDeltaX = 1;
 			}
-
-			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
-			if (topCharacter.equals(ROOM_CHARACTER) || topCharacter.equals(PATH_CHARACTER) || topCharacter.equals(SWORD_CHARACTER) || topCharacter.equals(HEALTH_CHARACTER) || topCharacter.equals(LEVEL_CHARACTER)) {
-				damage(0);
-				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
-				gridPosY++;
-				collectItems(topCharacter, grid);
-				grid.setGridCharacter(gridPosY, gridPosX, this);
-				grid.updateEnemies();
-				if(hasGoneOnPath && !topCharacter.equals(PATH_CHARACTER)){
-					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
-				}
-				if(!topCharacter.equals(PATH_CHARACTER)) {
-					hasGoneOnPath = false;
-				}
-			}
-
+			direction = grid.getGrid()[gridPosY + dirDeltaY][gridPosX + dirDeltaX];
 		}
 
-		if ((Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) && (gridPosY > 0)) {
+		if(isWalkable(direction)) {
+			damage(0);
 			stepSound.play(SOUND_VOLUME);
+			if(direction instanceof PathLabel) onPath = true;
 
-			String bottomCharacter = grid.getGrid()[gridPosY - 1][gridPosX].getLabelString();
-
-			if(bottomCharacter.equals(PATH_CHARACTER)){
-				hasGoneOnPath = true;
+			grid.setGridCharacter(gridPosY, gridPosX, labelFromCharacter(previousCharacter));
+			gridPosX += dirDeltaX;
+			gridPosY += dirDeltaY;
+			collectItems(direction, grid);
+			grid.setGridCharacter(gridPosY, gridPosX, this);
+			grid.updateEnemies();
+			if(onPath && !(direction instanceof PathLabel)){
+				checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
 			}
-
-			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
-			if (bottomCharacter.equals(ROOM_CHARACTER) || bottomCharacter.equals(PATH_CHARACTER) || bottomCharacter.equals(SWORD_CHARACTER) || bottomCharacter.equals(HEALTH_CHARACTER) || bottomCharacter.equals(LEVEL_CHARACTER)) {
-				damage(0);
-				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
-				gridPosY--;
-				collectItems(bottomCharacter, grid);
-				grid.setGridCharacter(gridPosY, gridPosX, this);
-				grid.updateEnemies();
-				if(hasGoneOnPath && !bottomCharacter.equals(PATH_CHARACTER)){
-					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
-				}
-				if(!bottomCharacter.equals(PATH_CHARACTER)) {
-					hasGoneOnPath = false;
-				}
-			}
-
-		}
-
-		if ((Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.A)) && (gridPosX > 0)) {
-			stepSound.play(SOUND_VOLUME);
-
-			String leftCharacter = grid.getGrid()[gridPosY][gridPosX - 1].getLabelString();
-			if(leftCharacter.equals(PATH_CHARACTER)){
-				hasGoneOnPath = true;
-			}
-			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
-			if (leftCharacter.equals(ROOM_CHARACTER) || leftCharacter.equals(PATH_CHARACTER) || leftCharacter.equals(SWORD_CHARACTER) || leftCharacter.equals(HEALTH_CHARACTER) || leftCharacter.equals(LEVEL_CHARACTER)) {
-				damage(0);
-				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
-				gridPosX--;
-				collectItems(leftCharacter, grid);
-				grid.setGridCharacter(gridPosY, gridPosX, this);
-				grid.updateEnemies();
-				if(hasGoneOnPath && !leftCharacter.equals(PATH_CHARACTER)){
-					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
-				}
-				if(!leftCharacter.equals(PATH_CHARACTER)) {
-					hasGoneOnPath = false;
-				}
-			}
-
-		}
-
-		if ((Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.D)) && (gridPosX + 1 < Grid.COLUMNS)) {
-			stepSound.play(SOUND_VOLUME);
-
-			String rightCharacter = grid.getGrid()[gridPosY][gridPosX + 1].getLabelString();
-			if(rightCharacter.equals(PATH_CHARACTER)){
-				hasGoneOnPath = true;
-			}
-			//TODO: Find better way instead of the very long if - also bad if the add an item/enemy, we need to add to if
-			if (rightCharacter.equals(ROOM_CHARACTER) || rightCharacter.equals(PATH_CHARACTER) || rightCharacter.equals(SWORD_CHARACTER) || rightCharacter.equals(HEALTH_CHARACTER) || rightCharacter.equals(LEVEL_CHARACTER)) {
-				damage(0);
-				grid.setGridCharacter(gridPosY, gridPosX, previousCharacter);
-				gridPosX++;
-				collectItems(rightCharacter, grid);
-				grid.setGridCharacter(gridPosY, gridPosX, this);
-				grid.updateEnemies();
-				if(hasGoneOnPath && !rightCharacter.equals(PATH_CHARACTER)){
-					checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
-				}
-				if(!rightCharacter.equals(PATH_CHARACTER)) {
-					hasGoneOnPath = false;
-				}
-			}
-
+			if(!(direction instanceof PathLabel)) onPath = false;
 		}
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -204,7 +136,6 @@ public class PlayerLabel extends GameObjectLabel {
 			playState.pause();
 			gsm.push(new PauseState(gsm, playState));
 		}
-
 	}
 
 	private void checkNewRoom(Grid grid, PlayState playState, int lastRoomNumber) {
@@ -223,14 +154,20 @@ public class PlayerLabel extends GameObjectLabel {
 		playState.updateCurrentRoomText();
 	}
 
-	private void collectItems(String character, Grid grid) {
+	private void collectItems(Label label, Grid grid) {
 
-		switch (character) {
-			case SWORD_CHARACTER: previousCharacter = ROOM_CHARACTER; setAttackDamage(grid.getGrid()[gridPosY][gridPosX].getObjectValue()); break;
-			case HEALTH_CHARACTER: previousCharacter = ROOM_CHARACTER; setHealth(grid.getGrid()[gridPosY][gridPosX].getObjectValue()); break;
-			case LEVEL_CHARACTER: setInformation("New Level");
-			default: previousCharacter = character;
+		if(label instanceof SwordLabel) {
+			previousCharacter = ROOM_CHARACTER;
+			setAttackDamage(grid.getGrid()[gridPosY][gridPosX].getObjectValue());
+		} else if(label instanceof HealthLabel) {
+			previousCharacter = ROOM_CHARACTER;
+			setHealth(grid.getGrid()[gridPosY][gridPosX].getObjectValue());
+		} else if(label instanceof LevelLabel) {
+			setInformation("New Level");
+		} else {
+			previousCharacter = label.getText().toString();
 		}
+
 	}
 
 	public int getHealth() {
@@ -319,6 +256,18 @@ public class PlayerLabel extends GameObjectLabel {
 
 	public void loseGold(int amount) {
 		gold -= amount;
+	}
+
+	private boolean isWalkable(Label dest) {
+		return dest instanceof RoomLabel || dest instanceof ItemLabel || dest instanceof PathLabel || dest instanceof LevelLabel;
+	}
+
+	private GameObjectLabel labelFromCharacter(String character) {
+		switch(character) {
+			case ROOM_CHARACTER: return new RoomLabel(Constants.STYLE);
+			case PATH_CHARACTER: return new PathLabel(Constants.STYLE);
+			default: throw new IllegalArgumentException("Unsupported character");
+		}
 	}
 
 	public void dispose() {

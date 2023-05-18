@@ -4,12 +4,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.sprites.font.Font;
-import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
+import com.mygdx.game.sprites.gameObjects.LevelLabel;
 import com.mygdx.game.sprites.gameObjects.PlayerLabel;
-import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.*;
-import com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel;
+import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
+import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.Bat;
+import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.Goblin;
+import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.Snake;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
+import com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategy;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
@@ -19,13 +22,11 @@ import com.mygdx.game.states.State;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mygdx.game.sprites.gameObjects.LevelLabel.LEVEL_CHARACTER;
-
 
 public class Grid {
     private static final int ROOMS_PER_ROW = 3;
     private static final int ROOMS_PER_COLUMN = 3;
-    public final static int ROWS = 54;
+    public final static int ROWS = 45;
     public final static int COLUMNS = 90;
     private final static int SPACE_BETWEEN_CHARACTERS = 20;
     private final static int START_POSX_GRID = (State.WIDTH - (COLUMNS * SPACE_BETWEEN_CHARACTERS)) / 2;
@@ -66,7 +67,7 @@ public class Grid {
 
         //place level label object to enter new level; 8 = last room
         Vector2 levelPos = setRandomPosition(8);
-        setGridCharacter((int) levelPos.y, (int) levelPos.x, LEVEL_CHARACTER);
+        setGridCharacter((int) levelPos.y, (int) levelPos.x, new LevelLabel(Constants.STYLE));
     }
 
     public GameObjectLabel[][] getGrid() {
@@ -76,11 +77,6 @@ public class Grid {
     public void setGridCharacter(int y, int x, GameObjectLabel gameObjectLabel) {
         grid[y][x] = gameObjectLabel;
         gameObjectLabel.setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
-    }
-
-    public void setGridCharacter(int y, int x, String gridObjectCharacter) {
-        GameObjectLabel gameObjectLabel = new GameObjectLabel(gridObjectCharacter, style);
-        this.setGridCharacter(y, x, gameObjectLabel);
     }
 
     public PlayerLabel getPlayer() {
