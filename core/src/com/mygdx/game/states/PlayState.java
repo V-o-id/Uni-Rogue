@@ -1,6 +1,7 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.sprites.Grid;
@@ -15,8 +16,7 @@ import static com.mygdx.game.sprites.Grid.ROWS;
 public class PlayState extends State {
 
     private Grid grid;
-
-    private final Text healthText;
+    private static Text healthText;
     private final Text attackDamageText;
     private final Text goldText;
     private final Text gameTimerText;
@@ -116,6 +116,10 @@ public class PlayState extends State {
         synchronized (gameTimerThread) {
             gameTimerThread.notify();
         }
+    }
+
+    public static void setHealthTextColor(Color color) {
+        healthText.getFont().setColor(color);
     }
 
     public void setGameTimerText(String text) {

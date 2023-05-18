@@ -68,6 +68,7 @@ public class PauseState extends State {
             if (closeGameText.isClicked(x, y)) {
                 //close game
                 Gdx.app.exit();
+                System.exit(0);
             }
 
         }
