@@ -38,7 +38,7 @@ public class PlayState extends State {
     private static boolean running = false;
 
     private final GameTimer gameTimer;
-    private final Thread gameTimerThread;
+    private volatile Thread gameTimerThread;
     private static Music music;
 
 
@@ -134,9 +134,8 @@ public class PlayState extends State {
     public void resume() {
         resumeMusic();
         running = true;
-        synchronized (gameTimerThread) {
-            gameTimerThread.notify();
-        }
+        gameTimerThread = new Thread(gameTimer);
+        gameTimerThread.start();
     }
 
     public static void setHealthTextColor(Color color) {

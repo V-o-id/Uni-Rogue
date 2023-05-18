@@ -6,7 +6,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.data.CurrentPlayer;
 import com.mygdx.game.data.GameInstance;
+import com.mygdx.game.data.GamesMap;
 import com.mygdx.game.sprites.Constants;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Room;
@@ -30,7 +32,7 @@ public class PlayerLabel extends GameObjectLabel {
 
 	private int gridPosX;
 	private int gridPosY;
-	private static String playerCharacter = Gdx.files.local("selectedCharacter.txt").readString();
+	private static String playerCharacter = "*";
 	private String previousCharacter;
 	private int health;
 	private int attackDamage;
@@ -41,6 +43,7 @@ public class PlayerLabel extends GameObjectLabel {
 	private static final String DEFAULT_PLAYER_CHARACTER = "*";
 	private boolean onPath = false; // to check if it's possible that player is in a new room
 	private final Sound stepSound;
+	private int maxRoom = 0; // to check if player was in a specific room
 
 	private GameInstance gameInstance;
 
@@ -53,7 +56,7 @@ public class PlayerLabel extends GameObjectLabel {
 
 	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, Room currentRoom, int health, int attackDamage, int gold, GameInstance gameInstance) {
 		super(playerCharacter, style);
-		playerCharacter = gameInstance.getPlayer().getPlayerCharacter().trim();
+		playerCharacter = CurrentPlayer.getCurrentPlayer().getPlayerCharacter();
 		this.gameInstance = gameInstance;
 		gameInstance.setGold(gold);
 		if(playerCharacter.equals("")){
@@ -140,6 +143,21 @@ public class PlayerLabel extends GameObjectLabel {
 			gsm.push(new PauseState(gsm, playState));
 		}
 
+		//if p is pressed, game over
+		if (Gdx.input.isKeyJustPressed(Input.Keys.P)) { // safe data TODO: remove
+			//safe data
+			gameFinishedDataHandler(false);
+		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.H)) { // increase Health TODO: remove
+			//load data
+			health = 1000;
+		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.L)) { // check functions TODO: remove
+			//load data
+			GamesMap gamesMap = GamesMap.getPlayerMap();
+		}
+
+
 	}
 
 	private void checkNewRoom(Grid grid, PlayState playState, int lastRoomNumber) {
@@ -153,6 +171,10 @@ public class PlayerLabel extends GameObjectLabel {
 				currentRoom = rooms[i];
 				break;
 			}
+		}
+		if(currentRoom.getRoomNumber() > maxRoom) {
+			maxRoom = currentRoom.getRoomNumber();
+			gameInstance.incrementBeatenRooms();
 		}
 		grid.getPlayer().setCurrentRoom(currentRoom);
 		playState.updateCurrentRoomText();
@@ -247,9 +269,15 @@ public class PlayerLabel extends GameObjectLabel {
 			gameOverSound.play(getVolume() * 0.6f);
 			System.out.println("GAME OVER :(((((( 👀🎂🤞😢🐱‍👓😆");
 			System.out.println(gameInstance.getDurationInSeconds());
-			gameInstance.setGameWon(false);
-			gameInstance.setGameFinished(true);
+			gameFinishedDataHandler(false);
 		}
+	}
+
+	private void gameFinishedDataHandler(boolean won) {
+		gameInstance.setGold(gold);
+		gameInstance.setGameWon(won);
+		gameInstance.setGameFinished(true);
+		CurrentPlayer.getCurrentPlayer().playedGame(gameInstance);
 	}
 
 	private void attack(int damage, EnemyLabel target, Grid grid) {
