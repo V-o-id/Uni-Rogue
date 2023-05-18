@@ -8,7 +8,7 @@ import com.mygdx.game.sprites.Grid;
 public class Bat extends EnemyLabel {
 
     public Bat(Grid grid, int gridPosX, int gridPosY) {
-        super("B", Constants.STYLE, grid, gridPosX, gridPosY);
+        super("🦇", Constants.STYLE, grid, gridPosX, gridPosY);
         setHealth(40);
         setDamage(6);
     }

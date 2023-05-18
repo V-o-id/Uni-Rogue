@@ -8,7 +8,6 @@ import com.mygdx.game.sprites.Constants;
 import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Room;
-import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.Snake;
 import com.mygdx.game.states.GameStateManager;
 import com.mygdx.game.states.PauseState;
 import com.mygdx.game.states.PlayState;
@@ -289,8 +288,7 @@ public class PlayerLabel extends GameObjectLabel {
 				if(grid.getGrid()[i + gridPosY][j + gridPosX] instanceof EnemyLabel) {
 					enemy = (EnemyLabel) grid.getGrid()[i + gridPosY][j + gridPosX];
 					attack(attackDamage, enemy, grid);
-					damage(enemy.getDamage());
-					if(enemy instanceof Snake) poison(5);
+					enemy.attack(this, enemy.getDamage());
 				}
 			}
 		}
@@ -317,6 +315,10 @@ public class PlayerLabel extends GameObjectLabel {
 
 	public void poison(int duration) {
 		poisonDuration = duration;
+	}
+
+	public void loseGold(int amount) {
+		gold -= amount;
 	}
 
 	public void dispose() {

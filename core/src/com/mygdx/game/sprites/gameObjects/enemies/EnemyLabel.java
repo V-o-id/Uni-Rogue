@@ -2,6 +2,7 @@ package com.mygdx.game.sprites.gameObjects.enemies;
 
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
+import com.mygdx.game.sprites.gameObjects.PlayerLabel;
 
 import java.util.Random;
 
@@ -52,22 +53,22 @@ public class EnemyLabel extends GameObjectLabel {
 
     private void moveRandomly() {
         int randInt = random.nextInt(5);
-        if (randInt == 1 && (gridPosY + 1 < Grid.ROWS) && (grid.getGrid()[gridPosY + 1][gridPosX].getText().toString().equals(ROOM_CHARACTER) || grid.getGrid()[gridPosY + 1][gridPosX].getText().toString().equals(PATH_CHARACTER))) {
+        if (randInt == 1 && (gridPosY + 1 < Grid.ROWS) && (grid.getGrid()[gridPosY + 1][gridPosX].getText().toString().equals(ROOM_CHARACTER))) {
             grid.setGridCharacter(gridPosY, gridPosX, grid.getGrid()[gridPosY + 1][gridPosX]);
             gridPosY++;
             grid.setGridCharacter(gridPosY, gridPosX, this);
         }
-        if (randInt == 2 && (gridPosY > 0) && (grid.getGrid()[gridPosY - 1][gridPosX].getText().toString().equals(ROOM_CHARACTER) || grid.getGrid()[gridPosY - 1][gridPosX].getText().toString().equals(PATH_CHARACTER))) {
+        if (randInt == 2 && (gridPosY > 0) && (grid.getGrid()[gridPosY - 1][gridPosX].getText().toString().equals(ROOM_CHARACTER))) {
             grid.setGridCharacter(gridPosY, gridPosX, grid.getGrid()[gridPosY - 1][gridPosX]);
             gridPosY--;
             grid.setGridCharacter(gridPosY, gridPosX, this);
         }
-        if (randInt == 3 && (gridPosX > 0) && (grid.getGrid()[gridPosY][gridPosX - 1].getText().toString().equals(ROOM_CHARACTER) || grid.getGrid()[gridPosY][gridPosX - 1].getText().toString().equals(PATH_CHARACTER))) {
+        if (randInt == 3 && (gridPosX > 0) && (grid.getGrid()[gridPosY][gridPosX - 1].getText().toString().equals(ROOM_CHARACTER))) {
             grid.setGridCharacter(gridPosY, gridPosX, grid.getGrid()[gridPosY][gridPosX - 1]);
             gridPosX--;
             grid.setGridCharacter(gridPosY, gridPosX, this);
         }
-        if (randInt == 4 && (gridPosX + 1 < Grid.COLUMNS) && (grid.getGrid()[gridPosY][gridPosX + 1].getText().toString().equals(ROOM_CHARACTER) || grid.getGrid()[gridPosY][gridPosX + 1].getText().toString().equals(PATH_CHARACTER))) {
+        if (randInt == 4 && (gridPosX + 1 < Grid.COLUMNS) && (grid.getGrid()[gridPosY][gridPosX + 1].getText().toString().equals(ROOM_CHARACTER))) {
             grid.setGridCharacter(gridPosY, gridPosX, grid.getGrid()[gridPosY][gridPosX + 1]);
             gridPosX++;
             grid.setGridCharacter(gridPosY, gridPosX, this);
@@ -86,6 +87,9 @@ public class EnemyLabel extends GameObjectLabel {
     }
     public void damage(int damage) {
         health -= damage;
+    }
+    public void attack(PlayerLabel player, int damage) {
+        player.damage(damage);
     }
     public int getHealth() {
         return health;
