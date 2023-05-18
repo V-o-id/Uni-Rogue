@@ -1,114 +1,72 @@
 {
-"playerList": [
-	{
-		"name": "Player1",
-		"playerCharacter": null,
-		"totalScore": 0,
-		"totalKills": 0,
-		"totalDeaths": 0,
-		"totalGamesPlayed": 0,
-		"totalGamesWon": 0,
-		"totalGamesLost": 0,
-		"playTimeInSeconds": 0
-	},
-	{
-		"name": "Player2",
-		"playerCharacter": null,
-		"totalScore": 0,
-		"totalKills": 0,
-		"totalDeaths": 0,
-		"totalGamesPlayed": 0,
-		"totalGamesWon": 0,
-		"totalGamesLost": 0,
-		"playTimeInSeconds": 0
-	},
-	{
-		"name": "Player3",
-		"playerCharacter": null,
-		"totalScore": 0,
-		"totalKills": 0,
-		"totalDeaths": 0,
-		"totalGamesPlayed": 0,
-		"totalGamesWon": 0,
-		"totalGamesLost": 0,
-		"playTimeInSeconds": 0
-	},
-	{
-		"name": "Player4",
-		"playerCharacter": null,
-		"totalScore": 0,
-		"totalKills": 0,
-		"totalDeaths": 0,
-		"totalGamesPlayed": 0,
-		"totalGamesWon": 0,
-		"totalGamesLost": 0,
-		"playTimeInSeconds": 0
-	},
-	{
-		"name": "Player5",
-		"playerCharacter": null,
-		"totalScore": 0,
-		"totalKills": 0,
-		"totalDeaths": 0,
-		"totalGamesPlayed": 0,
-		"totalGamesWon": 0,
-		"totalGamesLost": 0,
-		"playTimeInSeconds": 0
-	},
-	{
-		"name": "Player6",
-		"playerCharacter": null,
-		"totalScore": 0,
-		"totalKills": 0,
-		"totalDeaths": 0,
-		"totalGamesPlayed": 0,
-		"totalGamesWon": 0,
-		"totalGamesLost": 0,
-		"playTimeInSeconds": 0
-	},
-	{
-		"name": "Player7",
-		"playerCharacter": null,
-		"totalScore": 0,
-		"totalKills": 0,
-		"totalDeaths": 0,
-		"totalGamesPlayed": 0,
-		"totalGamesWon": 0,
-		"totalGamesLost": 0,
-		"playTimeInSeconds": 0
-	},
-	{
-		"name": "Player8",
-		"playerCharacter": null,
-		"totalScore": 0,
-		"totalKills": 0,
-		"totalDeaths": 0,
-		"totalGamesPlayed": 0,
-		"totalGamesWon": 0,
-		"totalGamesLost": 0,
-		"playTimeInSeconds": 0
-	},
-	{
-		"name": "Player9",
-		"playerCharacter": null,
-		"totalScore": 0,
-		"totalKills": 0,
-		"totalDeaths": 0,
-		"totalGamesPlayed": 0,
-		"totalGamesWon": 0,
-		"totalGamesLost": 0,
-		"playTimeInSeconds": 0
-	},
-	{
-		"name": "Player10",
-		"playerCharacter": null,
-		"totalScore": 0,
-		"totalKills": 0,
-		"totalDeaths": 0,
-		"totalGamesPlayed": 0,
-		"totalGamesWon": 0,
-		"totalGamesLost": 0,
-		"playTimeInSeconds": 0
-	}
-]
+"104973550": {
+	"class": "com.mygdx.game.data.Playerdata",
+	"name": "nnnnn",
+	"playerCharacter": "nnn",
+	"creationDate": "Thu May 18 15:34:54 CEST 2023",
+	"totalScore": 0,
+	"totalKills": 0,
+	"totalDeaths": 0,
+	"totalGamesPlayed": 0,
+	"totalGamesWon": 0,
+	"totalGamesLost": 0,
+	"playTimeInSeconds": 0,
+	"totalLevelsCompleted": 0
+},
+"96321": {
+	"class": "com.mygdx.game.data.Playerdata",
+	"name": "aaa",
+	"playerCharacter": "nnn",
+	"creationDate": "Thu May 18 15:19:54 CEST 2023",
+	"totalScore": 0,
+	"totalKills": 0,
+	"totalDeaths": 0,
+	"totalGamesPlayed": 0,
+	"totalGamesWon": 0,
+	"totalGamesLost": 0,
+	"playTimeInSeconds": 0,
+	"totalLevelsCompleted": 0
+},
+"227479044": {
+	"class": "com.mygdx.game.data.Playerdata",
+	"name": "dqwdwwqdq",
+	"playerCharacter": "ewfew",
+	"creationDate": "Thu May 18 14:50:10 CEST 2023",
+	"totalScore": 0,
+	"totalKills": 0,
+	"totalDeaths": 0,
+	"totalGamesPlayed": 0,
+	"totalGamesWon": 0,
+	"totalGamesLost": 0,
+	"playTimeInSeconds": 0,
+	"totalLevelsCompleted": 0
+},
+"1171085648": {
+	"class": "com.mygdx.game.data.Playerdata",
+	"name": "Player1",
+	"playerCharacter": "*",
+	"creationDate": "Thu May 18 15:15:37 CEST 2023",
+	"totalScore": 0,
+	"totalKills": 0,
+	"totalDeaths": 0,
+	"totalGamesPlayed": 0,
+	"totalGamesWon": 0,
+	"totalGamesLost": 0,
+	"playTimeInSeconds": 0,
+	"totalLevelsCompleted": 0
+},
+"-1527811549": {
+	"class": "com.mygdx.game.data.Playerdata",
+	"name": "nm,kuzhgdxgvfd",
+	"playerCharacter": "nnn",
+	"creationDate": "Thu May 18 15:35:24 CEST 2023",
+	"totalScore": 0,
+	"totalKills": 0,
+	"totalDeaths": 0,
+	"totalGamesPlayed": 0,
+	"totalGamesWon": 0,
+	"totalGamesLost": 0,
+	"playTimeInSeconds": 0,
+	"totalLevelsCompleted": 0
+}
 }

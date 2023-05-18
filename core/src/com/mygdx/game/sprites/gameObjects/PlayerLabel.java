@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.sprites.Constants;
 import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.sprites.Grid;
@@ -37,9 +38,11 @@ public class PlayerLabel extends GameObjectLabel {
 	private String information = "";
 	private Room currentRoom;
 	private static final String DEFAULT_PLAYER_CHARACTER = "*";
-	private static float SOUND_VOLUME = 0.6f;
+	private static float SOUND_VOLUME = 0.01f;
 	private boolean hasGoneOnPath = false; // to check if its possible that player is in a new room
 	private Sound stepSound;
+
+	private GameInstance gameInstance;
 
 	public void setCurrentRoom(Room currentRoom) {
 		this.currentRoom = currentRoom;
@@ -48,10 +51,11 @@ public class PlayerLabel extends GameObjectLabel {
 		return currentRoom;
 	}
 
-	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, Room currentRoom, int health, int attackDamage, int gold) {
+	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, Room currentRoom, int health, int attackDamage, int gold, GameInstance gameInstance) {
 		super(playerCharacter, style);
-		playerCharacter = Gdx.files.local("selectedCharacter.txt").readString().trim();
-
+		playerCharacter = gameInstance.getPlayer().getPlayerCharacter().trim();
+		this.gameInstance = gameInstance;
+		gameInstance.setGold(gold);
 		if(playerCharacter.equals("")){
 			playerCharacter = DEFAULT_PLAYER_CHARACTER;
 		}
@@ -304,6 +308,9 @@ public class PlayerLabel extends GameObjectLabel {
 		}
 		if(health <= 0) {
 			System.out.println("GAME OVER :(((((( 👀🎂🤞😢🐱‍👓😆");
+			System.out.println(gameInstance.getDurationInSeconds());
+			gameInstance.setGameWon(false);
+			gameInstance.setGameFinished(true);
 		}
 	}
 
@@ -312,6 +319,7 @@ public class PlayerLabel extends GameObjectLabel {
 		if(target.getHealth() <= 0) {
 			grid.removeEnemy(target);
 			grid.setGridCharacter(target.getGridPosY(), target.getGridPosX(), new RoomLabel(Constants.STYLE));
+			gameInstance.setKills(gameInstance.getKills() + 1);
 		}
 	}
 

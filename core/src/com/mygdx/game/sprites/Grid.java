@@ -3,6 +3,7 @@ package com.mygdx.game.sprites;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
@@ -41,9 +42,10 @@ public class Grid {
     List<ItemLabel> itemLabelList = new ArrayList<>();
 
 
-    public Grid(int playerHealth, int playerAttackDamage, int playerGold, int level)  {
+    public Grid(int playerHealth, int playerAttackDamage, int playerGold, int level, GameInstance gameInstanceData)  {
         this.grid = new GameObjectLabel[ROWS][COLUMNS];
         this.level = level;
+        gameInstanceData.setLevel(level);
         style = new LabelStyle(Font.getBitmapFont(), Color.WHITE);
 
         int numberOfStrategies = Strategies.values().length; //get all values from enum
@@ -59,7 +61,7 @@ public class Grid {
         generateRooms(style);
 
         Vector2 playerPos = new Vector2(getRooms()[0].getX(), getRooms()[0].getY());
-        this.playerLabel = new PlayerLabel(this, style, (int) playerPos.x, (int) playerPos.y, getRooms()[0], playerHealth, playerAttackDamage, playerGold);
+        this.playerLabel = new PlayerLabel(this, style, (int) playerPos.x, (int) playerPos.y, getRooms()[0], playerHealth, playerAttackDamage, playerGold, gameInstanceData);
 
         // 2 - two item types: sword, health
         placeGameObjects(4, 7, 2, 0);

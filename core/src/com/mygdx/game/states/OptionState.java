@@ -75,13 +75,6 @@ public class OptionState extends State {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Playerdata playerdata = new Playerdata(playerName.getText());
-                //read character from textfile
-                String character = Gdx.files.local("selectedCharacter.txt").readString();
-                if(character.equals("")){
-                    character = "*";
-                }
-                playerdata.setPlayerCharacter(character);
-                System.out.println(playerdata.getPlayerCharacter() + " " + playerdata.getPlayerName());
                 CurrentPlayer.setCurrentPlayer(playerdata);
             }
         });
