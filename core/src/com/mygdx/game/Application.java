@@ -20,7 +20,7 @@ public class Application extends ApplicationAdapter {
     private SpriteBatch batch;
     private Viewport viewport;
 
-    private static float volume = 0.06f;
+    private static float volume = 1f;
 
 
     @Override
@@ -51,11 +51,6 @@ public class Application extends ApplicationAdapter {
         viewport.update(width, height);
     }
 
-    public static void setVolume(float musicVolume) {
-        Application.volume = musicVolume;
-        //todo: change volume on running music
-        //music.setVolume(musicVolume);
-    }
     public static float getVolume() {
         return volume;
     }

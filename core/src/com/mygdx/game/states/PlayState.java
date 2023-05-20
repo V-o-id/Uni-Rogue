@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.Application;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
@@ -14,12 +13,13 @@ import com.mygdx.game.sprites.gameObjects.GameTimer;
 
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
+import static com.mygdx.game.Application.getVolume;
 
 
 
 public class PlayState extends State {
 
-    private Grid grid;
+    private final Grid grid;
     private static Text healthText;
     private final Text attackDamageText;
     private final Text goldText;
@@ -139,7 +139,5 @@ public class PlayState extends State {
 
     public static void setVolume(float musicVolume) {
         music.setVolume(musicVolume);
-        //todo: change volume on running music
-        //music.setVolume(musicVolume);
     }
 }

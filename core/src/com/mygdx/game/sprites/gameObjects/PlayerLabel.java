@@ -23,10 +23,7 @@ import java.util.regex.Pattern;
 
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
-import static com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel.HEALTH_CHARACTER;
-import static com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel.SWORD_CHARACTER;
 import static com.mygdx.game.Application.getVolume;
-
 
 public class PlayerLabel extends GameObjectLabel {
 
@@ -41,9 +38,8 @@ public class PlayerLabel extends GameObjectLabel {
 	private String information = "";
 	private Room currentRoom;
 	private static final String DEFAULT_PLAYER_CHARACTER = "*";
-	private static float SOUND_VOLUME = 0.6f;
-	private boolean onPath = false; // to check if its possible that player is in a new room
-	private Sound stepSound;
+	private boolean onPath = false; // to check if it's possible that player is in a new room
+	private final Sound stepSound;
 
 	public void setCurrentRoom(Room currentRoom) {
 		this.currentRoom = currentRoom;
@@ -108,7 +104,7 @@ public class PlayerLabel extends GameObjectLabel {
 
 		if(isWalkable(direction)) {
 			damage(0);
-			stepSound.play(SOUND_VOLUME);
+			stepSound.play(getVolume() / 2);
 			if(direction instanceof PathLabel) onPath = true;
 
 			grid.setGridCharacter(gridPosY, gridPosX, labelFromCharacter(previousCharacter));
