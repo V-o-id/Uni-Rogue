@@ -23,6 +23,9 @@ import java.util.regex.Pattern;
 
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
+import static com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel.HEALTH_CHARACTER;
+import static com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel.SWORD_CHARACTER;
+import static com.mygdx.game.Application.getVolume;
 
 
 public class PlayerLabel extends GameObjectLabel {

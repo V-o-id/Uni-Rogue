@@ -2,15 +2,19 @@ package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.Application;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.GameTimer;
 
+
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
+
 
 
 public class PlayState extends State {
@@ -31,6 +35,7 @@ public class PlayState extends State {
 
     private final GameTimer gameTimer;
     private final Thread gameTimerThread;
+    private static Music music;
 
 
     public PlayState(GameStateManager gsm, int level, int playerHealth, int playerAttackDamage, int gold, long gameTime) {
@@ -40,15 +45,20 @@ public class PlayState extends State {
         this.gameTimer = new GameTimer(gameTime, this);
         this.gameTimerThread = new Thread(gameTimer);
         healthText = new Text("Health: " + grid.getPlayer().getHealth(), 50, State.HEIGHT - 50, font, false);
-        attackDamageText = new Text("Attack Damage: " + grid.getPlayer().getAttackDamage(), 50, State.HEIGHT -50 -healthText.getGlyphLayout().height - 20, font, false);
-        goldText = new Text("Gold: " + grid.getPlayer().getHealth(), 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height -40, font, false);
-        levelText = new Text("Level: " + level, 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -60, font, false);
-        gameTimerText = new Text("Time: " + gameTimer.getSeconds(), 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -levelText.getGlyphLayout().height -80, font, false);
-        roomText = new Text("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber()+1) + "/" + (grid.getRooms().length), 250, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -levelText.getGlyphLayout().height -80, font, false);
-        informationText = new Text("", 50, State.HEIGHT -50 -healthText.getGlyphLayout().height -attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height -levelText.getGlyphLayout().height -gameTimerText.getGlyphLayout().height - 100, font, false);
-        pauseText = new Text("Pause", State.WIDTH-150,  State.HEIGHT-50, font, false);
+        attackDamageText = new Text("Attack Damage: " + grid.getPlayer().getAttackDamage(), 50, State.HEIGHT - 50 - healthText.getGlyphLayout().height - 20, font, false);
+        goldText = new Text("Gold: " + grid.getPlayer().getHealth(), 50, State.HEIGHT - 50 - healthText.getGlyphLayout().height - attackDamageText.getGlyphLayout().height - 40, font, false);
+        levelText = new Text("Level: " + level, 50, State.HEIGHT - 50 - healthText.getGlyphLayout().height - attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height - 60, font, false);
+        gameTimerText = new Text("Time: " + gameTimer.getSeconds(), 50, State.HEIGHT - 50 - healthText.getGlyphLayout().height - attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height - levelText.getGlyphLayout().height - 80, font, false);
+        roomText = new Text("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber() + 1) + "/" + (grid.getRooms().length), 250, State.HEIGHT - 50 - healthText.getGlyphLayout().height - attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height - levelText.getGlyphLayout().height - 80, font, false);
+        informationText = new Text("", 50, State.HEIGHT - 50 - healthText.getGlyphLayout().height - attackDamageText.getGlyphLayout().height - goldText.getGlyphLayout().height - levelText.getGlyphLayout().height - gameTimerText.getGlyphLayout().height - 100, font, false);
+        pauseText = new Text("Pause", State.WIDTH - 150, State.HEIGHT - 50, font, false);
         running = true;
         gameTimerThread.start();
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/Rogue.wav"));
+        music.setVolume(getVolume());
+        music.play();
+        music.setLooping(true);
     }
 
     @Override
@@ -62,15 +72,16 @@ public class PlayState extends State {
         healthText.setText("Health: " + grid.getPlayer().getHealth());
         attackDamageText.setText("Attack Damage: " + grid.getPlayer().getAttackDamage());
         goldText.setText("Gold: " + grid.getPlayer().getGold());
-        if(grid.getPlayer().getInformation().equals("New Level")) {
+        if (grid.getPlayer().getInformation().equals("New Level")) {
             gsm.pop();
             gsm.push(new PlayState(gsm, level++, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds()));
             gsm.set(new PlayState(gsm, level++, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds()));
         }
         informationText.setText(grid.getPlayer().getInformation());
     }
+
     public void updateCurrentRoomText() {
-        roomText.setText("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber()+1) + "/" + (grid.getRooms().length));
+        roomText.setText("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber() + 1) + "/" + (grid.getRooms().length));
     }
 
     @Override
@@ -124,5 +135,11 @@ public class PlayState extends State {
 
     public void setGameTimerText(String text) {
         gameTimerText.setText(text);
+    }
+
+    public static void setVolume(float musicVolume) {
+        music.setVolume(musicVolume);
+        //todo: change volume on running music
+        //music.setVolume(musicVolume);
     }
 }

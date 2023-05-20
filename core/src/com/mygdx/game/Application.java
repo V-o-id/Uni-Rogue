@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,8 +19,8 @@ public class Application extends ApplicationAdapter {
     private GameStateManager gsm;
     private SpriteBatch batch;
     private Viewport viewport;
-    private static Music music;
-    private static float musicVolume = 0.05f;
+
+    private static float volume = 0.06f;
 
 
     @Override
@@ -30,11 +29,6 @@ public class Application extends ApplicationAdapter {
         gsm = new GameStateManager();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         gsm.push(new MenuState(gsm));
-//        todo: play other song and only in PlayState
-//        music = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
-//        music.setVolume(musicVolume);
-//        music.play();
-//        music.setLooping(true);
 
         Camera camera = new OrthographicCamera();
         viewport = new FitViewport(1920, 1080, camera);
@@ -50,7 +44,6 @@ public class Application extends ApplicationAdapter {
     @Override
     public void dispose() {
         super.dispose();
-//        music.dispose();
     }
 
     @Override
@@ -58,12 +51,12 @@ public class Application extends ApplicationAdapter {
         viewport.update(width, height);
     }
 
-    public static void setMusicVolume(float musicVolume) {
-        Application.musicVolume = musicVolume;
-        music.setVolume(musicVolume);
+    public static void setVolume(float musicVolume) {
+        Application.volume = musicVolume;
+        //todo: change volume on running music
+        //music.setVolume(musicVolume);
     }
-    public static float getMusicVolume() {
-        return musicVolume;
+    public static float getVolume() {
+        return volume;
     }
-
 }
