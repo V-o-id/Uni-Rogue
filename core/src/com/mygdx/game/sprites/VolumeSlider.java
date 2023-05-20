@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.Application;
 import com.mygdx.game.sprites.font.Font;
+import com.mygdx.game.states.PlayState;
 
 public class VolumeSlider extends Slider {
 
@@ -40,7 +41,7 @@ public class VolumeSlider extends Slider {
         addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Application.setVolume(getValue());
+                PlayState.setVolume(getValue());
             }
         });
     }
