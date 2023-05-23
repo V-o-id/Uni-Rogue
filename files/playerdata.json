@@ -1,0 +1,16 @@
+{
+"1171085648": {
+	"class": "com.mygdx.game.data.Playerdata",
+	"name": "Player1",
+	"playerCharacter": "\\ud83d\\ude03",
+	"creationDate": "Wed May 24 00:34:48 CEST 2023",
+	"totalScore": 100,
+	"totalKills": 0,
+	"totalGamesPlayed": 2,
+	"totalGamesWon": 0,
+	"totalGamesLost": 2,
+	"playTimeInSeconds": 6,
+	"totalLevelsCompleted": 0,
+	"totalRoomsBeaten": 0
+}
+}

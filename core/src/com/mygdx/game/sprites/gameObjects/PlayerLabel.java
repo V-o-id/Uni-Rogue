@@ -56,7 +56,6 @@ public class PlayerLabel extends GameObjectLabel {
 
 	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, Room currentRoom, int health, int attackDamage, int gold, GameInstance gameInstance) {
 		super(playerCharacter, style);
-		System.out.println("PlayerLabel created");
 		playerCharacter = CurrentPlayer.getCurrentPlayer().getPlayerCharacter();
 		this.gameInstance = gameInstance;
 		gameInstance.setGold(gold);
@@ -223,13 +222,6 @@ public class PlayerLabel extends GameObjectLabel {
 			//load data
 			health = 1000;
 		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.L)) { // check functions TODO: remove
-			//load data
-			GamesMap gamesMap = GamesMap.getPlayerMap();
-			System.out.println(gamesMap.getGamesByHighestPlayTime());
-		}
-
-
 	}
 
 	private void checkNewRoom(Grid grid, PlayState playState, int lastRoomNumber) {
@@ -245,7 +237,6 @@ public class PlayerLabel extends GameObjectLabel {
 			}
 		}
 		if(currentRoom.getRoomNumber() > maxRoom) {
-			System.out.println("New room: " + currentRoom.getRoomNumber());
 			maxRoom = currentRoom.getRoomNumber();
 			gameInstance.incrementBeatenRooms();
 		}

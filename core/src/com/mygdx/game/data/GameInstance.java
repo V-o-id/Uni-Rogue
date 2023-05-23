@@ -53,7 +53,7 @@ public class GameInstance {
     public GameInstance() {}
 
     public GameInstance(Playerdata player) {
-        this.playerName = player.getPlayerName();
+        this.playerName = player.getName();
         this.startDateTime = String.valueOf(new Date());
     }
 

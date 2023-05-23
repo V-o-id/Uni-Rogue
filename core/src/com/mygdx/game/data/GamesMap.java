@@ -62,7 +62,22 @@ public class GamesMap {
 
     }
 
-    public TreeSet<GameInstance> getGamesByHighestPlayTime() {
+    private void writeGameData() {
+        Json json = new Json();
+        json.setUsePrototypes(false);
+        json.setOutputType(JsonWriter.OutputType.json);
+        String jsonStr = json.prettyPrint(this.gameMap);
+        FileHandle file = Gdx.files.local("files/gamehistory.json");
+        file.writeString(jsonStr, false); // TODO : try to append instead of overwrite - so we dont have to write the whole file every time
+    }
+
+
+
+    /*
+     SORTING METHODS
+     */
+
+    public TreeSet<GameInstance> getGamesByDuration() {
         TreeSet<GameInstance> games = new TreeSet<>(new Comparator<GameInstance>() {
             @Override
             public int compare(GameInstance o1, GameInstance o2) {
@@ -83,14 +98,148 @@ public class GamesMap {
         return games;
     }
 
-
-    private void writeGameData() {
-        Json json = new Json();
-        json.setUsePrototypes(false);
-        json.setOutputType(JsonWriter.OutputType.json);
-        String jsonStr = json.prettyPrint(this.gameMap);
-        FileHandle file = Gdx.files.local("files/gamehistory.json");
-        file.writeString(jsonStr, false); // TODO : try to append instead of overwrite - so we dont have to write the whole file every time
+    public TreeSet<GameInstance> getGamesSortedByPlayerName() {
+        TreeSet<GameInstance> games = new TreeSet<>(new Comparator<GameInstance>() {
+            @Override
+            public int compare(GameInstance o1, GameInstance o2) {
+                if(o1.getPlayerName().compareToIgnoreCase(o2.getPlayerName()) > 0) {
+                    return 1;
+                } else if(o1.getPlayerName().compareToIgnoreCase(o2.getPlayerName()) < 0) {
+                    return -1;
+                }
+                if(o1.getScore() > o2.getScore()) {
+                    return -1;
+                } else if(o1.getScore() < o2.getScore()) {
+                    return 1;
+                }
+                return o1.getStartDateTime().compareTo(o2.getStartDateTime());
+            }
+        });
+        games.addAll(gameMap.values());
+        return games;
     }
+
+    public TreeSet<GameInstance> getGamesSortedByGameWon() {
+        TreeSet<GameInstance> games = new TreeSet<>(new Comparator<GameInstance>() {
+            @Override
+            public int compare(GameInstance o1, GameInstance o2) {
+                if(o1.isGameWon() && !o2.isGameWon()) {
+                    return -1;
+                } else if(!o1.isGameWon() && o2.isGameWon()) {
+                    return 1;
+                }
+                if(o1.getScore() > o2.getScore()) {
+                    return -1;
+                } else if(o1.getScore() < o2.getScore()) {
+                    return 1;
+                }
+                return o1.getStartDateTime().compareTo(o2.getStartDateTime());
+            }
+        });
+        games.addAll(gameMap.values());
+        return games;
+    }
+
+    public TreeSet<GameInstance> getGamesSortedByScore() {
+        TreeSet<GameInstance> games = new TreeSet<>(new Comparator<GameInstance>() {
+            @Override
+            public int compare(GameInstance o1, GameInstance o2) {
+                if(o1.getScore() > o2.getScore()) {
+                    return -1;
+                } else if(o1.getScore() < o2.getScore()) {
+                    return 1;
+                }
+                return o1.getStartDateTime().compareTo(o2.getStartDateTime());
+            }
+        });
+        games.addAll(gameMap.values());
+        return games;
+    }
+
+    public TreeSet<GameInstance> getGamesSortedByLevels() {
+        TreeSet<GameInstance> games = new TreeSet<>(new Comparator<GameInstance>() {
+            @Override
+            public int compare(GameInstance o1, GameInstance o2) {
+                if(o1.getLevel() > o2.getLevel()) {
+                    return -1;
+                } else if(o1.getLevel() < o2.getLevel()) {
+                    return 1;
+                }
+                if(o1.getScore() > o2.getScore()) {
+                    return -1;
+                } else if(o1.getScore() < o2.getScore()) {
+                    return 1;
+                }
+                return o1.getStartDateTime().compareTo(o2.getStartDateTime());
+            }
+        });
+        games.addAll(gameMap.values());
+        return games;
+    }
+
+    public TreeSet<GameInstance> getGamesSortedByBeatenRooms() {
+        TreeSet<GameInstance> games = new TreeSet<>(new Comparator<GameInstance>() {
+            @Override
+            public int compare(GameInstance o1, GameInstance o2) {
+                if(o1.getBeatenRooms() > o2.getBeatenRooms()) {
+                    return -1;
+                } else if(o1.getBeatenRooms() < o2.getBeatenRooms()) {
+                    return 1;
+                }
+                if(o1.getScore() > o2.getScore()) {
+                    return -1;
+                } else if(o1.getScore() < o2.getScore()) {
+                    return 1;
+                }
+                return o1.getStartDateTime().compareTo(o2.getStartDateTime());
+            }
+        });
+        games.addAll(gameMap.values());
+        return games;
+    }
+
+    public TreeSet<GameInstance> getGamesSortedByDateTime() {
+        TreeSet<GameInstance> games = new TreeSet<>(new Comparator<GameInstance>() {
+            @Override
+            public int compare(GameInstance o1, GameInstance o2) {
+                if(o1.getStartDateTime().compareTo(o2.getStartDateTime()) > 0) {
+                    return -1;
+                } else if(o1.getStartDateTime().compareTo(o2.getStartDateTime()) < 0) {
+                    return 1;
+                }
+                if(o1.getScore() > o2.getScore()) {
+                    return -1;
+                } else if(o1.getScore() < o2.getScore()) {
+                    return 1;
+                }
+                return o1.getPlayerName().compareToIgnoreCase(o2.getPlayerName());
+            }
+        });
+        games.addAll(gameMap.values());
+        return games;
+    }
+
+    public TreeSet<GameInstance> getGameSortedByKills() {
+        TreeSet<GameInstance> games = new TreeSet<>(new Comparator<GameInstance>() {
+            @Override
+            public int compare(GameInstance o1, GameInstance o2) {
+                if(o1.getKills() > o2.getKills()) {
+                    return -1;
+                } else if(o1.getKills() < o2.getKills()) {
+                    return 1;
+                }
+                if(o1.getScore() > o2.getScore()) {
+                    return -1;
+                } else if(o1.getScore() < o2.getScore()) {
+                    return 1;
+                }
+                return o1.getStartDateTime().compareTo(o2.getStartDateTime());
+            }
+        });
+        games.addAll(gameMap.values());
+        return games;
+    }
+
+
 
 }
