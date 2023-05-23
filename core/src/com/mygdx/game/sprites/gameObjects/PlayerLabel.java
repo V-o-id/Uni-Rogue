@@ -237,6 +237,9 @@ public class PlayerLabel extends GameObjectLabel {
 			poisonDuration--;
 		}
 		if(health <= 0) {
+			PlayState.pauseMusic();
+			Sound gameOverSound = Gdx.audio.newSound(Gdx.files.internal("audio/GameOverSound.wav"));
+			gameOverSound.play(getVolume() * 0.6f);
 			System.out.println("GAME OVER :(((((( 👀🎂🤞😢🐱‍👓😆");
 		}
 	}

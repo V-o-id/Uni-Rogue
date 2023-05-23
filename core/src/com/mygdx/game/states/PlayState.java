@@ -1,6 +1,7 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -54,6 +55,9 @@ public class PlayState extends State {
         pauseText = new Text("Pause", State.WIDTH - 150, State.HEIGHT - 50, font, false);
         running = true;
         gameTimerThread.start();
+
+        Sound startSound = Gdx.audio.newSound(Gdx.files.internal("audio/StartSound.wav"));
+        startSound.play(getVolume() * 0.6f);
 
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/Rogue.wav"));
         music.setVolume(getVolume());
@@ -118,11 +122,13 @@ public class PlayState extends State {
     }
 
     public void pause() {
+        pauseMusic();
         gameTimerThread.interrupt();
         running = false;
     }
 
     public void resume() {
+        resumeMusic();
         running = true;
         synchronized (gameTimerThread) {
             gameTimerThread.notify();
@@ -139,5 +145,13 @@ public class PlayState extends State {
 
     public static void setVolume(float musicVolume) {
         music.setVolume(musicVolume);
+    }
+
+    public static void pauseMusic() {
+        music.pause();
+    }
+
+    public static void resumeMusic() {
+        music.play();
     }
 }
