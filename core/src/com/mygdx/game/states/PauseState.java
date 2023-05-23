@@ -42,7 +42,6 @@ public class PauseState extends State {
     protected void handleInput() {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            //close pause
             volumeSlider.remove();
             playState.resume();
             gsm.pop();

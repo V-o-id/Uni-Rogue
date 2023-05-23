@@ -1,9 +1,9 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.data.GameInstance;
@@ -12,10 +12,9 @@ import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.GameTimer;
 
-
+import static com.mygdx.game.Application.getVolume;
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
-import static com.mygdx.game.Application.getVolume;
 
 
 
@@ -32,7 +31,7 @@ public class PlayState extends State {
     private final Text roomText;
     BitmapFont font = Font.getBitmapFont();
 
-    private GameInstance currentGameInstanceData;
+    private final GameInstance currentGameInstanceData;
 
     private int level;
     private static boolean running = false;

@@ -24,9 +24,9 @@ import com.mygdx.game.states.State;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.mygdx.game.Application.getVolume;
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
-import static com.mygdx.game.Application.getVolume;
 
 public class PlayerLabel extends GameObjectLabel {
 
@@ -45,7 +45,7 @@ public class PlayerLabel extends GameObjectLabel {
 	private final Sound stepSound;
 	private int maxRoom = 0; // to check if player was in a specific room
 
-	private GameInstance gameInstance;
+	private final GameInstance gameInstance;
 
 	public void setCurrentRoom(Room currentRoom) {
 		this.currentRoom = currentRoom;

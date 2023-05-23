@@ -1,10 +1,10 @@
 package com.mygdx.game.sprites.gameObjects.enemies.enemyTypes;
 
 import com.badlogic.gdx.graphics.Color;
+import com.mygdx.game.sprites.Constants;
+import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.gameObjects.PlayerLabel;
 import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
-import com.mygdx.game.sprites.Grid;
-import com.mygdx.game.sprites.Constants;
 import com.mygdx.game.states.PlayState;
 
 public class Snake extends EnemyLabel {

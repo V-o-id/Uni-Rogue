@@ -20,9 +20,9 @@ public class OptionState extends State {
 
     private final TextField inputField;
     private boolean wrongInput = false;
-    private Stage stage;
-    private Label character;
-    private TextButton textButton;
+    private final Stage stage;
+    private final Label character;
+    private final TextButton textButton;
 
     private final Label playerNameText;
     private final TextField playerName;
