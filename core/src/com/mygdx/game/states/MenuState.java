@@ -45,7 +45,9 @@ public class MenuState extends State {
         gsm.set(optionState);
       }
       if(highscoreText.isClicked(x, y)){
-        Gdx.gl.glClearColor(1, 0, 1, 1);
+        LeaderboardState leaderboardState = new LeaderboardState(gsm);
+        gsm.push(leaderboardState);
+        gsm.set(leaderboardState);
       }
       if(exitText.isClicked(x, y)){
         Gdx.app.exit();

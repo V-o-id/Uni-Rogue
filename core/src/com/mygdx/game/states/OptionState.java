@@ -105,7 +105,6 @@ public class OptionState extends State {
     public void render(SpriteBatch sb){
         sb.begin();
         Gdx.gl.glClearColor(0, 0, 0, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
         backText.getFont().draw(sb, backText.getText(), backText.getPosition().x, backText.getPosition().y + backText.getGlyphLayout().height);
@@ -135,4 +134,5 @@ public class OptionState extends State {
     @Override
     public void dispose() {
     }
+
 }

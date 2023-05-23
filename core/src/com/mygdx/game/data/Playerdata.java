@@ -4,26 +4,52 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
 import java.util.Date;
-import java.util.Objects;
-import java.util.TreeSet;
 
 public class Playerdata {
 
     private String name; // acts as id
     private String playerCharacter;
     private String creationDate;
-    private int totalScore;
-    private int totalKills;
-    private int totalGamesPlayed;
-    private int totalGamesWon;
-    private int totalGamesLost;
+    private long totalScore;
+    private long totalKills;
+    private long totalGamesPlayed;
+    private long totalGamesWon;
+    private long totalGamesLost;
     private long playTimeInSeconds;
-    private int totalLevelsCompleted;
-    private int totalRoomsBeaten;
+    private long totalLevelsCompleted;
+    private long totalRoomsBeaten;
 
     public String getName() {
         return name;
     }
+    public long getTotalScore() {
+        return totalScore;
+    }
+    public long getTotalKills() {
+        return totalKills;
+    }
+    public long getTotalGamesPlayed() {
+        return totalGamesPlayed;
+    }
+    public long getTotalGamesWon() {
+        return totalGamesWon;
+    }
+    public long getTotalGamesLost() {
+        return totalGamesLost;
+    }
+    public long getPlayTimeInSeconds() {
+        return playTimeInSeconds;
+    }
+    public long getTotalLevelsCompleted() {
+        return totalLevelsCompleted;
+    }
+    public long getTotalRoomsBeaten() {
+        return totalRoomsBeaten;
+    }
+    public String getCreationDate() {
+        return creationDate;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -97,9 +123,6 @@ public class Playerdata {
     }
     public String getPlayerCharacter() {
         return playerCharacter;
-    }
-    public String getPlayerName() {
-        return name;
     }
 
 
