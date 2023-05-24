@@ -178,11 +178,6 @@ public class LeaderboardState extends State {
             case DATE: set = playerMap.getPlayersSortedByDateTime(); break;
             default: set = playerMap.getPlayersSortedByScore();
         }
-
-        for(Playerdata p : set){
-            System.out.println(p.getName());
-        }
-
         table.clearChildren();
         initFirstRowPlayer();
         initTablePlayer(set);

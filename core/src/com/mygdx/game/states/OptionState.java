@@ -73,6 +73,8 @@ public class OptionState extends State {
                 //user can only enter 1 char or a specific unicode
                 if(input.length()==1 || (input.startsWith("\\u") && (input.length()==6 || input.length()==12))) {
                     //if the input is correct, the String of the TextField(variable input) is handed over to the setPlayCharacter method of the current player (selecter character is stored in the file selectedCharacter.txt)
+                    FileHandle file = Gdx.files.local("files/selectedCharacter.txt");
+                    file.writeString(input, false);
                     CurrentPlayer.getCurrentPlayer().setPlayerCharacter(inputField.getText());
                     //after clicking enter go back to the menu
                     gsm.set(new MenuState(gsm));

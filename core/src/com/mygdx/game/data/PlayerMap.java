@@ -5,6 +5,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +16,11 @@ import java.util.TreeSet;
 public class PlayerMap {
 
     private static PlayerMap playerMapInstance = null;
+
+
+    private static final String SECRET_KEY = "mIam!##Sec)))!!!";
+    private static final String FILENAME_ENCRYPTED = "files/playerdataEncrypted.json";
+    private static final String FILENAME_DECRYPTED = "files/playerdata.json";
 
     // String is not the best choice for a key, but it is the easiest to use for now
     // as hash we use the hashcode of the playername as a string
@@ -47,21 +55,40 @@ public class PlayerMap {
 
     private void readPlayerdata() {
 
-        FileHandle file = Gdx.files.local("files/playerdata.json");
-        if(!file.exists()) { // if file does not exist there is no data to read
+        File in = new File(FILENAME_ENCRYPTED);
+        if(!in.exists()) { // if file does not exist there is no data to read
             return;
         }
+        File out= new File(FILENAME_DECRYPTED);
+        try {
+            // decrypt the file to read
+            FileEncrypter.decrypt(SECRET_KEY, in, out);
+        } catch (CryptoException e) {
+            System.out.println("Error decrypting file " + in.getName());
+        }
+
+        FileHandle file = Gdx.files.local(FILENAME_DECRYPTED);
         Json json = new Json();
         json.setUsePrototypes(false);
         json.setOutputType(JsonWriter.OutputType.json);
 
         try {
             Map<String, Playerdata> map = json.fromJson(HashMap.class, file);
+            if(map == null) { // empty file
+                return;
+            }
             playerMap.putAll(map);
         } catch (Exception e) {
-            // todo: handle exception
-            System.out.println("WRONG DATA FORMAT. WHAT SHOULD WE DO?");
-            System.err.println(e.getMessage());
+            // file is corrupted
+            file.writeString("", false);
+        }
+
+        out.delete(); // delete the decrypted file, we dont need it anymore
+        //hide out file
+        try {
+            Files.setAttribute(in.toPath(), "dos:hidden", true);
+        } catch (IOException e) {
+            // not important if we cant hide the file
         }
 
     }
@@ -72,9 +99,27 @@ public class PlayerMap {
         json.setUsePrototypes(false);
         json.setOutputType(JsonWriter.OutputType.json);
 
-        String jsonStr = json.prettyPrint(this.playerMap);
-        FileHandle file = Gdx.files.local("files/playerdata.json");
+        String jsonStr = json.toJson(this.playerMap);
+        FileHandle file = Gdx.files.local(FILENAME_DECRYPTED);
         file.writeString(jsonStr, false); // TODO : try to append instead of overwrite - so we dont have to write the whole file every time
+
+        File in = new File(FILENAME_DECRYPTED);
+        File out = new File(FILENAME_ENCRYPTED);
+        try{
+            // encrypt the data
+            FileEncrypter.encrypt(SECRET_KEY, in, out);
+        } catch (CryptoException e) {
+            System.out.println("Error encrypting file " + in.getName());
+        }
+        // delete the unencrypted file
+        in.delete();
+
+        //hide out file
+        try {
+            Files.setAttribute(out.toPath(), "dos:hidden", true);
+        } catch (IOException e) {
+            // not important if we cant hide the file
+        }
 
     }
 

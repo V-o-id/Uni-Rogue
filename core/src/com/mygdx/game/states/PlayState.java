@@ -98,9 +98,12 @@ public class PlayState extends State {
         goldText.setText("Gold: " + grid.getPlayer().getGold());
         // go to the next level (with stored properties) and set new PlayState
         if (grid.getPlayer().getInformation().equals("New Level")) {
+            currentGameInstanceData.incrementLevel();
+            currentGameInstanceData.incrementBeatenRooms();
+            PlayState p = new PlayState(gsm, ++level, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds(), currentGameInstanceData);
             gsm.pop();
-            gsm.push(new PlayState(gsm, level++, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds(), currentGameInstanceData));
-            gsm.set(new PlayState(gsm, level++, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds(), currentGameInstanceData));
+            gsm.push(p);
+            gsm.set(p);
         }
         informationText.setText(grid.getPlayer().getInformation());
     }

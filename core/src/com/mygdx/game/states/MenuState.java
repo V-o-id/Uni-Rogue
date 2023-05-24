@@ -35,7 +35,6 @@ public class MenuState extends State {
       int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
       //if the startGame-Text is clicked, save the playerdata, create a new game and playstate with default values, the play state is the current state now
       if(startGameText.isClicked(x, y)){
-        System.out.println(CurrentPlayer.getCurrentPlayer().getName());
         CurrentPlayer.getCurrentPlayer().savePlayerdata(); // we only save the playerdata when the player starts a game
         GameInstance gameInstanceData = new GameInstance(CurrentPlayer.getCurrentPlayer());
 
