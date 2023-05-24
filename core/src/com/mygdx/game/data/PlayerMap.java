@@ -85,11 +85,11 @@ public class PlayerMap {
 
         out.delete(); // delete the decrypted file, we dont need it anymore
         //hide out file
-        try {
+    /*    try {
             Files.setAttribute(in.toPath(), "dos:hidden", true);
         } catch (IOException e) {
             // not important if we cant hide the file
-        }
+        }*/
 
     }
 
@@ -115,11 +115,11 @@ public class PlayerMap {
         in.delete();
 
         //hide out file
-        try {
+  /*      try {
             Files.setAttribute(out.toPath(), "dos:hidden", true);
         } catch (IOException e) {
             // not important if we cant hide the file
-        }
+        }*/
 
     }
 
