@@ -50,7 +50,7 @@ public class OptionState extends State {
                 FileHandle file = Gdx.files.local("selectedCharacter.txt");
                 String input = inputField.getText();
 
-                if(input.length()==1 || (input.startsWith("\\u") && input.length()==6)) {
+                if(input.length()==1 || (input.startsWith("\\u") && (input.length()==6 || input.length()==12))) {
                     file.writeString(inputField.getText(), false);
                     gsm.set(new MenuState(gsm));
                 }
