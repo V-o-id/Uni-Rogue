@@ -1,7 +1,6 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -39,7 +38,6 @@ public class PlayState extends State {
 
     private final GameTimer gameTimer;
     private volatile Thread gameTimerThread;
-    private static Music music;
 
 
     //initialising a new playstate with all properties
@@ -66,10 +64,11 @@ public class PlayState extends State {
         startSound.play(volume * 0.6f);
 
         //background music
-        music = Gdx.audio.newMusic(Gdx.files.internal("audio/Rogue.wav"));
-        music.setVolume(volume);
-        music.play();
-        music.setLooping(true);
+        if (!music.isPlaying()) {
+            music.setVolume(volume);
+            music.play();
+            music.setLooping(true);
+        }
     }
 
     @Override
