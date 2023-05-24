@@ -12,6 +12,7 @@ import com.mygdx.game.sprites.VolumeSlider;
 import com.mygdx.game.sprites.font.Font;
 
 public class PauseState extends State {
+    //PauseState representing the Pause-Menu of the game, selections: resume, restart, return to menu, close game, change volume
 
     private final Text pauseText;
     private final Text resumeText;
@@ -26,6 +27,8 @@ public class PauseState extends State {
 
     PlayState playState;
     Stage stage;
+
+    //initialising the pause state
     public PauseState(GameStateManager gsm, PlayState playState) {
         super(gsm);
         stage = new Stage();
@@ -41,6 +44,7 @@ public class PauseState extends State {
     @Override
     protected void handleInput() {
 
+        //if escaped is pressed, continue playing with the playState from before
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             volumeSlider.remove();
             playState.resume();
@@ -49,6 +53,7 @@ public class PauseState extends State {
 
         if (Gdx.input.isTouched()) {
             int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
+            //if resume is clicked, continue playing with the playState from before
             if (resumeText.isClicked(x, y)) {
                 //close pause
                 volumeSlider.remove();

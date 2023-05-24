@@ -17,7 +17,7 @@ import com.mygdx.game.sprites.font.Font;
 //import org.apache.commons.text.StringEscapeUtils;
 
 public class OptionState extends State {
-
+    //OptionState representing the Options of the game (choose a name, a charater to play with and the volume of the sound
     private final TextField inputField;
     private boolean wrongInput = false;
     private final Stage stage;
@@ -37,8 +37,10 @@ public class OptionState extends State {
         super(gsm);
         stage = new Stage();
 
+        //Stores resoures for UI-Widgets in a json-File (Color, Font, Buttonstyles,...)
         final Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
+        //Store ui elements in a table
         final Table table = new Table();
         table.defaults().pad(10);
         table.setFillParent(true);
@@ -51,7 +53,6 @@ public class OptionState extends State {
         inputField = new TextField("", skin);
         textButton = new TextButton("Enter", skin);
 
-
         table.add(playerNameText);
         table.add(playerName).width(300);
         table.add(confirmNameButton);
@@ -63,18 +64,23 @@ public class OptionState extends State {
 
         stage.addActor(table);
 
+        //User can choose the character he wants to play with
         textButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 String input = inputField.getText();
 
+                //user can only enter 1 char or a specific unicode
                 if(input.length()==1 || (input.startsWith("\\u") && (input.length()==6 || input.length()==12))) {
+                    //if the input is correct, the String of the TextField(variable input) is handed over to the setPlayCharacter method of the current player (selecter character is stored in the file selectedCharacter.txt)
                     FileHandle file = Gdx.files.local("files/selectedCharacter.txt");
                     file.writeString(input, false);
                     CurrentPlayer.getCurrentPlayer().setPlayerCharacter(inputField.getText());
+                    //after clicking enter go back to the menu
                     gsm.set(new MenuState(gsm));
                 }
                 else{
+                    //if there was a wrong input, an appropriate message is printed
                     wrongInput = true;
                     invalidPlayerCharacter = new Text("Only Strings with one character are allowed", State.WIDTH / 2f, State.HEIGHT / 2.5f, font, true);
                 }
@@ -85,24 +91,29 @@ public class OptionState extends State {
         confirmNameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                //Create a new Player with all properties and the name of the textField playerName
                 Playerdata playerdata = new Playerdata(playerName.getText());
+                //Set current player
                 CurrentPlayer.setCurrentPlayer(playerdata);
             }
         });
 
 
+        //volumeSlider for changing the volume of the sound
         volumeSlider = new VolumeSlider(State.WIDTH / 2f, State.HEIGHT / 3.5f, State.WIDTH / 4F, 100, 0, 1, 0.001f, false, stage);
         stage.addActor(volumeSlider);
 
         backText = new Text("Back to Menu", State.WIDTH / 2f, 50, font, true);
 
+        //if the input for the player character was right, show no error message
         if(!wrongInput){
             invalidPlayerCharacter = new Text("", State.WIDTH / 2f, State.HEIGHT / 2.5f, font, true);
         }
 
+        //adding the table to the stage
         stage.addActor(table);
+        //set stage as input processor
         Gdx.input.setInputProcessor(stage);
-
     }
 
     @Override
@@ -118,13 +129,12 @@ public class OptionState extends State {
 
     @Override
     protected void handleInput() {
-
+        //if escape-key get pressed or backText gets clicked go back to the last state (menu)
         if(Gdx.input.isTouched()){
             if(backText.isClicked(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
                 gsm.pop();
             }
         }
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             gsm.pop();
         }

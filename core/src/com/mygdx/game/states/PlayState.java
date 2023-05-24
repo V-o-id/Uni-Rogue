@@ -19,6 +19,7 @@ import static com.mygdx.game.sprites.Grid.ROWS;
 
 
 public class PlayState extends State {
+    //PlayState representing the gameplay
 
     private final Grid grid;
     private static Text healthText;
@@ -41,6 +42,7 @@ public class PlayState extends State {
     private static Music music;
 
 
+    //initialising a new playstate with all properties
     public PlayState(GameStateManager gsm, int level, int playerHealth, int playerAttackDamage, int gold, long gameTime, GameInstance gameInstanceData) {
         super(gsm);
         grid = new Grid(playerHealth, playerAttackDamage, gold, level, gameInstanceData);
@@ -59,9 +61,11 @@ public class PlayState extends State {
         running = true;
         gameTimerThread.start();
 
+        //start sound
         Sound startSound = Gdx.audio.newSound(Gdx.files.internal("audio/StartSound.wav"));
         startSound.play(volume * 0.6f);
 
+        //background music
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/Rogue.wav"));
         music.setVolume(volume);
         music.play();
@@ -73,12 +77,15 @@ public class PlayState extends State {
         grid.getPlayer().characterControl(grid, gsm, this);
     }
 
+
+    //update properties which are changing during the game(collection gold, getting damage,...)
     @Override
     public void update(float dt) {
         handleInput();
         healthText.setText("Health: " + grid.getPlayer().getHealth());
         attackDamageText.setText("Attack Damage: " + grid.getPlayer().getAttackDamage());
         goldText.setText("Gold: " + grid.getPlayer().getGold());
+        //go to the next level (with the stored propiertes!) and set new playstate
         if (grid.getPlayer().getInformation().equals("New Level")) {
             currentGameInstanceData.incrementLevel();
             currentGameInstanceData.incrementBeatenRooms();
@@ -90,6 +97,7 @@ public class PlayState extends State {
         informationText.setText(grid.getPlayer().getInformation());
     }
 
+    //update room number
     public void updateCurrentRoomText() {
         roomText.setText("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber() + 1) + "/" + (grid.getRooms().length));
     }
