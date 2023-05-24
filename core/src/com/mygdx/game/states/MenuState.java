@@ -3,6 +3,8 @@ package com.mygdx.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.data.CurrentPlayer;
+import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 
@@ -29,7 +31,11 @@ public class MenuState extends State {
     if(Gdx.input.isTouched()){
       int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
       if(startGameText.isClicked(x, y)){
-        PlayState playState = new PlayState(gsm, 1,100, 5, 0, 0);
+        System.out.println(CurrentPlayer.getCurrentPlayer().getName());
+        CurrentPlayer.getCurrentPlayer().savePlayerdata(); // we only save the playerdata when the player starts a game
+        GameInstance gameInstanceData = new GameInstance(CurrentPlayer.getCurrentPlayer());
+
+        PlayState playState = new PlayState(gsm, 1, 100, 5, 0, 0, gameInstanceData);
         gsm.push(playState);
         gsm.set(playState);
       }
@@ -39,7 +45,9 @@ public class MenuState extends State {
         gsm.set(optionState);
       }
       if(highscoreText.isClicked(x, y)){
-        Gdx.gl.glClearColor(1, 0, 1, 1);
+        LeaderboardState leaderboardState = new LeaderboardState(gsm);
+        gsm.push(leaderboardState);
+        gsm.set(leaderboardState);
       }
       if(exitText.isClicked(x, y)){
         Gdx.app.exit();

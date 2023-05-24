@@ -1,8 +1,8 @@
 package com.mygdx.game.sprites.gameObjects.enemies.enemyTypes;
 
 import com.mygdx.game.sprites.Constants;
-import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.sprites.Grid;
+import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 
 public class Bat extends EnemyLabel {
 

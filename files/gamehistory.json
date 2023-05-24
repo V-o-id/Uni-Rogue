@@ -1,0 +1,28 @@
+{
+"710964682": {
+	"class": "com.mygdx.game.data.GameInstance",
+	"playerName": "Player1",
+	"startDateTime": "Wed May 24 00:35:06 CEST 2023",
+	"score": 50,
+	"gold": 0,
+	"kills": 0,
+	"durationInSeconds": 1,
+	"isGameWon": false,
+	"isGameFinished": true,
+	"level": 1,
+	"beatenRooms": 0
+},
+"-1861048535": {
+	"class": "com.mygdx.game.data.GameInstance",
+	"playerName": "Player1",
+	"startDateTime": "Wed May 24 00:34:48 CEST 2023",
+	"score": 50,
+	"gold": 0,
+	"kills": 0,
+	"durationInSeconds": 6,
+	"isGameWon": false,
+	"isGameFinished": true,
+	"level": 1,
+	"beatenRooms": 0
+}
+}
