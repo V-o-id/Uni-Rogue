@@ -10,15 +10,18 @@ import com.mygdx.game.sprites.font.Font;
 
 
 public class MenuState extends State {
+  //MenuState representing the menu of the game, selection: start the game, options (player name, player character, volume), high-score, exit Game
 
   private final Text startGameText;
   private final Text optionText;
   private final Text highscoreText;
   private final Text exitText;
+  //get font for the Text from the seperate class Font
   private final BitmapFont font = Font.getBitmapFont();
 
   public MenuState(GameStateManager gsm) {
     super(gsm);
+    //initialise the Texts and their position
     startGameText = new Text("Start Game", State.WIDTH / 2F, State.HEIGHT/2F + 3*State.HEIGHT/8F, font, true);
     optionText = new Text("Options", State.WIDTH / 2F, State.HEIGHT/2F + State.HEIGHT/8F, font, true);
     highscoreText = new Text("High-Score", State.WIDTH / 2F, State.HEIGHT/2F - State.HEIGHT/8F, font, true);
@@ -30,6 +33,7 @@ public class MenuState extends State {
 
     if(Gdx.input.isTouched()){
       int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
+      //if the startGame-Text is clicked, save the playerdata, create a new game and playstate with default values, the play state is the current state now
       if(startGameText.isClicked(x, y)){
         System.out.println(CurrentPlayer.getCurrentPlayer().getName());
         CurrentPlayer.getCurrentPlayer().savePlayerdata(); // we only save the playerdata when the player starts a game
@@ -39,16 +43,19 @@ public class MenuState extends State {
         gsm.push(playState);
         gsm.set(playState);
       }
+      //if the Options-Text is clicked, create a new OptionState and set the current state
       if(optionText.isClicked(x, y)) {
         OptionState optionState = new OptionState(gsm);
         gsm.push(optionState);
         gsm.set(optionState);
       }
+      //if the High-Score-Text is clicked, create a new LeaderBoardState and set the current state
       if(highscoreText.isClicked(x, y)){
         LeaderboardState leaderboardState = new LeaderboardState(gsm);
         gsm.push(leaderboardState);
         gsm.set(leaderboardState);
       }
+      //if the Exit Game-Text is clicked, exit the game
       if(exitText.isClicked(x, y)){
         Gdx.app.exit();
       }
