@@ -153,12 +153,6 @@ public class PlayerLabel extends GameObjectLabel {
 			//load data
 			health = 1000;
 		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.L)) { // check functions TODO: remove
-			//load data
-			GamesMap gamesMap = GamesMap.getPlayerMap();
-		}
-
-
 	}
 
 	private void checkNewRoom(Grid grid, PlayState playState, int lastRoomNumber) {

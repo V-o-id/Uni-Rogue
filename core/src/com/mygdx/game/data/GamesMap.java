@@ -5,11 +5,19 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class GamesMap {
 
     private static GamesMap gameMapInstance = null;
+
+
+    private static final String SECRET_KEY = "mIäm!##S!c##(!!!";
+    private static final String FILENAME_ENCRYPTED = "files/gamehistoryEncrypted.json";
+    private static final String FILENAME_DECRYPTED = "files/gamehistory.json";
+
 
     // String is not the best choice for a key, but it is the easiest to use for now
     // as hash we use the hashcode of the playername as a string
@@ -43,7 +51,19 @@ public class GamesMap {
 
     private void readGameData() {
 
-        FileHandle file = Gdx.files.local("files/gamehistory.json");
+        File in = new File(FILENAME_ENCRYPTED);
+        if(!in.exists()) { // if file does not exist there is no data to read
+            return;
+        }
+        File out = new File(FILENAME_DECRYPTED);
+        try {
+            // decrypt the file to read
+            FileEncrypter.decrypt(SECRET_KEY, in, out);
+        } catch (CryptoException e) {
+            System.out.println("Error decrypting file " + in.getName());
+        }
+
+        FileHandle file = Gdx.files.local(FILENAME_DECRYPTED);
         if(!file.exists()) { // if file does not exist there is no data to read
             return;
         }
@@ -53,22 +73,39 @@ public class GamesMap {
 
         try {
             Map<String, GameInstance> map = json.fromJson(HashMap.class, file);
+            if(map == null) { // empty file
+                return;
+            }
             gameMap.putAll(map);
         } catch (Exception e) {
-            // todo: handle exception
-            System.out.println("WRONG DATA FORMAT. WHAT SHOULD WE DO?");
-            System.err.println(e.getMessage());
+            // file is corrupted
+            file.writeString("", false);
         }
+
+        out.delete(); // delete the decrypted file, we dont need it anymore
 
     }
 
     private void writeGameData() {
+
         Json json = new Json();
         json.setUsePrototypes(false);
         json.setOutputType(JsonWriter.OutputType.json);
-        String jsonStr = json.prettyPrint(this.gameMap);
-        FileHandle file = Gdx.files.local("files/gamehistory.json");
+        String jsonStr = json.toJson(this.gameMap);
+        FileHandle file = Gdx.files.local(FILENAME_DECRYPTED);
         file.writeString(jsonStr, false); // TODO : try to append instead of overwrite - so we dont have to write the whole file every time
+
+        File in = new File(FILENAME_DECRYPTED);
+        File out = new File(FILENAME_ENCRYPTED);
+        try{
+            // encrypt the data
+            FileEncrypter.encrypt(SECRET_KEY, in, out);
+        } catch (CryptoException e) {
+            System.out.println("Error encrypting file " + in.getName());
+        }
+        // delete the unencrypted file
+        in.delete();
+
     }
 
 

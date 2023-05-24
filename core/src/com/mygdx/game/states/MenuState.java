@@ -31,7 +31,6 @@ public class MenuState extends State {
     if(Gdx.input.isTouched()){
       int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
       if(startGameText.isClicked(x, y)){
-        System.out.println(CurrentPlayer.getCurrentPlayer().getName());
         CurrentPlayer.getCurrentPlayer().savePlayerdata(); // we only save the playerdata when the player starts a game
         GameInstance gameInstanceData = new GameInstance(CurrentPlayer.getCurrentPlayer());
 
