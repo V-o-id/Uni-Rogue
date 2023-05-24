@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.sprites.font.Font;
-import com.mygdx.game.states.PlayState;
 
 import static com.mygdx.game.sprites.Constants.*;
 
@@ -62,7 +61,7 @@ public class VolumeSlider extends Slider {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 volume = getValue();
-                PlayState.setVolume(getValue());
+                music.setVolume(getValue());
             }
         });
     }

@@ -15,8 +15,9 @@ import static com.mygdx.game.sprites.Constants.*;
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
 
-
-
+/**
+ * The actual instance of where the game takes place.
+ */
 public class PlayState extends State {
     //PlayState representing the gameplay
 
@@ -40,7 +41,16 @@ public class PlayState extends State {
     private volatile Thread gameTimerThread;
 
 
-    //initialising a new playstate with all properties
+    /**
+     * Constructor for initializing the PlayState. On entering a new room, a new PlayState is constructed.
+     * @param gsm Reference to the {@link GameStateManager}
+     * @param level Starts at 1 and increases with every descend to the next level.
+     * @param playerHealth Starts at an initial value and carries over to the next level
+     * @param playerAttackDamage Starts at an initial value and carries over to the next level
+     * @param gold Starts at 0 and carries over to the next level
+     * @param gameTime Starts at 0 and carries over to the next level
+     * @param gameInstanceData Reference to the {@link GameInstance}
+     */
     public PlayState(GameStateManager gsm, int level, int playerHealth, int playerAttackDamage, int gold, long gameTime, GameInstance gameInstanceData) {
         super(gsm);
         grid = new Grid(playerHealth, playerAttackDamage, gold, level, gameInstanceData);
@@ -76,15 +86,17 @@ public class PlayState extends State {
         grid.getPlayer().characterControl(grid, gsm, this);
     }
 
-
-    //update properties which are changing during the game(collection gold, getting damage,...)
+    /**
+     * Update properties that change during the game (collection gold, getting damage,...)
+     * @param dt Delta for calculating frames per second
+     */
     @Override
     public void update(float dt) {
         handleInput();
         healthText.setText("Health: " + grid.getPlayer().getHealth());
         attackDamageText.setText("Attack Damage: " + grid.getPlayer().getAttackDamage());
         goldText.setText("Gold: " + grid.getPlayer().getGold());
-        //go to the next level (with the stored propiertes!) and set new playstate
+        // go to the next level (with stored properties) and set new PlayState
         if (grid.getPlayer().getInformation().equals("New Level")) {
             gsm.pop();
             gsm.push(new PlayState(gsm, level++, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds(), currentGameInstanceData));
@@ -93,11 +105,17 @@ public class PlayState extends State {
         informationText.setText(grid.getPlayer().getInformation());
     }
 
-    //update room number
+    /**
+     * Update room number
+     */
     public void updateCurrentRoomText() {
         roomText.setText("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber() + 1) + "/" + (grid.getRooms().length));
     }
 
+    /**
+     * Draws the grid and sets labels for game information
+     * @param sb SpriteBatch
+     */
     @Override
     public void render(SpriteBatch sb) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -119,6 +137,10 @@ public class PlayState extends State {
 
     }
 
+    /**
+     * Draws the grid to screen with contents of the array
+     * @param sb SpriteBatch
+     */
     private void drawGrid(SpriteBatch sb) {
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < COLUMNS; x++) {
@@ -131,12 +153,18 @@ public class PlayState extends State {
         return running;
     }
 
+    /**
+     * Pauses the game and enters {@link PauseState}
+     */
     public void pause() {
         pauseMusic();
         gameTimerThread.interrupt();
         running = false;
     }
 
+    /**
+     * Resumes the game
+     */
     public void resume() {
         resumeMusic();
         running = true;
@@ -144,23 +172,35 @@ public class PlayState extends State {
         gameTimerThread.start();
     }
 
-    public static void setHealthTextColor(Color color) {
-        healthText.getFont().setColor(color);
-    }
-
-    public void setGameTimerText(String text) {
-        gameTimerText.setText(text);
-    }
-
-    public static void setVolume(float musicVolume) {
-        music.setVolume(musicVolume);
-    }
-
+    /**
+     * Pauses {@link com.mygdx.game.sprites.Constants#music}
+     */
     public static void pauseMusic() {
         music.pause();
     }
 
+    /**
+     * Resumes {@link com.mygdx.game.sprites.Constants#music}
+     */
     public static void resumeMusic() {
-        music.play();
+        if (!music.isPlaying()) {
+            music.play();
+        }
+    }
+
+    /**
+     * Sets color of health text to get different effects for different damage types
+     * @param color Desired color
+     */
+    public static void setHealthTextColor(Color color) {
+        healthText.getFont().setColor(color);
+    }
+
+    /**
+     * Sets {@link #gameTimerText}, called for every update of game time
+     * @param text Text + game time
+     */
+    public void setGameTimerText(String text) {
+        gameTimerText.setText(text);
     }
 }
