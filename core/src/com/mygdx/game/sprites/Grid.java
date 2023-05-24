@@ -197,8 +197,8 @@ public class Grid {
 
             if(type == 0) {
                 switch(objectType) {
-                    case 0: new SwordLabel(this, style, itemPosX, itemPosY, 30); break;
-                    case 1: new HealthLabel(this, style, itemPosX, itemPosY, 50); break;
+                    case 0: new SwordLabel(this, style, itemPosX, itemPosY, getRandomNumber(level)); break;
+                    case 1: new HealthLabel(this, style, itemPosX, itemPosY, getRandomNumber(level)); break;
                     default: return;
                 }
 
