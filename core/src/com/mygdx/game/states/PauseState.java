@@ -2,6 +2,7 @@ package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,20 +21,19 @@ public class PauseState extends State {
 
     private final VolumeSlider volumeSlider;
 
-    private final int textHeight = 75; // ? how to get height of text
-
     PlayState playState;
     Stage stage;
     public PauseState(GameStateManager gsm, PlayState playState) {
         super(gsm);
+        font.setColor(Color.WHITE); // otherwise poison makes text purple
         stage = new Stage();
         this.playState = playState;
         pauseText = new Text("Pause", State.WIDTH / 2F, State.HEIGHT * 0.9F, font, true);
         resumeText = new Text("Resume", State.WIDTH / 2F, State.HEIGHT * 0.65F, font, true);
-        restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.65F - textHeight, font, true);
-        returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.65F - 2 * textHeight, font, true);
-        closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.65F - 3 * textHeight, font, true);
-        volumeSlider = new VolumeSlider(State.WIDTH / 2F, State.HEIGHT * 0.65F - 6 * textHeight, State.WIDTH/4F, 100, 0f, 1f, 0.001f, false, new Stage());
+        restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.65F - TEXT_HEIGHT, font, true);
+        returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.65F - 2 * TEXT_HEIGHT, font, true);
+        closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.65F - 3 * TEXT_HEIGHT, font, true);
+        volumeSlider = new VolumeSlider(State.WIDTH / 2F, State.HEIGHT * 0.65F - 6 * TEXT_HEIGHT, State.WIDTH/4F, 100, 0f, 1f, 0.001f, false, new Stage());
     }
 
     @Override
@@ -57,7 +57,7 @@ public class PauseState extends State {
             if (restartText.isClicked(x, y)) {
                 //restart game
                 gsm.pop();
-                gsm.set(new PlayState(gsm, 1,  10, 5, 0, 0));
+                gsm.set(new PlayState(gsm, 1,  100, 5, 0, 0));
             }
             if (returnToMenuText.isClicked(x, y)) {
                 //return to menu

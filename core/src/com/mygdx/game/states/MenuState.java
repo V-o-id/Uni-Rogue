@@ -43,6 +43,7 @@ public class MenuState extends State {
       }
       if(exitText.isClicked(x, y)){
         Gdx.app.exit();
+        System.exit(0);
       }
     }
   }

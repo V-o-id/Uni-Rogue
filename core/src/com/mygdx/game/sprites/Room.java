@@ -3,6 +3,10 @@ package com.mygdx.game.sprites;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.gameObjects.RoomLabel;
+import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Room {
 
@@ -13,6 +17,7 @@ public class Room {
     private final int roomNumber;
     private boolean hasInboundPath = false;
     private boolean hasOutboundPath = false;
+    List<EnemyLabel> enemyLabelList = new ArrayList<>();
 
     public Room(int x, int y, int width, int height, int roomNumber) {
         this.x = x;
@@ -95,5 +100,9 @@ public class Room {
         int xDistance = Math.abs(this.getX() - r2.getX());
         int yDistance = Math.abs(this.getY() - r2.getY());
         return xDistance + yDistance;
+    }
+
+    public List<EnemyLabel> getEnemies() {
+        return enemyLabelList;
     }
 }

@@ -112,13 +112,16 @@ public class Grid {
         //Spawn 1-3 random enemy types in every room
         for(Room room: roomsInOrder) {
             for(int i = (int)(Math.random() * 3); i < 3; i++){
+                EnemyLabel enemy;
                 if ((int) (Math.random() * EnemyLabel.NUM_OF_ENEMY_TYPES) == 0) {
-                    enemyLabelList.add(new Snake(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                    enemy = new Snake(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight()));
                 } else if ((int) (Math.random() * EnemyLabel.NUM_OF_ENEMY_TYPES) == 1) {
-                    enemyLabelList.add(new Goblin(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                    enemy = new Goblin(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight()));
                 } else {
-                    enemyLabelList.add(new Bat(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight())));
+                    enemy = new Bat(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight()));
                 }
+                enemyLabelList.add(enemy);
+                room.enemyLabelList.add(enemy);
             }
         }
     }
@@ -226,5 +229,8 @@ public class Grid {
 
     public void removeEnemy(EnemyLabel enemy) {
         enemyLabelList.remove(enemy);
+    }
+    public boolean noEnemies() {
+        return enemyLabelList.isEmpty();
     }
 }

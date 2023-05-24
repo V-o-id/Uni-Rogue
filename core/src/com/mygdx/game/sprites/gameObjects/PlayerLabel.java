@@ -13,10 +13,7 @@ import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel;
-import com.mygdx.game.states.GameStateManager;
-import com.mygdx.game.states.PauseState;
-import com.mygdx.game.states.PlayState;
-import com.mygdx.game.states.State;
+import com.mygdx.game.states.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -102,7 +99,7 @@ public class PlayerLabel extends GameObjectLabel {
 			direction = grid.getGrid()[gridPosY + dirDeltaY][gridPosX + dirDeltaX];
 		}
 
-		if(isWalkable(direction)) {
+		if(isWalkable(direction, grid)) {
 			damage(0);
 			stepSound.play(getVolume() / 2);
 			if(direction instanceof PathLabel) onPath = true;
@@ -135,11 +132,17 @@ public class PlayerLabel extends GameObjectLabel {
 			playState.pause();
 			gsm.push(new PauseState(gsm, playState));
 		}
+
+		if(amIDeadYet()) {
+			playState.pause();
+			gsm.push(new GameOverState(gsm, playState));
+		}
 	}
 
 	private void checkNewRoom(Grid grid, PlayState playState, int lastRoomNumber) {
 		//check room of new position
 		Room[] rooms = grid.getRooms();
+		Room lastRoom = rooms[lastRoomNumber];
 		if(lastRoomNumber > 0) {
 			lastRoomNumber--;
 		}
@@ -151,6 +154,14 @@ public class PlayerLabel extends GameObjectLabel {
 		}
 		grid.getPlayer().setCurrentRoom(currentRoom);
 		playState.updateCurrentRoomText();
+
+		// Set EnemyState to AWAKE/IDLE when entering/leaving a room
+		for(EnemyLabel enemy: lastRoom.getEnemies()) {
+			enemy.setState(EnemyLabel.EnemyState.IDLE);
+		}
+		for(EnemyLabel enemy: currentRoom.getEnemies()) {
+			enemy.setState(EnemyLabel.EnemyState.AWAKE);
+		}
 	}
 
 	private void collectItems(Label label, Grid grid) {
@@ -236,12 +247,6 @@ public class PlayerLabel extends GameObjectLabel {
 			health -= 3; //poison damage
 			poisonDuration--;
 		}
-		if(health <= 0) {
-			PlayState.pauseMusic();
-			Sound gameOverSound = Gdx.audio.newSound(Gdx.files.internal("audio/GameOverSound.wav"));
-			gameOverSound.play(getVolume() * 0.6f);
-			System.out.println("GAME OVER :(((((( 👀🎂🤞😢🐱‍👓😆");
-		}
 	}
 
 	private void attack(int damage, EnemyLabel target, Grid grid) {
@@ -249,6 +254,7 @@ public class PlayerLabel extends GameObjectLabel {
 		if(target.getHealth() <= 0) {
 			grid.removeEnemy(target);
 			grid.setGridCharacter(target.getGridPosY(), target.getGridPosX(), new RoomLabel(Constants.STYLE));
+			gold += (int)(Math.random() * 20); //Lootdrop
 		}
 	}
 
@@ -260,8 +266,8 @@ public class PlayerLabel extends GameObjectLabel {
 		gold -= amount;
 	}
 
-	private boolean isWalkable(Label dest) {
-		return dest instanceof RoomLabel || dest instanceof ItemLabel || dest instanceof PathLabel || dest instanceof LevelLabel;
+	private boolean isWalkable(Label dest, Grid grid) {
+		return dest instanceof RoomLabel || dest instanceof ItemLabel || dest instanceof PathLabel || grid.noEnemies() && dest instanceof LevelLabel;
 	}
 
 	private GameObjectLabel labelFromCharacter(String character) {
@@ -270,6 +276,24 @@ public class PlayerLabel extends GameObjectLabel {
 			case PATH_CHARACTER: return new PathLabel(Constants.STYLE);
 			default: throw new IllegalArgumentException("Unsupported character");
 		}
+	}
+
+	private boolean amIDeadYet() {
+		if(health <= 0) {
+			PlayState.pauseMusic();
+			Sound gameOverSound = Gdx.audio.newSound(Gdx.files.internal("audio/GameOverSound.wav"));
+			gameOverSound.play(getVolume() * 0.6f);
+			return true;
+		}
+		return false;
+	}
+
+	public int getGridPosX() {
+		return gridPosX;
+	}
+
+	public int getGridPosY() {
+		return gridPosY;
 	}
 
 	public void dispose() {
