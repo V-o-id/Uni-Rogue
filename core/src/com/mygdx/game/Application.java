@@ -47,12 +47,4 @@ public class Application extends ApplicationAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
-
-//    public static float getVolume() {
-//        return volume;
-//    }
-//
-//    public static void setVolume(float vol) {
-//        volume = vol;
-//    }
 }

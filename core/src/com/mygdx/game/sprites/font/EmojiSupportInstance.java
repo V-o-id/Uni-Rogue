@@ -8,6 +8,10 @@ public class EmojiSupportInstance extends EmojiSupport {
 
     private EmojiSupportInstance() {}
 
+    /**
+     * Creates on actual instance of EmojiSupport.
+     * @return EmojiSupport instance
+     */
     public static EmojiSupport getEmojiSupport() {
         if (emojiSupportSingleton == null) {
             emojiSupportSingleton = new EmojiSupport();
@@ -16,5 +20,4 @@ public class EmojiSupportInstance extends EmojiSupport {
         }
         return emojiSupportSingleton;
     }
-
 }
