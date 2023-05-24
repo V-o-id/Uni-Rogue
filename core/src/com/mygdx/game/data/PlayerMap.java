@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,6 +84,12 @@ public class PlayerMap {
         }
 
         out.delete(); // delete the decrypted file, we dont need it anymore
+        //hide out file
+        try {
+            Files.setAttribute(in.toPath(), "dos:hidden", true);
+        } catch (IOException e) {
+            // not important if we cant hide the file
+        }
 
     }
 
@@ -106,6 +113,13 @@ public class PlayerMap {
         }
         // delete the unencrypted file
         in.delete();
+
+        //hide out file
+        try {
+            Files.setAttribute(out.toPath(), "dos:hidden", true);
+        } catch (IOException e) {
+            // not important if we cant hide the file
+        }
 
     }
 
