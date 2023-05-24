@@ -12,7 +12,7 @@ import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.GameTimer;
 
-import static com.mygdx.game.Application.getVolume;
+import static com.mygdx.game.sprites.Constants.*;
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
 
@@ -63,11 +63,11 @@ public class PlayState extends State {
 
         //start sound
         Sound startSound = Gdx.audio.newSound(Gdx.files.internal("audio/StartSound.wav"));
-        startSound.play(getVolume() * 0.6f);
+        startSound.play(volume * 0.6f);
 
         //background music
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/Rogue.wav"));
-        music.setVolume(getVolume());
+        music.setVolume(volume);
         music.play();
         music.setLooping(true);
     }
