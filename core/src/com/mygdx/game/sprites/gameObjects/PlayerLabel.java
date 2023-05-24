@@ -24,9 +24,9 @@ import com.mygdx.game.states.State;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.mygdx.game.Application.getVolume;
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
+import static com.mygdx.game.sprites.Constants.*;
 
 public class PlayerLabel extends GameObjectLabel {
 
@@ -112,7 +112,7 @@ public class PlayerLabel extends GameObjectLabel {
 		if(isWalkable(direction)) {
 			damage(0);
 
-			stepSound.play(getVolume() / 2);
+			stepSound.play(volume / 2);
 			if(direction instanceof PathLabel) onPath = true;
 
 			grid.setGridCharacter(gridPosY, gridPosX, labelFromCharacter(previousCharacter));
@@ -267,7 +267,7 @@ public class PlayerLabel extends GameObjectLabel {
 		if(health <= 0) {
 			PlayState.pauseMusic();
 			Sound gameOverSound = Gdx.audio.newSound(Gdx.files.internal("audio/GameOverSound.wav"));
-			gameOverSound.play(getVolume() * 0.6f);
+			gameOverSound.play(volume * 0.6f);
 			System.out.println("GAME OVER :(((((( 👀🎂🤞😢🐱‍👓😆");
 			System.out.println(gameInstance.getDurationInSeconds());
 			gameFinishedDataHandler(false);

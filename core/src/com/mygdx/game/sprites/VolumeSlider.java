@@ -13,6 +13,8 @@ import com.mygdx.game.Application;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.states.PlayState;
 
+import static com.mygdx.game.sprites.Constants.*;
+
 public class VolumeSlider extends Slider {
 
     private final Text volumeText;
@@ -32,7 +34,7 @@ public class VolumeSlider extends Slider {
     }
 
     private void createSlider() {
-        setValue(Application.getVolume());
+        setValue(volume);
         setColor(new Color(255f,255f,255f,1f));
         setPosition(x - width/2, y - 100);
         setSize(width, height);
@@ -41,7 +43,7 @@ public class VolumeSlider extends Slider {
         addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Application.setVolume(getValue());
+                volume = getValue();
                 PlayState.setVolume(getValue());
             }
         });

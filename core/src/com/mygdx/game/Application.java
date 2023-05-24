@@ -20,9 +20,6 @@ public class Application extends ApplicationAdapter {
     private SpriteBatch batch;
     private Viewport viewport;
 
-    private static float volume = 0.9f;
-
-
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -51,11 +48,11 @@ public class Application extends ApplicationAdapter {
         viewport.update(width, height);
     }
 
-    public static float getVolume() {
-        return volume;
-    }
-
-    public static void setVolume(float vol) {
-        volume = vol;
-    }
+//    public static float getVolume() {
+//        return volume;
+//    }
+//
+//    public static void setVolume(float vol) {
+//        volume = vol;
+//    }
 }
