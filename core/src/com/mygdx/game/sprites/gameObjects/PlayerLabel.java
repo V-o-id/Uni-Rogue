@@ -104,6 +104,7 @@ public class PlayerLabel extends GameObjectLabel {
 
 		if(isWalkable(direction)) {
 			damage(0);
+
 			stepSound.play(getVolume() / 2);
 			if(direction instanceof PathLabel) onPath = true;
 

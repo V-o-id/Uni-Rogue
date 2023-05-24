@@ -41,6 +41,7 @@ public class VolumeSlider extends Slider {
         addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Application.setVolume(getValue());
                 PlayState.setVolume(getValue());
             }
         });
