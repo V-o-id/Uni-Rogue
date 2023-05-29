@@ -147,11 +147,7 @@ public class PlayerLabel extends GameObjectLabel {
 		//if p is pressed, game over
 		if (Gdx.input.isKeyJustPressed(Input.Keys.P)) { // safe data TODO: remove
 			//safe data
-			gameFinishedDataHandler(false);
-		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.H)) { // increase Health TODO: remove
-			//load data
-			health = 1000;
+			gameFinishedDataHandler();
 		}
 	}
 
@@ -264,15 +260,19 @@ public class PlayerLabel extends GameObjectLabel {
 			gameOverSound.play(volume * 0.6f);
 			System.out.println("GAME OVER :(((((( 👀🎂🤞😢🐱‍👓😆");
 			System.out.println(gameInstance.getDurationInSeconds());
-			gameFinishedDataHandler(false);
+			gameFinishedDataHandler();
 		}
 	}
 
-	private void gameFinishedDataHandler(boolean won) {
+	private boolean gameSaved = false;
+	private void gameFinishedDataHandler() {
+		if(gameSaved){ // should not happen but just in case
+			return;
+		}
 		gameInstance.setGold(gold);
-		gameInstance.setGameWon(won);
 		gameInstance.setGameFinished(true);
 		CurrentPlayer.getCurrentPlayer().playedGame(gameInstance);
+		gameSaved = true;
 	}
 
 	private void attack(int damage, EnemyLabel target, Grid grid) {

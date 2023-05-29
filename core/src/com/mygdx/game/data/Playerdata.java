@@ -130,11 +130,6 @@ public class Playerdata {
         incrementTotalGamesPlayed();
         changeTotalScore(g.getScore());
         changeTotalKillCount(g.getKills());
-        if(!g.isGameWon()){
-            incrementTotalGamesLost();
-        } else {
-            incrementTotalGamesWon();
-        }
         changeRoomsBeaten(g.getBeatenRooms());
         changePlayTimeInSeconds(g.getDurationInSeconds());
         changeTotalLevelsCompleted(g.getLevel()-1); // -1 because here it is beaten levels, not played levels

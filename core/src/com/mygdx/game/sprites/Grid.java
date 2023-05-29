@@ -58,12 +58,6 @@ public class Grid {
             } catch (RoomStrategyException e) {
                 roomStrategy = null;
             }
-            //TODO TODO DEBUG REMOVE
-            try {
-                roomStrategy = new BottomLeftStraightUp(ROOMS_PER_ROW, ROOMS_PER_COLUMN);
-            } catch (RoomStrategyException e) {
-                throw new RuntimeException(e);
-            }
         }
 
         generateRooms(style);

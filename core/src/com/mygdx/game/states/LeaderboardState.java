@@ -36,7 +36,7 @@ public class LeaderboardState extends State {
     private final Text playerStatsText;
     private final Text gameStatsText;
 
-    private final boolean gameStats = true;
+    private boolean gameStats = true;
 
 
     public LeaderboardState(GameStateManager gsm) {
@@ -57,16 +57,15 @@ public class LeaderboardState extends State {
     }
 
     private void initFirstRow() {
-        Label[] l = new Label[9];
+        Label[] l = new Label[8];
         l[0] = new Label("Nr", skin);
         l[1] = new Label("Name", skin);
         l[2] = new Label("Score", skin);
-        l[3] = new Label("Game Won", skin);
-        l[4] = new Label("Level", skin);
-        l[5] = new Label("Rooms", skin);
-        l[6] = new Label("Kills", skin);
-        l[7] = new Label("Time", skin);
-        l[8] = new Label("Date", skin);
+        l[3] = new Label("Level", skin);
+        l[4] = new Label("Rooms", skin);
+        l[5] = new Label("Kills", skin);
+        l[6] = new Label("Time", skin);
+        l[7] = new Label("Date", skin);
 
         l[0].setFontScale(1.1f);
         l[0].setColor(1f, 0.5f, 0.5f, 1);
@@ -89,7 +88,7 @@ public class LeaderboardState extends State {
     }
     enum SortingmethodGames {
         // take care of the order - should be the same as in the table - 1
-        NAME, SCORE, GAME_WON, LEVEL, ROOMS, KILLS, TIME, DATE
+        NAME, SCORE, LEVEL, ROOMS, KILLS, TIME, DATE
     }
 
     private void realignTable(SortingmethodGames method) {
@@ -97,7 +96,6 @@ public class LeaderboardState extends State {
         switch(method){
             case NAME: set = gamesMap.getGamesSortedByPlayerName(); break;
             case SCORE: set = gamesMap.getGamesSortedByScore(); break;
-            case GAME_WON: set = gamesMap.getGamesSortedByGameWon(); break;
             case LEVEL: set = gamesMap.getGamesSortedByLevels(); break;
             case ROOMS: set = gamesMap.getGamesSortedByBeatenRooms(); break;
             case KILLS: set = gamesMap.getGameSortedByKills(); break;
@@ -113,16 +111,15 @@ public class LeaderboardState extends State {
     private void initTable(Set<GameInstance> set) {
         int counter = 1;
         for(GameInstance gI : set){
-            createRow(counter, gI.getPlayerName(), gI.getScore(), gI.isGameWon(), gI.getLevel(), gI.getBeatenRooms(), gI.getKills(), gI.getDurationInSeconds(), gI.getStartDateTime());
+            createRow(counter, gI.getPlayerName(), gI.getScore(), gI.getLevel(), gI.getBeatenRooms(), gI.getKills(), gI.getDurationInSeconds(), gI.getStartDateTime());
             counter++;
         }
     }
 
-    private void createRow(int nr, String playerName, int score, boolean gameWon, int level, int beatenRooms, int kills, long durationInSeconds, String date) {
+    private void createRow(int nr, String playerName, int score, int level, int beatenRooms, int kills, long durationInSeconds, String date) {
         table.add(nr + ".");
         table.add(playerName);
         table.add(String.valueOf(score));
-        table.add(gameWon ? "Won" : "Loose");
         table.add(String.valueOf(level));
         table.add(String.valueOf(beatenRooms));
         table.add(String.valueOf(kills));
@@ -157,9 +154,11 @@ public class LeaderboardState extends State {
             }
             if(playerStatsText.isClicked(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
                 realignTableToPlayer(SortingmethodPlayers.SCORE);
+                gameStats = false;
             }
             if(gameStatsText.isClicked(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
                 realignTable(SortingmethodGames.SCORE);
+                gameStats = true;
             }
         }
     }
@@ -170,7 +169,6 @@ public class LeaderboardState extends State {
             case NAME: set = playerMap.getPlayersSortedByName(); break;
             case SCORE: set = playerMap.getPlayersSortedByScore(); break;
             case GAMES_PLAYED: set = playerMap.getPlayersSortedByGamesPlayed(); break;
-            case GAMES_WON: set = playerMap.getPlayersSortedByGamesWon(); break;
             case LEVELS: set = playerMap.getPlayersSortedByLevels(); break;
             case ROOMS: set = playerMap.getPlayersSortedByBeatenRooms(); break;
             case KILLS: set = playerMap.getPlayersSortedByKills(); break;
@@ -184,17 +182,16 @@ public class LeaderboardState extends State {
     }
 
     private void initFirstRowPlayer() {
-        Label[] l = new Label[10];
+        Label[] l = new Label[9];
         l[0] = new Label("Nr", skin);
         l[1] = new Label("Name", skin);
         l[2] = new Label("Score", skin);
         l[3] = new Label("Games Played", skin);
-        l[4] = new Label("Games Won", skin);
-        l[5] = new Label("Levels", skin);
-        l[6] = new Label("Rooms", skin);
-        l[7] = new Label("Kills", skin);
-        l[8] = new Label("Playtime", skin);
-        l[9] = new Label("Created", skin);
+        l[4] = new Label("Levels", skin);
+        l[5] = new Label("Rooms", skin);
+        l[6] = new Label("Kills", skin);
+        l[7] = new Label("Playtime", skin);
+        l[8] = new Label("Created", skin);
 
         l[0].setFontScale(1.1f);
         l[0].setColor(1f, 0.5f, 0.5f, 1);
@@ -218,23 +215,22 @@ public class LeaderboardState extends State {
     }
     enum SortingmethodPlayers {
         // take care of the order - should be the same as in the table - 1
-        NAME, SCORE, GAMES_PLAYED, GAMES_WON, LEVELS, ROOMS, KILLS, TIME, DATE
+        NAME, SCORE, GAMES_PLAYED, LEVELS, ROOMS, KILLS, TIME, DATE
     }
 
     private void initTablePlayer(Set<Playerdata> set) {
         int counter = 1;
         for(Playerdata pD : set){
-            createRowPlayer(counter, pD.getName(), pD.getTotalScore(), pD.getTotalGamesPlayed(), pD.getTotalGamesWon(), pD.getTotalLevelsCompleted(), pD.getTotalRoomsBeaten(), pD.getTotalKills(), pD.getPlayTimeInSeconds(), pD.getCreationDate());
+            createRowPlayer(counter, pD.getName(), pD.getTotalScore(), pD.getTotalGamesPlayed(), pD.getTotalLevelsCompleted(), pD.getTotalRoomsBeaten(), pD.getTotalKills(), pD.getPlayTimeInSeconds(), pD.getCreationDate());
             counter++;
         }
     }
 
-    private void createRowPlayer(int nr, String playerName, long score, long gamesPlayed, long gamesWon, long level, long beatenRooms, long kills, long durationInSeconds, String date) {
+    private void createRowPlayer(int nr, String playerName, long score, long gamesPlayed, long level, long beatenRooms, long kills, long durationInSeconds, String date) {
         table.add(nr + ".");
         table.add(playerName);
         table.add(String.valueOf(score));
         table.add(String.valueOf(gamesPlayed));
-        table.add(String.valueOf(gamesWon));
         table.add(String.valueOf(level));
         table.add(String.valueOf(beatenRooms));
         table.add(String.valueOf(kills));

@@ -176,22 +176,6 @@ public class PlayerMap {
         players.addAll(playerMap.values());
         return players;
     }
-    public TreeSet<Playerdata> getPlayersSortedByGamesWon() {
-        TreeSet<Playerdata> players = new TreeSet<>(new Comparator<Playerdata>() {
-            @Override
-            public int compare(Playerdata o1, Playerdata o2) {
-                long l = Long.compare(o1.getTotalGamesWon(), o2.getTotalGamesWon());
-                if(l > 0) {
-                    return -1;
-                } else if(l < 0) {
-                    return 1;
-                }
-                return o1.getName().compareToIgnoreCase(o2.getName());
-            }
-        });
-        players.addAll(playerMap.values());
-        return players;
-    }
 
     public TreeSet<Playerdata> getPlayersSortedByLevels() {
         TreeSet<Playerdata> players = new TreeSet<>(new Comparator<Playerdata>() {

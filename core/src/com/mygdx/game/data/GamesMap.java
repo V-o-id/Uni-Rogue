@@ -157,27 +157,6 @@ public class GamesMap {
         return games;
     }
 
-    public TreeSet<GameInstance> getGamesSortedByGameWon() {
-        TreeSet<GameInstance> games = new TreeSet<>(new Comparator<GameInstance>() {
-            @Override
-            public int compare(GameInstance o1, GameInstance o2) {
-                if(o1.isGameWon() && !o2.isGameWon()) {
-                    return -1;
-                } else if(!o1.isGameWon() && o2.isGameWon()) {
-                    return 1;
-                }
-                if(o1.getScore() > o2.getScore()) {
-                    return -1;
-                } else if(o1.getScore() < o2.getScore()) {
-                    return 1;
-                }
-                return o1.getStartDateTime().compareTo(o2.getStartDateTime());
-            }
-        });
-        games.addAll(gameMap.values());
-        return games;
-    }
-
     public TreeSet<GameInstance> getGamesSortedByScore() {
         TreeSet<GameInstance> games = new TreeSet<>(new Comparator<GameInstance>() {
             @Override

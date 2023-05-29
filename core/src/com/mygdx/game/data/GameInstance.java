@@ -11,7 +11,6 @@ public class GameInstance {
     private int gold = 0;
     private int kills = 0;
     private long durationInSeconds = 0;
-    private boolean isGameWon = false;
     private boolean isGameFinished = false;
     private int level = 0;
     private int beatenRooms = 0;
@@ -71,12 +70,7 @@ public class GameInstance {
     public void setDurationInSeconds(long durationInSeconds) {
         this.durationInSeconds = durationInSeconds;
     }
-    public void setGameWon(boolean gameWon) {
-        isGameWon = gameWon;
-    }
-    public boolean isGameWon() {
-        return isGameWon;
-    }
+
 
     /**
      * if the game is finished, the score is calculated and the game is saved to the file ("gameHistory.json")
@@ -132,7 +126,6 @@ public class GameInstance {
                 ", gold=" + gold +
                 ", kills=" + kills +
                 ", durationInSeconds=" + durationInSeconds +
-                ", isGameWon=" + isGameWon +
                 ", isGameFinished=" + isGameFinished +
                 ", level=" + level +
                 '}';
