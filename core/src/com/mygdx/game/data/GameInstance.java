@@ -132,5 +132,8 @@ public class GameInstance {
     }
 
 
+    public boolean getIsGameFinished() {
+        return isGameFinished;
+    }
 
 }

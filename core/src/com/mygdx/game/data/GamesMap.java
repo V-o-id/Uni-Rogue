@@ -6,8 +6,6 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.*;
 
 public class GamesMap {
@@ -88,7 +86,7 @@ public class GamesMap {
     }
 
     private void writeGameData() {
-
+        System.out.println("Writing game data");
         Json json = new Json();
         json.setUsePrototypes(false);
         json.setOutputType(JsonWriter.OutputType.json);

@@ -187,7 +187,7 @@ public class LeaderboardState extends State {
         l[1] = new Label("Name", skin);
         l[2] = new Label("Score", skin);
         l[3] = new Label("Games Played", skin);
-        l[4] = new Label("Levels", skin);
+        l[4] = new Label("Levels beaten", skin);
         l[5] = new Label("Rooms", skin);
         l[6] = new Label("Kills", skin);
         l[7] = new Label("Playtime", skin);

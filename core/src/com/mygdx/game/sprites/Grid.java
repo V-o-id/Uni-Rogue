@@ -15,7 +15,6 @@ import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.Snake;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel;
-import com.mygdx.game.sprites.roomstrategy.BottomLeftStraightUp;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategy;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
 import com.mygdx.game.sprites.roomstrategy.Strategies;

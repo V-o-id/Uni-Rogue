@@ -7,14 +7,12 @@ import java.util.Date;
 
 public class Playerdata {
 
-    private String name; // acts as id
+    private String name; // acts as id, thus must be unique
     private String playerCharacter;
     private String creationDate;
     private long totalScore;
     private long totalKills;
     private long totalGamesPlayed;
-    private long totalGamesWon;
-    private long totalGamesLost;
     private long playTimeInSeconds;
     private long totalLevelsCompleted;
     private long totalRoomsBeaten;
@@ -30,12 +28,6 @@ public class Playerdata {
     }
     public long getTotalGamesPlayed() {
         return totalGamesPlayed;
-    }
-    public long getTotalGamesWon() {
-        return totalGamesWon;
-    }
-    public long getTotalGamesLost() {
-        return totalGamesLost;
     }
     public long getPlayTimeInSeconds() {
         return playTimeInSeconds;
@@ -87,8 +79,6 @@ public class Playerdata {
         p.totalScore = 0;
         p.totalKills = 0;
         p.totalGamesPlayed = 0;
-        p.totalGamesWon = 0;
-        p.totalGamesLost = 0;
         p.playTimeInSeconds = 0;
         p.totalLevelsCompleted = 0;
         p.totalRoomsBeaten = 0;
@@ -111,8 +101,6 @@ public class Playerdata {
         this.totalScore = currentPlayer.totalScore;
         this.totalKills = currentPlayer.totalKills;
         this.totalGamesPlayed = currentPlayer.totalGamesPlayed;
-        this.totalGamesWon = currentPlayer.totalGamesWon;
-        this.totalGamesLost = currentPlayer.totalGamesLost;
         this.playTimeInSeconds = currentPlayer.playTimeInSeconds;
         this.totalLevelsCompleted = currentPlayer.totalLevelsCompleted;
         this.totalRoomsBeaten = currentPlayer.totalRoomsBeaten;
@@ -144,12 +132,7 @@ public class Playerdata {
     private void incrementTotalGamesPlayed() {
         totalGamesPlayed++;
     }
-    private void incrementTotalGamesWon() {
-        totalGamesWon++;
-    }
-    private void incrementTotalGamesLost() {
-        totalGamesLost++;
-    }
+
     private void changeTotalKillCount(int amount) {
         totalKills += amount;
     }

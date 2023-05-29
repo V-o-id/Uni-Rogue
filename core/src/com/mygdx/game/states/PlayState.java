@@ -11,7 +11,8 @@ import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.GameTimer;
 
-import static com.mygdx.game.sprites.Constants.*;
+import static com.mygdx.game.sprites.Constants.music;
+import static com.mygdx.game.sprites.Constants.volume;
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
 

@@ -11,7 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.sprites.font.Font;
 
-import static com.mygdx.game.sprites.Constants.*;
+import static com.mygdx.game.sprites.Constants.music;
+import static com.mygdx.game.sprites.Constants.volume;
 
 /**
  * Volume slider to use in PauseState.

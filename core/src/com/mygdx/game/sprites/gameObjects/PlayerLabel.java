@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.data.CurrentPlayer;
 import com.mygdx.game.data.GameInstance;
-import com.mygdx.game.data.GamesMap;
 import com.mygdx.game.sprites.Constants;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Room;
@@ -24,9 +23,9 @@ import com.mygdx.game.states.State;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.mygdx.game.sprites.Constants.volume;
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
-import static com.mygdx.game.sprites.Constants.*;
 
 public class PlayerLabel extends GameObjectLabel {
 
