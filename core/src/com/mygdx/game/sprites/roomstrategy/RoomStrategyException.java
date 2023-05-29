@@ -8,8 +8,19 @@ package com.mygdx.game.sprites.roomstrategy;
  */
 public class RoomStrategyException extends Exception {
 
+    /**
+     * the strategy that was chosen as a string
+     */
     public final String roomStrategy;
+    /**
+     * number of rooms per row
+     * note: this corresponds to the number of columns, not the number of rows
+     */
     public final int roomsPerRow;
+    /**
+     * number of rooms per column
+     * note: this corresponds to the number of rows, not the number of columns
+     */
     public final int roomsPerColumn;
 
     public RoomStrategyException(String message) {

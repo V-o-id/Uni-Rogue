@@ -14,7 +14,6 @@ import com.mygdx.game.data.Playerdata;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.VolumeSlider;
 import com.mygdx.game.sprites.font.Font;
-//import org.apache.commons.text.StringEscapeUtils;
 
 public class OptionState extends State {
     //OptionState representing the Options of the game (choose a name, a charater to play with and the volume of the sound

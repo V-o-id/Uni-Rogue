@@ -15,6 +15,7 @@ import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.Snake;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel;
+import com.mygdx.game.sprites.roomstrategy.BottomLeftStraightUp;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategy;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
 import com.mygdx.game.sprites.roomstrategy.Strategies;
@@ -56,6 +57,12 @@ public class Grid {
                 roomStrategy = Strategies.getStrategy(randomStrategy, ROOMS_PER_ROW, ROOMS_PER_COLUMN);
             } catch (RoomStrategyException e) {
                 roomStrategy = null;
+            }
+            //TODO TODO DEBUG REMOVE
+            try {
+                roomStrategy = new BottomLeftStraightUp(ROOMS_PER_ROW, ROOMS_PER_COLUMN);
+            } catch (RoomStrategyException e) {
+                throw new RuntimeException(e);
             }
         }
 

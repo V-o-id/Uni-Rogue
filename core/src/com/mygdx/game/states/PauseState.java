@@ -11,6 +11,13 @@ import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.VolumeSlider;
 import com.mygdx.game.sprites.font.Font;
 
+
+/**
+ * The Pause-Menu State of the game.
+ * <br>
+ * The Pause-Menu State is a State that is called when the player presses the ESC key during the PlayState. <br>
+ * It is a menu that allows the player to resume the game, restart the game, return to the main menu, close the game or change the volume.
+ */
 public class PauseState extends State {
     //PauseState representing the Pause-Menu of the game, selections: resume, restart, return to menu, close game, change volume
 
@@ -28,7 +35,11 @@ public class PauseState extends State {
     PlayState playState;
     Stage stage;
 
-    //initialising the pause state
+    /**
+     * Constructor for initializing the PauseState.
+     * @param gsm Reference to the {@link GameStateManager}
+     * @param playState Reference to the {@link PlayState}
+     */
     public PauseState(GameStateManager gsm, PlayState playState) {
         super(gsm);
         stage = new Stage();
@@ -80,8 +91,6 @@ public class PauseState extends State {
         }
 
     }
-
-
 
     @Override
     public void update(float dt) {

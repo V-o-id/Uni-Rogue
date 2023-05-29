@@ -85,14 +85,6 @@ public class GamesMap {
 
         out.delete(); // delete the decrypted file, we dont need it anymore
 
-        //hide out file
-      /*  try {
-            Files.setAttribute(in.toPath(), "dos:hidden", true);
-        } catch (IOException e) {
-            // not important if we cant hide the file
-        }*/
-
-
     }
 
     private void writeGameData() {
@@ -114,14 +106,6 @@ public class GamesMap {
         }
         // delete the unencrypted file
         in.delete();
-
-        //hide out file
-     /*   try {
-            Files.setAttribute(out.toPath(), "dos:hidden", true);
-        } catch (IOException e) {
-            // not important if we cant hide the file
-        }*/
-
 
     }
 
