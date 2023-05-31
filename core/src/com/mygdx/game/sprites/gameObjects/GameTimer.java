@@ -40,7 +40,7 @@ public class GameTimer implements Runnable {
      * The timer is increased by one every second.
      * If the game is finished, the timer is stopped.
      * If the timer is paused, the timer is stopped. NOTE: if it is paused, it can not be resumed, create a new timer instead.
-     * If the timer is paused, the thread is interrupted and the timer will only stop at full seconds.
+     * If the timer is paused, the thread is interrupted and the timer will stop at the last full second.
      */
     @Override
     public void run() {
