@@ -231,11 +231,12 @@ public class PlayerLabel extends GameObjectLabel {
 		EnemyLabel enemy;
 		for(int i = -1; i <= 1; i++) {
 			for(int j = -1; j <= 1; j++) {
-				if(gridPosX + j < 0 || gridPosY + i < 0) break;
-				if(grid.getGrid()[i + gridPosY][j + gridPosX] instanceof EnemyLabel) {
-					enemy = (EnemyLabel) grid.getGrid()[i + gridPosY][j + gridPosX];
-					attack(attackDamage, enemy, grid);
-					enemy.attack(this, enemy.getDamage());
+				if(gridPosX + j >= 0 && gridPosY + i >= 0) {
+					if (grid.getGrid()[i + gridPosY][j + gridPosX] instanceof EnemyLabel) {
+						enemy = (EnemyLabel) grid.getGrid()[i + gridPosY][j + gridPosX];
+						attack(attackDamage, enemy, grid);
+						enemy.attack(this, enemy.getDamage());
+					}
 				}
 			}
 		}
