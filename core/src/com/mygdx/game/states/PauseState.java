@@ -2,15 +2,24 @@ package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.game.data.CurrentPlayer;
+import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.VolumeSlider;
 import com.mygdx.game.sprites.font.Font;
 
+
+/**
+ * The Pause-Menu State of the game.
+ * <br>
+ * The Pause-Menu State is a State that is called when the player presses the ESC key during the PlayState. <br>
+ * It is a menu that allows the player to resume the game, restart the game, return to the main menu, close the game or change the volume.
+ */
 public class PauseState extends State {
+    //PauseState representing the Pause-Menu of the game, selections: resume, restart, return to menu, close game, change volume
 
     private final Text pauseText;
     private final Text resumeText;
@@ -21,8 +30,16 @@ public class PauseState extends State {
 
     private final VolumeSlider volumeSlider;
 
+    private final int textHeight = 75; // ? how to get height of text
+
     PlayState playState;
     Stage stage;
+
+    /**
+     * Constructor for initializing the PauseState.
+     * @param gsm Reference to the {@link GameStateManager}
+     * @param playState Reference to the {@link PlayState}
+     */
     public PauseState(GameStateManager gsm, PlayState playState) {
         super(gsm);
         font.setColor(Color.WHITE); // otherwise poison makes text purple
@@ -30,15 +47,16 @@ public class PauseState extends State {
         this.playState = playState;
         pauseText = new Text("Pause", State.WIDTH / 2F, State.HEIGHT * 0.9F, font, true);
         resumeText = new Text("Resume", State.WIDTH / 2F, State.HEIGHT * 0.65F, font, true);
-        restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.65F - TEXT_HEIGHT, font, true);
-        returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.65F - 2 * TEXT_HEIGHT, font, true);
-        closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.65F - 3 * TEXT_HEIGHT, font, true);
-        volumeSlider = new VolumeSlider(State.WIDTH / 2F, State.HEIGHT * 0.65F - 6 * TEXT_HEIGHT, State.WIDTH/4F, 100, 0f, 1f, 0.001f, false, new Stage());
+        restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.65F - textHeight, font, true);
+        returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.65F - 2 * textHeight, font, true);
+        closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.65F - 3 * textHeight, font, true);
+        volumeSlider = new VolumeSlider(State.WIDTH / 2F, State.HEIGHT * 0.65F - 6 * textHeight, State.WIDTH/4F, 100, 0f, 1f, 0.001f, false, new Stage());
     }
 
     @Override
     protected void handleInput() {
 
+        //if escaped is pressed, continue playing with the playState from before
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             //close pause
             volumeSlider.remove();
@@ -48,6 +66,7 @@ public class PauseState extends State {
 
         if (Gdx.input.isTouched()) {
             int x = Gdx.input.getX(), y = HEIGHT - Gdx.input.getY();
+            //if resume is clicked, continue playing with the playState from before
             if (resumeText.isClicked(x, y)) {
                 //close pause
                 volumeSlider.remove();
@@ -57,7 +76,7 @@ public class PauseState extends State {
             if (restartText.isClicked(x, y)) {
                 //restart game
                 gsm.pop();
-                gsm.set(new PlayState(gsm, 1,  100, 5, 0, 0));
+                gsm.set(new PlayState(gsm, 1,  100, 5, 0, 0, new GameInstance(CurrentPlayer.getCurrentPlayer())));
             }
             if (returnToMenuText.isClicked(x, y)) {
                 //return to menu

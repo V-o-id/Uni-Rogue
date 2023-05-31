@@ -4,9 +4,22 @@ import com.mygdx.game.sprites.Room;
 
 import java.util.Random;
 
+/**
+ * A room strategy that aligns the rooms from the top left to the right, and down one row
+ * Looks like this: (roomsPerRow = 4, roomsPerColumn = 3)
+ * 1 2 3 4
+ * 8 7 6 5
+ * 9 10 11 12
+ */
 public class TopLeftDown extends RoomStrategy {
 
 
+    /**
+     * Constructor for the TopLeftDown class
+     * @param roomsPerRow number of rooms per row
+     * @param roomsPerColumn number of rooms per column
+     * @throws RoomStrategyException if the combination of roomsPerRow and roomsPerColumn is not valid
+     */
     public TopLeftDown(int roomsPerRow, int roomsPerColumn) throws RoomStrategyException {
         super(roomsPerRow, roomsPerColumn);
     }
@@ -21,6 +34,11 @@ public class TopLeftDown extends RoomStrategy {
         return this.roomMatrix;
     }
 
+    /**
+     * Aligns the rooms from the top left to the right, and down one row
+     * @param gridRows number of rows in the grid
+     * @param gridCols number of columns in the grid
+     */
     private void alignRoomsTopLeftDown(final int gridRows, final int gridCols) {
         int parcelRows = (int) Math.floor(gridRows / (roomsPerColumn+0.7));
         int parcelCols = gridCols / roomsPerRow;

@@ -23,7 +23,7 @@ public class EnemyLabel extends GameObjectLabel {
     private int health;
     private int damage;
     private final Random random = new Random();
-    private EnemyState state = IDLE;
+    private final EnemyState state = IDLE;
 
     public EnemyLabel(String enemyCharacter, LabelStyle style, Grid grid, int gridPosX, int gridPosY) {
         super(enemyCharacter,style );

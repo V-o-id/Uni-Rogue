@@ -6,6 +6,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.data.CurrentPlayer;
+import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.sprites.Constants;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Room;
@@ -18,6 +20,7 @@ import com.mygdx.game.states.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.mygdx.game.sprites.Constants.volume;
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
 import static com.mygdx.game.Application.getVolume;
@@ -37,6 +40,9 @@ public class PlayerLabel extends GameObjectLabel {
 	private static final String DEFAULT_PLAYER_CHARACTER = "*";
 	private boolean onPath = false; // to check if it's possible that player is in a new room
 	private final Sound stepSound;
+	private int maxRoom = 0; // to check if player was in a specific room
+
+	private final GameInstance gameInstance;
 
 	public void setCurrentRoom(Room currentRoom) {
 		this.currentRoom = currentRoom;
@@ -45,10 +51,11 @@ public class PlayerLabel extends GameObjectLabel {
 		return currentRoom;
 	}
 
-	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, Room currentRoom, int health, int attackDamage, int gold) {
+	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, Room currentRoom, int health, int attackDamage, int gold, GameInstance gameInstance) {
 		super(playerCharacter, style);
-		playerCharacter = Gdx.files.local("selectedCharacter.txt").readString().trim();
-
+		playerCharacter = CurrentPlayer.getCurrentPlayer().getPlayerCharacter();
+		this.gameInstance = gameInstance;
+		gameInstance.setGold(gold);
 		if(playerCharacter.equals("")){
 			playerCharacter = DEFAULT_PLAYER_CHARACTER;
 		}
@@ -99,9 +106,10 @@ public class PlayerLabel extends GameObjectLabel {
 			direction = grid.getGrid()[gridPosY + dirDeltaY][gridPosX + dirDeltaX];
 		}
 
-		if(isWalkable(direction, grid)) {
+		if(isWalkable(direction)) {
 			damage(0);
-			stepSound.play(getVolume() / 2);
+
+			stepSound.play(volume / 2);
 			if(direction instanceof PathLabel) onPath = true;
 
 			grid.setGridCharacter(gridPosY, gridPosX, labelFromCharacter(previousCharacter));
@@ -137,6 +145,12 @@ public class PlayerLabel extends GameObjectLabel {
 			playState.pause();
 			gsm.push(new GameOverState(gsm, playState));
 		}
+
+		//if p is pressed, game over
+		if (Gdx.input.isKeyJustPressed(Input.Keys.P)) { // safe data TODO: remove
+			//safe data
+			gameFinishedDataHandler();
+		}
 	}
 
 	private void checkNewRoom(Grid grid, PlayState playState, int lastRoomNumber) {
@@ -151,6 +165,10 @@ public class PlayerLabel extends GameObjectLabel {
 				currentRoom = rooms[i];
 				break;
 			}
+		}
+		if(currentRoom.getRoomNumber() > maxRoom) {
+			maxRoom = currentRoom.getRoomNumber();
+			gameInstance.incrementBeatenRooms();
 		}
 		grid.getPlayer().setCurrentRoom(currentRoom);
 		playState.updateCurrentRoomText();
@@ -250,12 +268,24 @@ public class PlayerLabel extends GameObjectLabel {
 		}
 	}
 
+	private boolean gameSaved = false;
+	private void gameFinishedDataHandler() {
+		if(gameSaved){ // should not happen but just in case
+			return;
+		}
+		gameInstance.setGold(gold);
+		gameInstance.setGameFinished(true);
+		CurrentPlayer.getCurrentPlayer().playedGame(gameInstance);
+		gameSaved = true;
+	}
+
 	private void attack(int damage, EnemyLabel target, Grid grid) {
 		target.damage(damage);
 		if(target.getHealth() <= 0) {
 			grid.removeEnemy(target);
 			grid.setGridCharacter(target.getGridPosY(), target.getGridPosX(), new RoomLabel(Constants.STYLE));
 			gold += (int)(Math.random() * 20); //Lootdrop
+			gameInstance.setKills(gameInstance.getKills() + 1);
 		}
 	}
 
@@ -267,8 +297,8 @@ public class PlayerLabel extends GameObjectLabel {
 		gold -= amount;
 	}
 
-	private boolean isWalkable(Label dest, Grid grid) {
-		return dest instanceof RoomLabel || dest instanceof ItemLabel || dest instanceof PathLabel || grid.noEnemies() && dest instanceof LevelLabel;
+	private boolean isWalkable(Label dest) {
+		return dest instanceof RoomLabel || dest instanceof ItemLabel || dest instanceof PathLabel || dest instanceof LevelLabel;
 	}
 
 	private GameObjectLabel labelFromCharacter(String character) {
@@ -285,6 +315,8 @@ public class PlayerLabel extends GameObjectLabel {
 			Sound gameOverSound = Gdx.audio.newSound(Gdx.files.internal("audio/GameOverSound.wav"));
 			gameOverSound.play(getVolume() * 0.6f);
 			return true;
+			System.out.println(gameInstance.getDurationInSeconds());
+			gameFinishedDataHandler();
 		}
 		return false;
 	}

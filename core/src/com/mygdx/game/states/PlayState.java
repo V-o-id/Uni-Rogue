@@ -3,22 +3,24 @@ package com.mygdx.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 import com.mygdx.game.sprites.gameObjects.GameTimer;
 
-
+import static com.mygdx.game.sprites.Constants.music;
+import static com.mygdx.game.sprites.Constants.volume;
 import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
-import static com.mygdx.game.Application.getVolume;
 
-
-
+/**
+ * The actual instance of where the game takes place.
+ */
 public class PlayState extends State {
+    //PlayState representing the gameplay
 
     private final Grid grid;
     private static Text healthText;
@@ -31,20 +33,32 @@ public class PlayState extends State {
     private final Text roomText;
     BitmapFont font = Font.getBitmapFont();
 
+    private final GameInstance currentGameInstanceData;
+
     private int level;
     private static boolean running = false;
 
     private final GameTimer gameTimer;
-    private final Thread gameTimerThread;
-    private static Music music;
+    private volatile Thread gameTimerThread;
 
 
-    public PlayState(GameStateManager gsm, int level, int playerHealth, int playerAttackDamage, int gold, long gameTime) {
+    /**
+     * Constructor for initializing the PlayState. On entering a new room, a new PlayState is constructed.
+     * @param gsm Reference to the {@link GameStateManager}
+     * @param level Starts at 1 and increases with every descend to the next level.
+     * @param playerHealth Starts at an initial value and carries over to the next level
+     * @param playerAttackDamage Starts at an initial value and carries over to the next level
+     * @param gold Starts at 0 and carries over to the next level
+     * @param gameTime Starts at 0 and carries over to the next level
+     * @param gameInstanceData Reference to the {@link GameInstance}
+     */
+    public PlayState(GameStateManager gsm, int level, int playerHealth, int playerAttackDamage, int gold, long gameTime, GameInstance gameInstanceData) {
         super(gsm);
-        grid = new Grid(playerHealth, playerAttackDamage, gold, level);
+        grid = new Grid(playerHealth, playerAttackDamage, gold, level, gameInstanceData);
         this.level = level;
-        this.gameTimer = new GameTimer(gameTime, this);
+        this.gameTimer = new GameTimer(gameTime, this, gameInstanceData);
         this.gameTimerThread = new Thread(gameTimer);
+        this.currentGameInstanceData = gameInstanceData;
         healthText = new Text("Health: " + grid.getPlayer().getHealth(), 50, State.HEIGHT - 50, font, false);
         attackDamageText = new Text("Attack Damage: " + grid.getPlayer().getAttackDamage(), 50, State.HEIGHT - 50 - healthText.getGlyphLayout().height - 20, font, false);
         goldText = new Text("Gold: " + grid.getPlayer().getHealth(), 50, State.HEIGHT - 50 - healthText.getGlyphLayout().height - attackDamageText.getGlyphLayout().height - 40, font, false);
@@ -56,13 +70,16 @@ public class PlayState extends State {
         running = true;
         gameTimerThread.start();
 
+        //start sound
         Sound startSound = Gdx.audio.newSound(Gdx.files.internal("audio/StartSound.wav"));
-        startSound.play(getVolume() * 0.6f);
+        startSound.play(volume * 0.6f);
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("audio/Rogue.wav"));
-        music.setVolume(getVolume());
-        music.play();
-        music.setLooping(true);
+        //background music
+        if (!music.isPlaying()) {
+            music.setVolume(volume);
+            music.play();
+            music.setLooping(true);
+        }
     }
 
     @Override
@@ -70,24 +87,39 @@ public class PlayState extends State {
         grid.getPlayer().characterControl(grid, gsm, this);
     }
 
+    /**
+     * Update properties that change during the game (collection gold, getting damage,...)
+     * @param dt Delta for calculating frames per second
+     */
     @Override
     public void update(float dt) {
         handleInput();
         healthText.setText("Health: " + grid.getPlayer().getHealth());
         attackDamageText.setText("Attack Damage: " + grid.getPlayer().getAttackDamage());
         goldText.setText("Gold: " + grid.getPlayer().getGold());
+        // go to the next level (with stored properties) and set new PlayState
         if (grid.getPlayer().getInformation().equals("New Level")) {
+            currentGameInstanceData.incrementLevel();
+            currentGameInstanceData.incrementBeatenRooms();
+            PlayState p = new PlayState(gsm, ++level, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds(), currentGameInstanceData);
             gsm.pop();
-            gsm.push(new PlayState(gsm, level++, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds()));
-            gsm.set(new PlayState(gsm, level++, grid.getPlayer().getHealth(), grid.getPlayer().getAttackDamage(), grid.getPlayer().getGold(), gameTimer.getSeconds()));
+            gsm.push(p);
+            gsm.set(p);
         }
         informationText.setText(grid.getPlayer().getInformation());
     }
 
+    /**
+     * Update room number
+     */
     public void updateCurrentRoomText() {
         roomText.setText("Room: " + (grid.getPlayer().getCurrentRoom().getRoomNumber() + 1) + "/" + (grid.getRooms().length));
     }
 
+    /**
+     * Draws the grid and sets labels for game information
+     * @param sb SpriteBatch
+     */
     @Override
     public void render(SpriteBatch sb) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -109,6 +141,10 @@ public class PlayState extends State {
 
     }
 
+    /**
+     * Draws the grid to screen with contents of the array
+     * @param sb SpriteBatch
+     */
     private void drawGrid(SpriteBatch sb) {
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < COLUMNS; x++) {
@@ -121,37 +157,54 @@ public class PlayState extends State {
         return running;
     }
 
+    /**
+     * Pauses the game and enters {@link PauseState}
+     */
     public void pause() {
         pauseMusic();
         gameTimerThread.interrupt();
         running = false;
     }
 
+    /**
+     * Resumes the game
+     */
     public void resume() {
         resumeMusic();
         running = true;
-        synchronized (gameTimerThread) {
-            gameTimerThread.notify();
-        }
+        gameTimerThread = new Thread(gameTimer);
+        gameTimerThread.start();
     }
 
-    public static void setHealthTextColor(Color color) {
-        healthText.getFont().setColor(color);
-    }
-
-    public void setGameTimerText(String text) {
-        gameTimerText.setText(text);
-    }
-
-    public static void setVolume(float musicVolume) {
-        music.setVolume(musicVolume);
-    }
-
+    /**
+     * Pauses {@link com.mygdx.game.sprites.Constants#music}
+     */
     public static void pauseMusic() {
         music.pause();
     }
 
+    /**
+     * Resumes {@link com.mygdx.game.sprites.Constants#music}
+     */
     public static void resumeMusic() {
-        music.play();
+        if (!music.isPlaying()) {
+            music.play();
+        }
+    }
+
+    /**
+     * Sets color of health text to get different effects for different damage types
+     * @param color Desired color
+     */
+    public static void setHealthTextColor(Color color) {
+        healthText.getFont().setColor(color);
+    }
+
+    /**
+     * Sets {@link #gameTimerText}, called for every update of game time
+     * @param text Text + game time
+     */
+    public void setGameTimerText(String text) {
+        gameTimerText.setText(text);
     }
 }

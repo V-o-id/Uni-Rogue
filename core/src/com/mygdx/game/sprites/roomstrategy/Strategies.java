@@ -1,14 +1,18 @@
 package com.mygdx.game.sprites.roomstrategy;
 
+/**
+ * Enum for the different strategies
+ * This enum will be used to choose a strategy
+ * This enum will also be used to get a strategy
+ * This enum can also be used to get the number of strategies
+ */
+
 public enum Strategies {
 
     BOTTOM_LEFT_UP, // works
     BOTTOM_RIGHT_UP, // works
     TOP_LEFT_DOWN, // works
     TOP_RIGHT_DOWN, // works
-
-    SNAKE_END_INSIDE,
-    SNAKE_END_OUTSIDE,
 
     BOTTOM_LEFT_STRAIGHT_UP, //works
     BOTTOM_RIGHT_STRAIGHT_UP, // works
@@ -17,7 +21,18 @@ public enum Strategies {
 
     BOTTOM_LEFT_HALF_IN_UP; // works
 
+    //SNAKE_END_INSIDE, maybe someday
+    //SNAKE_END_OUTSIDE, maybe someday
 
+
+    /**
+     * get a strategy based on the index
+     * @param s index of the strategy
+     * @param roomsPerRow number of rooms per row
+     * @param roomsPerColumn number of rooms per column
+     * @return the strategy
+     * @throws RoomStrategyException if the combination of roomsPerRow and roomsPerColumn is not valid for the strategy
+     */
     public static RoomStrategy getStrategy(int s, int roomsPerRow, int roomsPerColumn) throws RoomStrategyException {
         Strategies strategy = Strategies.values()[s];
         switch (strategy) {
@@ -29,10 +44,6 @@ public enum Strategies {
                 return new TopLeftDown(roomsPerRow, roomsPerColumn);
             case TOP_RIGHT_DOWN:
                 return new TopRightDown(roomsPerRow, roomsPerColumn);
-            case SNAKE_END_INSIDE:
-                return new BottomLeftUp(roomsPerRow, roomsPerColumn); // todo
-            case SNAKE_END_OUTSIDE:
-                return new BottomLeftUp(roomsPerRow, roomsPerColumn); // todo
             case BOTTOM_LEFT_STRAIGHT_UP:
                 return new BottomLeftStraightUp(roomsPerRow, roomsPerColumn);
             case BOTTOM_RIGHT_STRAIGHT_UP:
