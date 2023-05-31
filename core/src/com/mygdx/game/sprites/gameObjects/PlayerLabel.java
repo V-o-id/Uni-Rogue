@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 import static com.mygdx.game.sprites.Constants.volume;
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
-import static com.mygdx.game.Application.getVolume;
 
 public class PlayerLabel extends GameObjectLabel {
 
@@ -313,10 +312,10 @@ public class PlayerLabel extends GameObjectLabel {
 		if(health <= 0) {
 			PlayState.pauseMusic();
 			Sound gameOverSound = Gdx.audio.newSound(Gdx.files.internal("audio/GameOverSound.wav"));
-			gameOverSound.play(getVolume() * 0.6f);
-			return true;
+			gameOverSound.play(volume * 0.6f);
 			System.out.println(gameInstance.getDurationInSeconds());
 			gameFinishedDataHandler();
+			return true;
 		}
 		return false;
 	}

@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.game.data.CurrentPlayer;
+import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 
@@ -35,7 +37,7 @@ public class GameOverState extends State{
             if (retryText.isClicked(x, y)) {
                 //new game
                 gsm.pop();
-                gsm.set(new PlayState(gsm, 1, 100, 5, 0, 0));
+                gsm.set(new PlayState(gsm, 1, 100, 5, 0, 0, new GameInstance(CurrentPlayer.getCurrentPlayer())));
             }
             if (returnToMenuText.isClicked(x, y)) {
                 //return to menu
