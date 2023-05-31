@@ -15,8 +15,10 @@ import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.VolumeSlider;
 import com.mygdx.game.sprites.font.Font;
 
+/**
+ * OptionState representing the Options of the game (choose a name, a charater to play with and the volume of the sound
+ */
 public class OptionState extends State {
-    //OptionState representing the Options of the game (choose a name, a charater to play with and the volume of the sound
     private final TextField inputField;
     private boolean wrongInput = false;
     private final Stage stage;

@@ -22,6 +22,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 
+/**
+ * State of the leaderboard, showing the best runs
+ */
 public class LeaderboardState extends State {
 
     private final GamesMap gamesMap = GamesMap.getPlayerMap();

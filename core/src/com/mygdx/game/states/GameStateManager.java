@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Stack;
 
+/**
+ * Manages states of the game by using a stack and showing only the uppermost one
+ */
 public class GameStateManager {
 
   private final Stack<State> states;

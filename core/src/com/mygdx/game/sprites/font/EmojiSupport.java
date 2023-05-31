@@ -63,6 +63,9 @@ import java.util.HashMap;
  *  - v.1.0 - Initial release
  */
 
+/**
+ * This class is a plugin not written by the Uni-Rogue team. Without it, no support for Emojis would be possible.
+ */
 public class EmojiSupport {
     private final static String VERSION = "1.2";    // Current version of EmojiSupport helper
 

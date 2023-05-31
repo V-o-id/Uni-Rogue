@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/**
+ * Stores information for text written across all states. Does not include the player, enemy or item characters
+ */
 public class Text extends Actor {
 
   private String text;

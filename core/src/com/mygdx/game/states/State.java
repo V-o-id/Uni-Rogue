@@ -3,6 +3,9 @@ package com.mygdx.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * Base class for all the games' states
+ */
 public abstract class State {
 
   public static final int WIDTH = Gdx.graphics.getWidth();

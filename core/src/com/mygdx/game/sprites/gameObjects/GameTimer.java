@@ -3,6 +3,9 @@ package com.mygdx.game.sprites.gameObjects;
 import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.states.PlayState;
 
+/**
+ * Counts seconds of time already played
+ */
 public class GameTimer implements Runnable {
 
     private long seconds;
@@ -15,6 +18,7 @@ public class GameTimer implements Runnable {
         this.playState = playState;
         this.gameInstanceData = gameInstanceData;
     }
+
     @Override
     public void run() {
         while (running) {

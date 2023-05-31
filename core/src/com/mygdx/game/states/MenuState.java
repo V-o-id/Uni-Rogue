@@ -8,10 +8,10 @@ import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 
-
+/**
+ * MenuState representing the menu of the game, selection: start the game, options (player name, player character, volume), high-score, exit Game
+ */
 public class MenuState extends State {
-  //MenuState representing the menu of the game, selection: start the game, options (player name, player character, volume), high-score, exit Game
-
   private final Text startGameText;
   private final Text optionText;
   private final Text highscoreText;

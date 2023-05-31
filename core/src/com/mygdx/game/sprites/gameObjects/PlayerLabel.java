@@ -27,6 +27,9 @@ import static com.mygdx.game.sprites.Constants.volume;
 import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
 
+/**
+ * Contains information of the current player
+ */
 public class PlayerLabel extends GameObjectLabel {
 
 	private int gridPosX;
@@ -89,6 +92,9 @@ public class PlayerLabel extends GameObjectLabel {
 		return sb.toString();
 	}
 
+	/**
+	 * Handles character movement
+	 */
 	public void characterControl(Grid grid, GameStateManager gsm, PlayState playState) {
 		if (poisonDuration == 0) PlayState.setHealthTextColor(Color.WHITE);
 		Label direction;
@@ -199,6 +205,8 @@ public class PlayerLabel extends GameObjectLabel {
 		return attackDamage;
 	}
 
+
+	// Handles attack damage, when a new weapon is taken and converts weapon to gold, if it is weaker
 	public void setAttackDamage(int attackDamage) {
 		if(this.attackDamage < attackDamage) {
 			this.attackDamage = attackDamage;
@@ -247,6 +255,10 @@ public class PlayerLabel extends GameObjectLabel {
 		}
 	}
 
+	/**
+	 * Handle damage taken and game over if health is depleted
+	 * @param damage amount of damage taken
+	 */
 	public void damage(int damage) {
 		health -= damage;
 		if(poisonDuration > 0) {

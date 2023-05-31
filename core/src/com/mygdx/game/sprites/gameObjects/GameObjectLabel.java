@@ -5,6 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.sprites.font.EmojiSupport;
 import com.mygdx.game.sprites.font.EmojiSupportInstance;
 
+/**
+ * Class for explicit labels to extend. Does part for handling Emojis.
+ */
 public class GameObjectLabel extends Label {
 
 
@@ -55,6 +58,11 @@ public class GameObjectLabel extends Label {
         return 0;
     }
 
+    /**
+     * Checks, if given String is an Emoji
+     * @param message String to check
+     * @return true if message is an Emoji, false otherwise
+     */
     static boolean isEmoji(String message) {
         return message.matches("(?:[\uD83C\uDF00-\uD83D\uDDFF]|[\uD83E\uDD00-\uD83E\uDDFF]|" +
                 "[\uD83D\uDE00-\uD83D\uDE4F]|[\uD83D\uDE80-\uD83D\uDEFF]|" +
