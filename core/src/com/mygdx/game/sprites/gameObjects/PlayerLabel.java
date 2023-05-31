@@ -295,7 +295,7 @@ public class PlayerLabel extends GameObjectLabel {
 		if(target.getHealth() <= 0) {
 			grid.removeEnemy(target);
 			grid.setGridCharacter(target.getGridPosY(), target.getGridPosX(), new RoomLabel(Constants.STYLE));
-			gold += (int)(Math.random() * 20); //Lootdrop
+			gold += (int)(Math.random() * 20); //Loot drop
 			gameInstance.setKills(gameInstance.getKills() + 1);
 		}
 	}

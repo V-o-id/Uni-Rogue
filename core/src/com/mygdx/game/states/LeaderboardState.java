@@ -31,15 +31,12 @@ public class LeaderboardState extends State {
     private final PlayerMap playerMap = PlayerMap.getPlayerMap();
     private final Table table = new Table();
     private final Stage stage = new Stage();
-    private final ScrollPane scrollPane;
     private final Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
     private final Text backText;
 
     private final Text playerStatsText;
     private final Text gameStatsText;
-
-    private boolean gameStats = true;
 
 
     public LeaderboardState(GameStateManager gsm) {
@@ -48,7 +45,7 @@ public class LeaderboardState extends State {
         table.defaults().pad(10);
         initFirstRow();
         initTable(gamesMap.getGamesSortedByScore());
-        scrollPane = new ScrollPane(table);
+        ScrollPane scrollPane = new ScrollPane(table);
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setFillParent(true);
         stage.addActor(scrollPane);
@@ -155,6 +152,7 @@ public class LeaderboardState extends State {
             if(backText.isClicked(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
                 gsm.pop();
             }
+            boolean gameStats = true;
             if(playerStatsText.isClicked(Gdx.input.getX(), HEIGHT - Gdx.input.getY())){
                 realignTableToPlayer(SortingmethodPlayers.SCORE);
                 gameStats = false;
@@ -170,7 +168,6 @@ public class LeaderboardState extends State {
         Set<PlayerData> set;
         switch(method){
             case NAME: set = playerMap.getPlayersSortedByName(); break;
-            case SCORE: set = playerMap.getPlayersSortedByScore(); break;
             case GAMES_PLAYED: set = playerMap.getPlayersSortedByGamesPlayed(); break;
             case LEVELS: set = playerMap.getPlayersSortedByLevels(); break;
             case ROOMS: set = playerMap.getPlayersSortedByBeatenRooms(); break;

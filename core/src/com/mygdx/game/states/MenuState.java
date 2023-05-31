@@ -16,12 +16,12 @@ public class MenuState extends State {
   private final Text optionText;
   private final Text highscoreText;
   private final Text exitText;
-  //get font for the Text from the seperate class Font
-  private final BitmapFont font = Font.getBitmapFont();
 
   public MenuState(GameStateManager gsm) {
     super(gsm);
     //initialise the Texts and their position
+    //get font for the Text from the separate class Font
+    BitmapFont font = Font.getBitmapFont();
     startGameText = new Text("Start Game", State.WIDTH / 2F, State.HEIGHT/2F + 3*State.HEIGHT/8F, font, true);
     optionText = new Text("Options", State.WIDTH / 2F, State.HEIGHT/2F + State.HEIGHT/8F, font, true);
     highscoreText = new Text("High-Score", State.WIDTH / 2F, State.HEIGHT/2F - State.HEIGHT/8F, font, true);

@@ -48,10 +48,6 @@ public class GameObjectLabel extends Label {
         }
     }
 
-    public String getLabelString() {
-        return this.getText().toString();
-    }
-
     //zero means that the object has no specific value (e.g. PathLabel)
     //is designed for Items/Enemy to get their data (e.g. health value, attack damage value, ...)
     public int getObjectValue() {
@@ -63,6 +59,7 @@ public class GameObjectLabel extends Label {
      * @param message String to check
      * @return true if message is an Emoji, false otherwise
      */
+    @SuppressWarnings({"UnnecessaryUnicodeEscape", "RegExpDuplicateAlternationBranch"})
     static boolean isEmoji(String message) {
         return message.matches("(?:[\uD83C\uDF00-\uD83D\uDDFF]|[\uD83E\uDD00-\uD83E\uDDFF]|" +
                 "[\uD83D\uDE00-\uD83D\uDE4F]|[\uD83D\uDE80-\uD83D\uDEFF]|" +
@@ -76,5 +73,4 @@ public class GameObjectLabel extends Label {
                 "[\u00A9\u00AE]\uFE0F?|[\u2122\u2139]\uFE0F?|\uD83C\uDC04\uFE0F?|\uD83C\uDCCF\uFE0F?|" +
                 "[\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA]\uFE0F?)+");
     }
-
 }

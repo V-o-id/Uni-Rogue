@@ -29,24 +29,12 @@ public class Path {
     /**
      * number of the path
      */
-    private final int pathNumber;
-    /**
-     * number of the room that the path starts from
-     */
-    private final int roomN1;
-    /**
-     * number of the room that the path ends at
-     */
-    private final int roomN2;
 
-    public Path(int fromX, int fromY, int toX, int toY, int pathNumber, int roomN1, int roomN2) {
+    public Path(int fromX, int fromY, int toX, int toY) {
         this.fromX = fromX;
         this.fromY = fromY;
         this.toX = toX;
         this.toY = toY;
-        this.pathNumber = pathNumber;
-        this.roomN1 = roomN1;
-        this.roomN2 = roomN2;
     }
 
 

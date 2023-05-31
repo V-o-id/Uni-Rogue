@@ -27,11 +27,8 @@ public class PauseState extends State {
     private final Text restartText;
     private final Text returnToMenuText;
     private final Text closeGameText;
-    private final BitmapFont font = Font.getBitmapFont();
 
     private final VolumeSlider volumeSlider;
-
-    private final int textHeight = 75; // ? how to get height of text
 
     PlayState playState;
     Stage stage;
@@ -43,11 +40,14 @@ public class PauseState extends State {
      */
     public PauseState(GameStateManager gsm, PlayState playState) {
         super(gsm);
+        BitmapFont font = Font.getBitmapFont();
         font.setColor(Color.WHITE); // otherwise poison makes text purple
         stage = new Stage();
         this.playState = playState;
         pauseText = new Text("Pause", State.WIDTH / 2F, State.HEIGHT * 0.9F, font, true);
         resumeText = new Text("Resume", State.WIDTH / 2F, State.HEIGHT * 0.65F, font, true);
+        // ? how to get height of text
+        int textHeight = 75;
         restartText = new Text("Restart", State.WIDTH / 2F, State.HEIGHT * 0.65F - textHeight, font, true);
         returnToMenuText = new Text("Return to Menu", State.WIDTH / 2F, State.HEIGHT * 0.65F - 2 * textHeight, font, true);
         closeGameText = new Text("Close Game", State.WIDTH / 2F, State.HEIGHT * 0.65F - 3 * textHeight, font, true);
@@ -95,8 +95,6 @@ public class PauseState extends State {
 
     }
 
-
-
     @Override
     public void update(float dt) {
         handleInput();
@@ -104,7 +102,6 @@ public class PauseState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
-
         sb.begin();
 
         pauseText.getFont().draw(sb, pauseText.getText(), pauseText.getPosition().x, pauseText.getPosition().y + pauseText.getGlyphLayout().height);
@@ -116,13 +113,9 @@ public class PauseState extends State {
         volumeSlider.draw(sb, 1);
 
         sb.end();
-
-
     }
 
     @Override
     public void dispose() {
-
     }
-
 }

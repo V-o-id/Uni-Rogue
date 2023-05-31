@@ -21,7 +21,7 @@ public class GameOverState extends State{
 
     public GameOverState(GameStateManager gsm, PlayState playState) {
         super(gsm);
-        font.setColor(Color.WHITE); // Otherwise Poison makes gameover screen purple
+        font.setColor(Color.WHITE); // Otherwise Poison makes game over screen purple
         stage = new Stage();
         this.playState = playState;
         gameOverText = new Text("GAME OVER", State.WIDTH / 2F, State.HEIGHT * 0.9F, font, true);

@@ -12,7 +12,6 @@ import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.Bat;
 import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.Goblin;
 import com.mygdx.game.sprites.gameObjects.enemies.enemyTypes.Snake;
-import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel;
 import com.mygdx.game.sprites.roomstrategy.RoomStrategy;
@@ -40,8 +39,6 @@ public class Grid {
     private final PlayerLabel playerLabel;
     private final int level;
     List<EnemyLabel> enemyLabelList = new ArrayList<>();
-    List<ItemLabel> itemLabelList = new ArrayList<>();
-
 
     public Grid(int playerHealth, int playerAttackDamage, int playerGold, int level, GameInstance gameInstanceData)  {
         this.grid = new GameObjectLabel[ROWS][COLUMNS];
@@ -173,7 +170,7 @@ public class Grid {
                 toY = r2.getY() + (r2.getHeight() / 2);
             }
 
-            Path p = new Path(fromX, fromY, toX, toY, r.getRoomNumber(), r.getRoomNumber(), r2.getRoomNumber());
+            Path p = new Path(fromX, fromY, toX, toY);
             p.drawPath(grid, style, SPACE_BETWEEN_CHARACTERS, START_POSX_GRID, START_POSY_GRID);
 
             r.setHasOutboundPath(true);
@@ -205,17 +202,14 @@ public class Grid {
                     default: return;
                 }
 
-            } else if(type == 1) {
-                //enemy switch
             }
-
         }
     }
 
     //returns a number be in a range, e.g. input = 1 return 1 - 10, input = 2 return 11 - 19
     private static int getRandomNumber (int input) {
-        int min = (input - 1) * 10 + 1; // Berechne den Mindestwert
-        int max = input * 10; // Berechne den Höchstwert
+        int min = (input - 1) * 10 + 1; // Calculate minimum
+        int max = input * 10; // Calculate maximum
         return (int) (Math.random() * (max - min + 1)) + min;
     }
 
@@ -231,8 +225,5 @@ public class Grid {
 
     public void removeEnemy(EnemyLabel enemy) {
         enemyLabelList.remove(enemy);
-    }
-    public boolean noEnemies() {
-        return enemyLabelList.isEmpty();
     }
 }
