@@ -9,21 +9,17 @@ package com.mygdx.game.sprites.roomstrategy;
 
 public enum Strategies {
 
-    BOTTOM_LEFT_UP, // works
-    BOTTOM_RIGHT_UP, // works
-    TOP_LEFT_DOWN, // works
-    TOP_RIGHT_DOWN, // works
+    BOTTOM_LEFT_UP,
+    BOTTOM_RIGHT_UP,
+    TOP_LEFT_DOWN,
+    TOP_RIGHT_DOWN,
 
-    BOTTOM_LEFT_STRAIGHT_UP, //works
-    BOTTOM_RIGHT_STRAIGHT_UP, // works
-    TOP_LEFT_STRAIGHT_DOWN, // works
-    TOP_RIGHT_STRAIGHT_DOWN, // works
+    BOTTOM_LEFT_STRAIGHT_UP,
+    BOTTOM_RIGHT_STRAIGHT_UP,
+    TOP_LEFT_STRAIGHT_DOWN,
+    TOP_RIGHT_STRAIGHT_DOWN,
 
-    BOTTOM_LEFT_HALF_IN_UP; // works
-
-    //SNAKE_END_INSIDE, maybe someday
-    //SNAKE_END_OUTSIDE, maybe someday
-
+    BOTTOM_LEFT_HALF_IN_UP;
 
     /**
      * get a strategy based on the index

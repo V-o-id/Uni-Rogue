@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.data.GamesMap;
 import com.mygdx.game.data.PlayerMap;
-import com.mygdx.game.data.Playerdata;
+import com.mygdx.game.data.PlayerData;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 
@@ -164,7 +164,7 @@ public class LeaderboardState extends State {
     }
 
     private void realignTableToPlayer(SortingmethodPlayers method) {
-        Set<Playerdata> set;
+        Set<PlayerData> set;
         switch(method){
             case NAME: set = playerMap.getPlayersSortedByName(); break;
             case SCORE: set = playerMap.getPlayersSortedByScore(); break;
@@ -218,9 +218,9 @@ public class LeaderboardState extends State {
         NAME, SCORE, GAMES_PLAYED, LEVELS, ROOMS, KILLS, TIME, DATE
     }
 
-    private void initTablePlayer(Set<Playerdata> set) {
+    private void initTablePlayer(Set<PlayerData> set) {
         int counter = 1;
-        for(Playerdata pD : set){
+        for(PlayerData pD : set){
             createRowPlayer(counter, pD.getName(), pD.getTotalScore(), pD.getTotalGamesPlayed(), pD.getTotalLevelsCompleted(), pD.getTotalRoomsBeaten(), pD.getTotalKills(), pD.getPlayTimeInSeconds(), pD.getCreationDate());
             counter++;
         }

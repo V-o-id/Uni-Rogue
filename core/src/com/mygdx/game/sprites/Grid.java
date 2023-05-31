@@ -49,7 +49,7 @@ public class Grid {
         gameInstanceData.setLevel(level);
         style = new LabelStyle(Font.getBitmapFont(), Color.WHITE);
 
-        int numberOfStrategies = Strategies.values().length; //get all values from enum
+        int numberOfStrategies = Strategies.values().length; // number of strategies
         while(roomStrategy == null){
             int randomStrategy = (int) (Math.random() * numberOfStrategies);
             try {
