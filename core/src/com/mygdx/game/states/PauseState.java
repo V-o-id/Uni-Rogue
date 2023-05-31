@@ -2,6 +2,7 @@ package com.mygdx.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -42,6 +43,7 @@ public class PauseState extends State {
      */
     public PauseState(GameStateManager gsm, PlayState playState) {
         super(gsm);
+        font.setColor(Color.WHITE); // otherwise poison makes text purple
         stage = new Stage();
         this.playState = playState;
         pauseText = new Text("Pause", State.WIDTH / 2F, State.HEIGHT * 0.9F, font, true);
@@ -57,6 +59,7 @@ public class PauseState extends State {
 
         //if escaped is pressed, continue playing with the playState from before
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            //close pause
             volumeSlider.remove();
             playState.resume();
             gsm.pop();
@@ -91,6 +94,8 @@ public class PauseState extends State {
         }
 
     }
+
+
 
     @Override
     public void update(float dt) {

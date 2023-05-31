@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.data.CurrentPlayer;
-import com.mygdx.game.data.Playerdata;
+import com.mygdx.game.data.PlayerData;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.VolumeSlider;
 import com.mygdx.game.sprites.font.Font;
@@ -93,7 +93,7 @@ public class OptionState extends State {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 //Create a new Player with all properties and the name of the textField playerName
-                Playerdata playerdata = new Playerdata(playerName.getText());
+                PlayerData playerdata = new PlayerData(playerName.getText());
                 //Set current player
                 CurrentPlayer.setCurrentPlayer(playerdata);
             }

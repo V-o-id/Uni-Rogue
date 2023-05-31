@@ -15,10 +15,7 @@ import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel;
-import com.mygdx.game.states.GameStateManager;
-import com.mygdx.game.states.PauseState;
-import com.mygdx.game.states.PlayState;
-import com.mygdx.game.states.State;
+import com.mygdx.game.states.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,7 +31,7 @@ public class PlayerLabel extends GameObjectLabel {
 
 	private int gridPosX;
 	private int gridPosY;
-	private static String playerCharacter = "*";
+	private static String playerCharacter = Gdx.files.local("selectedCharacter.txt").readString();
 	private String previousCharacter;
 	private int health;
 	private int attackDamage;
@@ -149,6 +146,11 @@ public class PlayerLabel extends GameObjectLabel {
 			gsm.push(new PauseState(gsm, playState));
 		}
 
+		if(amIDeadYet()) {
+			playState.pause();
+			gsm.push(new GameOverState(gsm, playState));
+		}
+
 		//if p is pressed, game over
 		if (Gdx.input.isKeyJustPressed(Input.Keys.P)) { // safe data TODO: remove
 			//safe data
@@ -159,6 +161,7 @@ public class PlayerLabel extends GameObjectLabel {
 	private void checkNewRoom(Grid grid, PlayState playState, int lastRoomNumber) {
 		//check room of new position
 		Room[] rooms = grid.getRooms();
+		Room lastRoom = rooms[lastRoomNumber];
 		if(lastRoomNumber > 0) {
 			lastRoomNumber--;
 		}
@@ -174,6 +177,14 @@ public class PlayerLabel extends GameObjectLabel {
 		}
 		grid.getPlayer().setCurrentRoom(currentRoom);
 		playState.updateCurrentRoomText();
+
+		// Set EnemyState to AWAKE/IDLE when entering/leaving a room
+		for(EnemyLabel enemy: lastRoom.getEnemies()) {
+			enemy.setState(EnemyLabel.EnemyState.IDLE);
+		}
+		for(EnemyLabel enemy: currentRoom.getEnemies()) {
+			enemy.setState(EnemyLabel.EnemyState.AWAKE);
+		}
 	}
 
 	private void collectItems(Label label, Grid grid) {
@@ -245,11 +256,12 @@ public class PlayerLabel extends GameObjectLabel {
 		EnemyLabel enemy;
 		for(int i = -1; i <= 1; i++) {
 			for(int j = -1; j <= 1; j++) {
-				if(gridPosX + j < 0 || gridPosY + i < 0) break;
-				if(grid.getGrid()[i + gridPosY][j + gridPosX] instanceof EnemyLabel) {
-					enemy = (EnemyLabel) grid.getGrid()[i + gridPosY][j + gridPosX];
-					attack(attackDamage, enemy, grid);
-					enemy.attack(this, enemy.getDamage());
+				if(gridPosX + j >= 0 && gridPosY + i >= 0) {
+					if (grid.getGrid()[i + gridPosY][j + gridPosX] instanceof EnemyLabel) {
+						enemy = (EnemyLabel) grid.getGrid()[i + gridPosY][j + gridPosX];
+						attack(attackDamage, enemy, grid);
+						enemy.attack(this, enemy.getDamage());
+					}
 				}
 			}
 		}
@@ -264,14 +276,6 @@ public class PlayerLabel extends GameObjectLabel {
 		if(poisonDuration > 0) {
 			health -= 3; //poison damage
 			poisonDuration--;
-		}
-		if(health <= 0) {
-			PlayState.pauseMusic();
-			Sound gameOverSound = Gdx.audio.newSound(Gdx.files.internal("audio/GameOverSound.wav"));
-			gameOverSound.play(volume * 0.6f);
-			System.out.println("GAME OVER :(((((( 👀🎂🤞😢🐱‍👓😆");
-			System.out.println(gameInstance.getDurationInSeconds());
-			gameFinishedDataHandler();
 		}
 	}
 
@@ -291,6 +295,7 @@ public class PlayerLabel extends GameObjectLabel {
 		if(target.getHealth() <= 0) {
 			grid.removeEnemy(target);
 			grid.setGridCharacter(target.getGridPosY(), target.getGridPosX(), new RoomLabel(Constants.STYLE));
+			gold += (int)(Math.random() * 20); //Lootdrop
 			gameInstance.setKills(gameInstance.getKills() + 1);
 		}
 	}
@@ -313,6 +318,26 @@ public class PlayerLabel extends GameObjectLabel {
 			case PATH_CHARACTER: return new PathLabel(Constants.STYLE);
 			default: throw new IllegalArgumentException("Unsupported character");
 		}
+	}
+
+	private boolean amIDeadYet() {
+		if(health <= 0) {
+			PlayState.pauseMusic();
+			Sound gameOverSound = Gdx.audio.newSound(Gdx.files.internal("audio/GameOverSound.wav"));
+			gameOverSound.play(volume * 0.6f);
+			System.out.println(gameInstance.getDurationInSeconds());
+			gameFinishedDataHandler();
+			return true;
+		}
+		return false;
+	}
+
+	public int getGridPosX() {
+		return gridPosX;
+	}
+
+	public int getGridPosY() {
+		return gridPosY;
 	}
 
 	public void dispose() {

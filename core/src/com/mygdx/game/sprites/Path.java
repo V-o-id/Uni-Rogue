@@ -5,13 +5,38 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.gameObjects.PathLabel;
 
+/**
+ * Class that represents a path.
+ * A path is a line on the grid that connects two rooms.
+ */
 public class Path {
+    /**
+     * x coordinate of the starting position of the path
+     */
     private final int fromX;
+    /**
+     * y coordinate of the starting position of the path
+     */
     private final int fromY;
+    /**
+     * x coordinate of the ending position of the path
+     */
     private final int toX;
+    /**
+     * y coordinate of the ending position of the path
+     */
     private final int toY;
+    /**
+     * number of the path
+     */
     private final int pathNumber;
+    /**
+     * number of the room that the path starts from
+     */
     private final int roomN1;
+    /**
+     * number of the room that the path ends at
+     */
     private final int roomN2;
 
     public Path(int fromX, int fromY, int toX, int toY, int pathNumber, int roomN1, int roomN2) {
@@ -25,6 +50,15 @@ public class Path {
     }
 
 
+    /**
+     * Draws the path on the grid by adding PathLabels to the grid
+     * The path is drawn by moving from the starting position to the ending position
+     * @param grid the grid that the path is drawn on
+     * @param style the style of the Label
+     * @param SPACE_BETWEEN_CHARACTERS the space between the characters of the grid
+     * @param START_POSX_GRID the x coordinate of the starting position of the grid
+     * @param START_POSY_GRID the y coordinate of the starting position of the grid
+     */
     void drawPath(GameObjectLabel[][] grid, LabelStyle style, final int SPACE_BETWEEN_CHARACTERS, final int START_POSX_GRID, final int START_POSY_GRID) {
 
         int currX = fromX;
@@ -32,7 +66,7 @@ public class Path {
 
         do {
             if(currX != toX && currY != toY){
-                //both have to move. make a random decision
+                //both have to move. make a random decision, because we can't move diagonally
                 if(Math.random() > 0.5){
                     if (currX < toX) {
                         currX++;
@@ -61,16 +95,13 @@ public class Path {
             }
 
             if (grid[currY][currX] == null) {
+                    // if the position is empty, add a PathLabel to the grid
                     grid[currY][currX] = new PathLabel(style);
                     grid[currY][currX].setPosition(currX * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, currY * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
                     grid[currY][currX].setColor(Color.RED);
             }
 
         } while (currX != toX || currY != toY);
-
-
-
-
 
     }
 

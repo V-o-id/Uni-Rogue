@@ -11,6 +11,8 @@ public abstract class State {
   public static final int WIDTH = Gdx.graphics.getWidth();
   public static final int HEIGHT = Gdx.graphics.getHeight();
 
+  public static final int TEXT_HEIGHT = 75; // ? how to get height of text
+
   protected GameStateManager gsm;
 
   public State(GameStateManager gsm){

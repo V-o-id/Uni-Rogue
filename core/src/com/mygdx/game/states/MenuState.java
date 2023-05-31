@@ -57,6 +57,7 @@ public class MenuState extends State {
       //if the Exit Game-Text is clicked, exit the game
       if(exitText.isClicked(x, y)){
         Gdx.app.exit();
+        System.exit(0);
       }
     }
   }

@@ -3,19 +3,58 @@ package com.mygdx.game.data;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Playerdata {
+/**
+ * This class represents a player and its data.
+ * It is used to store the data of a player.
+ * A player is identified by its name.
+ * There are several attributes that can be stored for a player.
+ * Implements Serializable to be able to save the data.
+ */
+public class PlayerData implements Serializable {
 
-    private String name; // acts as id, thus must be unique
+    /**
+     * The name of the player. Acts as id, thus must be unique.
+     */
+    private String name;
+    /**
+     * The character the player has selected.
+     */
     private String playerCharacter;
+    /**
+     * The date the player was created.
+     */
     private String creationDate;
+    /**
+     * The total score of the player.
+     */
     private long totalScore;
+    /**
+     * The total kills of the player.
+     */
     private long totalKills;
+    /**
+     * The total games played by the player.
+     */
     private long totalGamesPlayed;
+    /**
+     * The total play time of the player in seconds.
+     */
     private long playTimeInSeconds;
+    /**
+     * The total levels completed by the player.
+     */
     private long totalLevelsCompleted;
+    /**
+     * The total rooms beaten by the player.
+     */
     private long totalRoomsBeaten;
+
+    /*
+    -------------GETTER----------------
+     */
 
     public String getName() {
         return name;
@@ -43,6 +82,11 @@ public class Playerdata {
     }
 
 
+    /**
+     * Two players are equal if they have the same name.
+     * @param o the object to compare to
+     * @return true if the players are equal, false otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o){
@@ -51,11 +95,14 @@ public class Playerdata {
         if (o == null || getClass() != o.getClass()){
             return false;
         }
-
-        Playerdata that = (Playerdata) o;
-        return name.equals(that.name);
+        PlayerData that = (PlayerData) o;
+        return name.equalsIgnoreCase(that.name);
     }
 
+    /**
+     * The hash code of a player is the hash code of its name.
+     * @return the hash code of the player
+     */
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
@@ -64,10 +111,15 @@ public class Playerdata {
     /**
      * needed for json serialization and deserialization
      */
-    public Playerdata() {}
+    public PlayerData() {}
 
-    private Playerdata createNewPlayer(String name) {
-        Playerdata p = new Playerdata();
+    /**
+     * Creates a new player with default values and given name.
+     * @param name the name of the player
+     * @return the new player
+     */
+    private PlayerData createNewPlayer(String name) {
+        PlayerData p = new PlayerData();
         FileHandle file = Gdx.files.local("files/selectedCharacter.txt");
         if(file.exists() && !file.readString().equals("")) {
             p.playerCharacter = file.readString();
@@ -89,9 +141,9 @@ public class Playerdata {
      * Creates a new player if the player does not exist, otherwise loads the player from the file
      * @param name the name of the player
      */
-    public Playerdata(String name) {
+    public PlayerData(String name) {
         PlayerMap pMap = PlayerMap.getPlayerMap();
-        Playerdata currentPlayer = pMap.getPlayerByName(name);
+        PlayerData currentPlayer = pMap.getPlayerByName(name);
         if(currentPlayer == null) { // if player does not exist, create new player
             currentPlayer = createNewPlayer(name);
         }
@@ -106,14 +158,28 @@ public class Playerdata {
         this.totalRoomsBeaten = currentPlayer.totalRoomsBeaten;
     }
 
+    /**
+     * Sets the player character of the player.
+     * @param playerCharacter the player character to set as string
+     */
     public void setPlayerCharacter(String playerCharacter) {
         this.playerCharacter = playerCharacter;
     }
+
+    /**
+     * @return the player character as string
+     */
     public String getPlayerCharacter() {
         return playerCharacter;
     }
 
 
+    /**
+     * Updates the player data with the data of the given game instance.
+     * Is then saved to the file.
+     * Should be called after a game has ended or when the player wants to save the game.
+     * @param g the game instance to update the player data with
+     */
     public void playedGame(GameInstance g) {
         incrementTotalGamesPlayed();
         changeTotalScore(g.getScore());
@@ -124,6 +190,9 @@ public class Playerdata {
         savePlayerdata();
     }
 
+    /**
+     * Saves the player data with the current data to the file.
+     */
     public void savePlayerdata() {
         PlayerMap playerList = PlayerMap.getPlayerMap();
         playerList.addPlayer(this);
