@@ -17,10 +17,9 @@ import static com.mygdx.game.sprites.Grid.COLUMNS;
 import static com.mygdx.game.sprites.Grid.ROWS;
 
 /**
- * The actual instance of where the game takes place.
+ * The actual instance of where the game takes place, representing the gameplay.
  */
 public class PlayState extends State {
-    //PlayState representing the gameplay
 
     private final Grid grid;
     private static Text healthText;

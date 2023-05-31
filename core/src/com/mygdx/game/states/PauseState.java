@@ -20,8 +20,6 @@ import com.mygdx.game.sprites.font.Font;
  * It is a menu that allows the player to resume the game, restart the game, return to the main menu, close the game or change the volume.
  */
 public class PauseState extends State {
-    //PauseState representing the Pause-Menu of the game, selections: resume, restart, return to menu, close game, change volume
-
     private final Text pauseText;
     private final Text resumeText;
     private final Text restartText;

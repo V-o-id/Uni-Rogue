@@ -26,9 +26,6 @@ public class Path {
      * y coordinate of the ending position of the path
      */
     private final int toY;
-    /**
-     * number of the path
-     */
 
     public Path(int fromX, int fromY, int toX, int toY) {
         this.fromX = fromX;
@@ -36,7 +33,6 @@ public class Path {
         this.toX = toX;
         this.toY = toY;
     }
-
 
     /**
      * Draws the path on the grid by adding PathLabels to the grid

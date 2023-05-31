@@ -11,10 +11,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.states.GameStateManager;
 import com.mygdx.game.states.MenuState;
 
-
+/**
+ * Class for the actual application. Sets information for the window.
+ */
 public class Application extends ApplicationAdapter {
-
-    //possible delete?
     public static final String TITLE = "Uni-Rogue";
     private GameStateManager gsm;
     private SpriteBatch batch;
