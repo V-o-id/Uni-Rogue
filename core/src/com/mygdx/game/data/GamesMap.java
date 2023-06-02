@@ -29,7 +29,7 @@ public class GamesMap implements Serializable {
     private static final String SECRET_KEY = "mIäm!##S!c##(!!!";
 
     // file names for encrypted and decrypted data
-    private static final String FILENAME_ENCRYPTED = "files/gamehistoryEncrypted.json";
+    private static final String FILENAME_ENCRYPTED = "files/gamehistoryEncrypted.ejson";
     private static final String FILENAME_DECRYPTED = "files/gamehistory.json";
 
 
@@ -38,7 +38,7 @@ public class GamesMap implements Serializable {
      * The key is the hashcode of the corresponding GameInstance.
      * The value is the GameInstance itself.
      */
-    // String is not the best choice for a key, but it is the easiest to use for now
+    // String is not the best choice for a key, but it is the easiest to use for now - Integer makes problems with reading and writing from file
     // as hash we use the hashcode of the playername as a string
     private final Map<String, GameInstance> gameMap = new HashMap<>();
 
@@ -99,7 +99,7 @@ public class GamesMap implements Serializable {
             // decrypt the file to read
             FileEncrypter.decrypt(SECRET_KEY, in, out);
         } catch (CryptoException e) {
-            System.out.println("Error decrypting file " + in.getName());
+            System.err.println("Error decrypting file " + in.getName());
             in.delete();
             out.delete();
             return;

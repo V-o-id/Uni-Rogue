@@ -41,6 +41,7 @@ public class Application extends ApplicationAdapter {
     @Override
     public void dispose() {
         super.dispose();
+        System.exit(0);
     }
 
     @Override

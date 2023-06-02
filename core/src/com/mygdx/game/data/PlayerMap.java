@@ -28,7 +28,7 @@ public class PlayerMap implements Serializable {
     private static final String SECRET_KEY = "mIam!##Sec)))!!!";
 
     //filenames
-    private static final String FILENAME_ENCRYPTED = "files/playerdataEncrypted.json";
+    private static final String FILENAME_ENCRYPTED = "files/playerdataEncrypted.ejson";
     private static final String FILENAME_DECRYPTED = "files/playerdata.json";
 
 
@@ -37,7 +37,7 @@ public class PlayerMap implements Serializable {
      * The key is the hashcode of the playername as a string.
      * The value is the PlayerData class.
      */
-    // String is not the best choice for a key, but it is the easiest to use
+    // String is not the best choice for a key, but it is the easiest to use - Integer makes problems with reading and writing from file
     // as hash we use the hashcode of the playername as a string
     private final Map<String, PlayerData> playerMap = new HashMap<>();
 

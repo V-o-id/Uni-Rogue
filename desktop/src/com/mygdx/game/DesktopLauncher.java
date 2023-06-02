@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
 		config.setTitle(Application.TITLE);
-		config.setWindowedMode(1920, 1080);
+		config.setWindowedMode(Lwjgl3ApplicationConfiguration.getDisplayMode().width, Lwjgl3ApplicationConfiguration.getDisplayMode().height);
 		new Lwjgl3Application(new Application(), config);
 	}
 }
