@@ -146,7 +146,7 @@ public class PlayerLabel extends GameObjectLabel {
 				}
 
 				move(grid, deltaX, deltaY, p);
-				
+
 				try {
 					if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && moveSemaphore.availablePermits() == 1) {
 						Thread.sleep(125); // sprint
@@ -182,13 +182,13 @@ public class PlayerLabel extends GameObjectLabel {
 		if (poisonDuration == 0) PlayState.setHealthTextColor(Color.WHITE);
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) && (gridPosY + 1 < Grid.ROWS)) {
-			new Thread(new MoveHandler(Input.Keys.W, 0, 1, grid, playState)).start();
+			new Thread(new MoveHandler(Gdx.input.isKeyJustPressed(Input.Keys.UP) ? Input.Keys.UP : Input.Keys.W, 0, 1, grid, playState)).start();
 		} else if ((Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) && (gridPosY > 0)) {
-			new Thread(new MoveHandler(Input.Keys.S, 0, -1, grid, playState)).start();
+			new Thread(new MoveHandler(Gdx.input.isKeyJustPressed(Input.Keys.DOWN) ? Input.Keys.DOWN : Input.Keys.S, 0, -1, grid, playState)).start();
 		} else if ((Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.A)) && (gridPosX > 0)) {
-			new Thread(new MoveHandler(Input.Keys.A, -1, 0, grid, playState)).start();
+			new Thread(new MoveHandler(Gdx.input.isKeyJustPressed(Input.Keys.LEFT) ? Input.Keys.LEFT : Input.Keys.A, -1, 0, grid, playState)).start();
 		} else if ((Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.D)) && (gridPosX + 1 < Grid.COLUMNS)) {
-			new Thread(new MoveHandler(Input.Keys.D, 1, 0, grid, playState)).start();
+			new Thread(new MoveHandler(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) ? Input.Keys.RIGHT : Input.Keys.D, 1, 0, grid, playState)).start();
 		}
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
