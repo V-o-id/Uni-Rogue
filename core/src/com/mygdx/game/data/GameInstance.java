@@ -221,7 +221,7 @@ public class GameInstance implements Serializable {
      */
     public static int calculateScore(int kills, int gold, int level, long durationInSeconds) {
             int killsScore = kills * 10;  // Each kill is worth 10 points
-            int goldScore = gold / 10;  // Each 100 gold is worth 1 point
+            int goldScore = gold / 10;  // Each 10 gold is worth 1 point
             int levelScore = level * 50;  // Each level is worth 50 points
             int timeScore = (int) (durationInSeconds / 10) * -2;  // Each 10 seconds is worth -2 points
             return  killsScore + goldScore + levelScore + timeScore;

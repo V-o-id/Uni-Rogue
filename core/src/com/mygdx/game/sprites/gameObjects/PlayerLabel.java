@@ -17,6 +17,9 @@ import com.mygdx.game.sprites.gameObjects.items.itemTypes.HealthLabel;
 import com.mygdx.game.sprites.gameObjects.items.itemTypes.SwordLabel;
 import com.mygdx.game.states.*;
 
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,44 +92,103 @@ public class PlayerLabel extends GameObjectLabel {
 		return sb.toString();
 	}
 
+	// the locks are used to prevent the player from moving in a direction twice as fast, when the player presses for example W and UP (arrow key) at the same time
+	private final Lock upwardsLock = new ReentrantLock();
+	private final Lock downwardsLock = new ReentrantLock();
+	private final Lock leftLock = new ReentrantLock();
+	private final Lock rightLock = new ReentrantLock();
+
+	private final Semaphore moveSemaphore = new Semaphore(2, true);
+
+	/**
+	 * Moves the player in the given direction
+	 * this Handler can handle holding down a key
+	 */
+	private class MoveHandler implements Runnable {
+		private final int key;
+		private final int deltaX, deltaY;
+		private final PlayState p;
+		private final Grid grid;
+		public MoveHandler(int key, int deltaX, int deltaY, Grid g, PlayState p) {
+			this.key = key;
+			this.deltaX = deltaX;
+			this.deltaY = deltaY;
+			this.grid = g;
+			this.p = p;
+		}
+		@Override
+		public void run() {
+			if(key == Input.Keys.W || key == Input.Keys.UP) {
+				upwardsLock.lock();
+			} else if(key == Input.Keys.S || key == Input.Keys.DOWN) {
+				downwardsLock.lock();
+			} else if(key == Input.Keys.A || key == Input.Keys.LEFT) {
+				leftLock.lock();
+			} else if(key == Input.Keys.D || key == Input.Keys.RIGHT) {
+				rightLock.lock();
+			}
+			try {
+				moveSemaphore.acquire();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+
+			while (Gdx.input.isKeyPressed(key)) {
+
+				if((key == Input.Keys.W || key == Input.Keys.UP) && (gridPosY + 1 >= Grid.ROWS)) {
+					break;
+				} else if((key == Input.Keys.S || key == Input.Keys.DOWN) && (gridPosY <= 0)) {
+					break;
+				} else if((key == Input.Keys.A || key == Input.Keys.LEFT) && (gridPosX <= 0)) {
+					break;
+				} else if((key == Input.Keys.D || key == Input.Keys.RIGHT) && (gridPosX + 1 >= Grid.COLUMNS)) {
+					break;
+				}
+
+				move(grid, deltaX, deltaY, p);
+				
+				try {
+					if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && moveSemaphore.availablePermits() == 1) {
+						Thread.sleep(125); // sprint
+					} else if(moveSemaphore.availablePermits() == 1){
+						Thread.sleep(190);
+					} else { // is moving in two directions at once
+						Thread.sleep(230);
+					}
+				} catch (InterruptedException e) {
+					break;
+				}
+			}
+
+			moveSemaphore.release();
+			if(key == Input.Keys.W || key == Input.Keys.UP) {
+				upwardsLock.unlock();
+			} else if(key == Input.Keys.S || key == Input.Keys.DOWN) {
+				downwardsLock.unlock();
+			} else if(key == Input.Keys.A || key == Input.Keys.LEFT) {
+				leftLock.unlock();
+			} else if(key == Input.Keys.D || key == Input.Keys.RIGHT) {
+				rightLock.unlock();
+			}
+
+		}
+	}
+
+
 	/**
 	 * Handles character movement
 	 */
 	public void characterControl(Grid grid, GameStateManager gsm, PlayState playState) {
 		if (poisonDuration == 0) PlayState.setHealthTextColor(Color.WHITE);
-		Label direction;
-		int dirDeltaX = 0;
-		int dirDeltaY = 0;
 
-		{
-			if ((Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) && (gridPosY + 1 < Grid.ROWS)) {
-				dirDeltaY = 1;
-			} else if ((Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) && (gridPosY > 0)) {
-				dirDeltaY = -1;
-			} else if ((Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.A)) && (gridPosX > 0)) {
-				dirDeltaX = -1;
-			} else if ((Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.D)) && (gridPosX + 1 < Grid.COLUMNS)) {
-				dirDeltaX = 1;
-			}
-			direction = grid.getGrid()[gridPosY + dirDeltaY][gridPosX + dirDeltaX];
-		}
-
-		if(isWalkable(direction)) {
-			damage(0);
-
-			stepSound.play(volume / 2);
-			if(direction instanceof PathLabel) onPath = true;
-
-			grid.setGridCharacter(gridPosY, gridPosX, labelFromCharacter(previousCharacter));
-			gridPosX += dirDeltaX;
-			gridPosY += dirDeltaY;
-			collectItems(direction, grid);
-			grid.setGridCharacter(gridPosY, gridPosX, this);
-			grid.updateEnemies();
-			if(onPath && !(direction instanceof PathLabel)){
-				checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
-			}
-			if(!(direction instanceof PathLabel)) onPath = false;
+		if ((Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) && (gridPosY + 1 < Grid.ROWS)) {
+			new Thread(new MoveHandler(Input.Keys.W, 0, 1, grid, playState)).start();
+		} else if ((Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) && (gridPosY > 0)) {
+			new Thread(new MoveHandler(Input.Keys.S, 0, -1, grid, playState)).start();
+		} else if ((Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.A)) && (gridPosX > 0)) {
+			new Thread(new MoveHandler(Input.Keys.A, -1, 0, grid, playState)).start();
+		} else if ((Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.D)) && (gridPosX + 1 < Grid.COLUMNS)) {
+			new Thread(new MoveHandler(Input.Keys.D, 1, 0, grid, playState)).start();
 		}
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -151,10 +213,26 @@ public class PlayerLabel extends GameObjectLabel {
 			gsm.push(new GameOverState(gsm, playState));
 		}
 
-		//if p is pressed, game over
-		if (Gdx.input.isKeyJustPressed(Input.Keys.P)) { // safe data TODO: remove
-			//safe data
-			gameFinishedDataHandler();
+	}
+
+	private void move(Grid grid, int deltaX, int deltaY, PlayState playState) {
+		Label direction = grid.getGrid()[gridPosY + deltaY][gridPosX + deltaX];
+		if(isWalkable(direction)) {
+			damage(0);
+
+			stepSound.play(volume / 2);
+			if(direction instanceof PathLabel) onPath = true;
+
+			grid.setGridCharacter(gridPosY, gridPosX, labelFromCharacter(previousCharacter));
+			gridPosX += deltaX;
+			gridPosY += deltaY;
+			collectItems(direction, grid);
+			grid.setGridCharacter(gridPosY, gridPosX, this);
+			grid.updateEnemies();
+			if(onPath && !(direction instanceof PathLabel)){
+				checkNewRoom(grid, playState, grid.getPlayer().getCurrentRoom().getRoomNumber());
+			}
+			if(!(direction instanceof PathLabel)) onPath = false;
 		}
 	}
 

@@ -28,8 +28,8 @@ public class PlayerMap implements Serializable {
     private static final String SECRET_KEY = "mIam!##Sec)))!!!";
 
     //filenames
-    private static final String FILENAME_ENCRYPTED = "files/playerdataEncrypted.ejson";
-    private static final String FILENAME_DECRYPTED = "files/playerdata.json";
+    private static final String FILENAME_ENCRYPTED = "files/player-dataEncrypted.ejson";
+    private static final String FILENAME_DECRYPTED = "files/player-data.json";
 
 
     /**

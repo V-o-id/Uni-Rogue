@@ -29,8 +29,8 @@ public class GamesMap implements Serializable {
     private static final String SECRET_KEY = "mIäm!##S!c##(!!!";
 
     // file names for encrypted and decrypted data
-    private static final String FILENAME_ENCRYPTED = "files/gamehistoryEncrypted.ejson";
-    private static final String FILENAME_DECRYPTED = "files/gamehistory.json";
+    private static final String FILENAME_ENCRYPTED = "files/game-history-encrypted.ejson";
+    private static final String FILENAME_DECRYPTED = "files/game-history.json";
 
 
     /**
