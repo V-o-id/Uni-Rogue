@@ -50,7 +50,6 @@ public class GameInstance implements Serializable {
      */
     private int beatenRooms = 0;
 
-
     /**
      * Checks if two game instances are equal.<br>
      * Two game instances are equal if the player name and the start date time are equal.
@@ -149,7 +148,7 @@ public class GameInstance implements Serializable {
         isGameFinished = gameFinished;
         if(isGameFinished) {
             this.score = calculateScore(kills, gold, level, durationInSeconds);
-            GamesMap gamesMap = GamesMap.getPlayerMap();
+            GamesMap gamesMap = GamesMap.getGamesMap();
             gamesMap.addGame(this);
         }
     }

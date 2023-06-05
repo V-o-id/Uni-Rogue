@@ -15,9 +15,7 @@ import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.VolumeSlider;
 import com.mygdx.game.sprites.font.Font;
 
-import java.util.Arrays;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 /**
  * OptionState representing the Options of the game (choose a name, a charater to play with and the volume of the sound

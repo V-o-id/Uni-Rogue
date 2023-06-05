@@ -158,6 +158,7 @@ public class PlayerLabel extends GameObjectLabel {
 				} catch (InterruptedException e) {
 					break;
 				}
+
 			}
 
 			moveSemaphore.release();
@@ -178,7 +179,7 @@ public class PlayerLabel extends GameObjectLabel {
 	/**
 	 * Handles character movement
 	 */
-	public void characterControl(Grid grid, GameStateManager gsm, PlayState playState) {
+	public void characterControl(final Grid grid, GameStateManager gsm, PlayState playState) {
 		if (poisonDuration == 0) PlayState.setHealthTextColor(Color.WHITE);
 
 		if ((Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) && (gridPosY + 1 < Grid.ROWS)) {
@@ -403,7 +404,6 @@ public class PlayerLabel extends GameObjectLabel {
 			PlayState.pauseMusic();
 			Sound gameOverSound = Gdx.audio.newSound(Gdx.files.internal("audio/GameOverSound.wav"));
 			gameOverSound.play(volume * 0.6f);
-			System.out.println(gameInstance.getDurationInSeconds());
 			gameFinishedDataHandler();
 			return true;
 		}

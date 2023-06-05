@@ -65,8 +65,9 @@ public class Grid {
         placeGameObjects(4, 7, 2, 0);
 
         //place level label object to enter new level; 8 = last room
-        Vector2 levelPos = setRandomPosition(8);
+        Vector2 levelPos = setRandomPosition(ROOMS_PER_COLUMN*ROOMS_PER_ROW-1);
         setGridCharacter((int) levelPos.y, (int) levelPos.x, new LevelLabel(Constants.STYLE));
+
     }
 
     public GameObjectLabel[][] getGrid() {

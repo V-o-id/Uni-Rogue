@@ -52,7 +52,7 @@ public class GamesMap implements Serializable {
     /**
      * @return the instance of the singleton class.
      */
-    public static GamesMap getPlayerMap() {
+    public static GamesMap getGamesMap() {
         if(gameMapInstance == null) {
             gameMapInstance = new GamesMap();
         }

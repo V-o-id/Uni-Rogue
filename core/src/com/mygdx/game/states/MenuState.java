@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.data.CurrentPlayer;
 import com.mygdx.game.data.GameInstance;
+import com.mygdx.game.data.GamesMap;
+import com.mygdx.game.data.PlayerMap;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 
@@ -17,8 +19,23 @@ public class MenuState extends State {
   private final Text highscoreText;
   private final Text exitText;
 
+  private static boolean loaded = false;
+
   public MenuState(GameStateManager gsm) {
     super(gsm);
+
+    if(!loaded) {
+      //load the games and players on game start, because they are needed on multiple places and could take some time to load, if we load them here it is done in the background
+      new Thread(new Runnable() {
+        @Override
+        public void run() {
+          GamesMap.getGamesMap();
+          PlayerMap.getPlayerMap();
+        }
+      }).start();
+      loaded = true;
+    }
+
     //initialise the Texts and their position
     //get font for the Text from the separate class Font
     BitmapFont font = Font.getBitmapFont();

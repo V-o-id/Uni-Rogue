@@ -25,8 +25,9 @@ public class GameTimer implements Runnable {
 
     /**
      * Constructor for the game timer
-     * @param seconds value the timer should start with
-     * @param playState the play state
+     *
+     * @param seconds          value the timer should start with
+     * @param playState        the play state
      * @param gameInstanceData the game instance data
      */
     public GameTimer(long seconds, PlayState playState, GameInstance gameInstanceData) {

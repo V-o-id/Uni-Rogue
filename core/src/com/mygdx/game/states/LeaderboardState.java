@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.data.GamesMap;
-import com.mygdx.game.data.PlayerMap;
 import com.mygdx.game.data.PlayerData;
+import com.mygdx.game.data.PlayerMap;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 
@@ -27,7 +27,7 @@ import java.util.Set;
  */
 public class LeaderboardState extends State {
 
-    private final GamesMap gamesMap = GamesMap.getPlayerMap();
+    private final GamesMap gamesMap = GamesMap.getGamesMap();
     private final PlayerMap playerMap = PlayerMap.getPlayerMap();
     private final Table table = new Table();
     private final Stage stage = new Stage();
@@ -55,6 +55,8 @@ public class LeaderboardState extends State {
         gameStatsText = new Text("Game Stats",  State.WIDTH-300, State.HEIGHT/2f - Font.getBitmapFont().getCapHeight() - 15, Font.getBitmapFont(), true);
         Gdx.input.setInputProcessor(stage);
     }
+
+
 
     private void initFirstRow() {
         Label[] l = new Label[8];

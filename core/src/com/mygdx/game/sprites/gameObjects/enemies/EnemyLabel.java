@@ -1,14 +1,12 @@
 package com.mygdx.game.sprites.gameObjects.enemies;
 
 import com.mygdx.game.sprites.Grid;
-import com.mygdx.game.sprites.Room;
 import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
 import com.mygdx.game.sprites.gameObjects.PlayerLabel;
 import com.mygdx.game.sprites.gameObjects.RoomLabel;
 
 import java.util.Random;
 
-import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel.EnemyState.IDLE;
 
 public class EnemyLabel extends GameObjectLabel {
@@ -26,17 +24,14 @@ public class EnemyLabel extends GameObjectLabel {
     private EnemyState state = IDLE;
 
     public EnemyLabel(String enemyCharacter, LabelStyle style, Grid grid, int gridPosX, int gridPosY) {
-        super(enemyCharacter,style );
-//        super(enemyCharacter, color, grid, gridPosX, gridPosY);
+        super(enemyCharacter,style);
         this.grid = grid;
         this.gridPosX = gridPosX;
         this.gridPosY = gridPosY;
-//        this.setColor(color);
         grid.setGridCharacter(gridPosY, gridPosX, this);
     }
 
     public void updateMovement() {
-
         switch (state) {
             case IDLE:
                 moveRandomly();
@@ -49,7 +44,6 @@ public class EnemyLabel extends GameObjectLabel {
             case ATTACKING:
                 break;
         }
-
     }
 
     private void moveRandomly() {
