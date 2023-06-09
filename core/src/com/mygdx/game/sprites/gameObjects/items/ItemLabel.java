@@ -8,7 +8,7 @@ import com.mygdx.game.sprites.gameObjects.GameObjectLabel;
  */
 public abstract class ItemLabel extends GameObjectLabel {
   /**
-   * Abstract Class of Items
+   * Abstract class of Items.
    */
   public ItemLabel(String itemCharacter, LabelStyle style, Grid grid, int gridPosX, int gridPosY, int level){
     super(itemCharacter, style);

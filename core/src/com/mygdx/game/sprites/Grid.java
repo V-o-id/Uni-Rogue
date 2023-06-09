@@ -73,9 +73,10 @@ public class Grid {
 
         Vector2 playerPos = new Vector2(getRooms()[0].getX(), getRooms()[0].getY());
         this.playerLabel = new PlayerLabel(this, style, (int) playerPos.x, (int) playerPos.y, getRooms()[0], playerHealth, playerAttackDamage, playerGold, gameInstanceData);
-
-        // 2 - two item types: sword, health
+        //place Items (Sword, Health) in the grid
         placeGameObjects(4, 7, 2, 0);
+        //place Enemys (Snake, Goblin, Bat) in the grid
+        placeGameObjects(2, 3, 3, 1);
 
         //place level label object to enter new level; 8 = last room
         Vector2 levelPos = setRandomPosition(ROOMS_PER_COLUMN*ROOMS_PER_ROW-1);
@@ -112,6 +113,7 @@ public class Grid {
      * @param style
      */
     private void generateRooms(LabelStyle style) {
+
         roomMatrix = roomStrategy.alignRooms(ROWS, COLUMNS);
         roomsInOrder = roomStrategy.getRoomsInOrder();
         drawRoomMatrixToGrid(style);
@@ -198,7 +200,12 @@ public class Grid {
     }
 
 
-    //param type: zero = item; one = enemy
+    /**
+     * @param minObjects number of minimum placed objects in the grid of one typ
+     * @param maxObjects number of maximum placed objects in the grid of one typ
+     * @param amountOfPlaceableObjects number of different types to place
+     * @param type defines type (item or enemy)
+     */
     public void placeGameObjects(int minObjects, int maxObjects, int amountOfPlaceableObjects, int type) {
 
         int amountGameObjects = (int) Math.floor(Math.random() * ((maxObjects-minObjects)+1) + minObjects);
@@ -219,7 +226,13 @@ public class Grid {
                     case 1: new HealthLabel(this, style, itemPosX, itemPosY, getRandomNumber(level)); break;
                     default: return;
                 }
-
+            } else if(type == 1) {
+                switch(objectType) {
+                    case 0: new Snake(this, itemPosX, itemPosY); break;
+                    case 1: new Goblin(this, itemPosX, itemPosY); break;
+                    case 2: new Bat(this, itemPosX, itemPosY); break;
+                    default: return;
+                }
             }
         }
     }
