@@ -64,7 +64,7 @@ public class Grid {
         //place Items (Sword, Health) in the grid
         placeGameObjects(4, 7, 2, 0);
         //place Enemys (Snake, Goblin, Bat) in the grid
-        placeGameObjects(2, 3, 3, 1);
+        placeGameObjects(15, 25, 3, 1);
 
         //place level label object to enter new level; 8 = last room
         Vector2 levelPos = setRandomPosition(8);
