@@ -24,7 +24,7 @@ import java.util.List;
 
 
 /**
- * Class that represents a grid.#
+ * Class that represents a grid.
  * The grid can be seen as the playing field.
  * Mostly it consists of rooms.
  */
@@ -106,8 +106,12 @@ public class Grid {
         }
     }
 
+    //TODO comment
+    /**
+     * Method for randomly generating rooms
+     * @param style
+     */
     private void generateRooms(LabelStyle style) {
-
         roomMatrix = roomStrategy.alignRooms(ROWS, COLUMNS);
         roomsInOrder = roomStrategy.getRoomsInOrder();
         drawRoomMatrixToGrid(style);
@@ -220,13 +224,22 @@ public class Grid {
         }
     }
 
-    //returns a number be in a range, e.g. input = 1 return 1 - 10, input = 2 return 11 - 19
+    /**
+     * returns a number be in a range, e.g. input = 1 return 1 - 10, input = 2 return 11 - 19
+     * @param input range of the random number (from 1 to <input>)
+     * @return random number
+     */
     private static int getRandomNumber (int input) {
         int min = (input - 1) * 10 + 1; // Calculate minimum
         int max = input * 10; // Calculate maximum
         return (int) (Math.random() * (max - min + 1)) + min;
     }
 
+    /**
+     * Places GameObject in random position inside room
+     * @param roomNumber room ID to place GameObject in
+     * @return Position of Object as Vector2
+     */
     public Vector2 setRandomPosition(int roomNumber) {
         int roomWidthFromGround = roomsInOrder[roomNumber].getWidth() + roomsInOrder[roomNumber].getX() - 1;
         int roomHeightFromGround = roomsInOrder[roomNumber].getHeight() + roomsInOrder[roomNumber].getY() - 1;
