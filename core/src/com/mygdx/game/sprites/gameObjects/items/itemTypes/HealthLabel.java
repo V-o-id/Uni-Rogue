@@ -6,7 +6,7 @@ import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
 
 public class HealthLabel extends ItemLabel {
   /**
-   * Contains information of healthPotion in the grid
+   * Contains information of healthPotion in the grid.
    */
   private final int healthValue;
   public final static String HEALTH_CHARACTER = "❤";
@@ -15,7 +15,7 @@ public class HealthLabel extends ItemLabel {
     this.healthValue = level;
   }
   /**
-   * Return value (healtValue) of the health label
+   * Return value (healtValue) of the health label.
    */
   @Override
   public int getObjectValue() {

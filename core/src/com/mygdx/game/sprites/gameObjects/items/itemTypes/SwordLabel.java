@@ -5,7 +5,7 @@ import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
 
 public class SwordLabel extends ItemLabel {
   /**
-   * Contains information of a sword in the grid
+   * Contains information of a sword in the grid.
    */
   private final int attackDamage;
   public final static String SWORD_CHARACTER = "🗡";
@@ -15,7 +15,7 @@ public class SwordLabel extends ItemLabel {
     this.attackDamage = level;
   }
   /**
-   * Return value (attackDamange) of the sword label
+   * Return value (attackDamange) of the sword label.
    */
   @Override
   public int getObjectValue() {
