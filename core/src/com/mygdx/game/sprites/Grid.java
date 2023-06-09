@@ -71,13 +71,11 @@ public class Grid {
 
         generateRooms(style);
 
-        //place Player in the grid
         Vector2 playerPos = new Vector2(getRooms()[0].getX(), getRooms()[0].getY());
         this.playerLabel = new PlayerLabel(this, style, (int) playerPos.x, (int) playerPos.y, getRooms()[0], playerHealth, playerAttackDamage, playerGold, gameInstanceData);
-        //place Items (Sword, Health) in the grid
+
+        // 2 - two item types: sword, health
         placeGameObjects(4, 7, 2, 0);
-        //place Enemys (Snake, Goblin, Bat) in the grid
-        placeGameObjects(15, 25, 3, 1);
 
         //place level label object to enter new level; 8 = last room
         Vector2 levelPos = setRandomPosition(ROOMS_PER_COLUMN*ROOMS_PER_ROW-1);
@@ -99,8 +97,8 @@ public class Grid {
     }
 
     public Room[] getRooms() {
-          return roomsInOrder;
-     }
+        return roomsInOrder;
+    }
 
     public void updateEnemies() {
         for (EnemyLabel e : enemyLabelList) {
@@ -114,7 +112,6 @@ public class Grid {
      * @param style
      */
     private void generateRooms(LabelStyle style) {
-
         roomMatrix = roomStrategy.alignRooms(ROWS, COLUMNS);
         roomsInOrder = roomStrategy.getRoomsInOrder();
         drawRoomMatrixToGrid(style);
@@ -126,6 +123,22 @@ public class Grid {
                     grid[y][x] = new GameObjectLabel(" ", style);
                     grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
                 }
+            }
+        }
+
+        //Spawn 1-3 random enemy types in every room
+        for(Room room: roomsInOrder) {
+            for(int i = (int)(Math.random() * 3); i < 3; i++){
+                EnemyLabel enemy;
+                if ((int) (Math.random() * EnemyLabel.NUM_OF_ENEMY_TYPES) == 0) {
+                    enemy = new Snake(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight()));
+                } else if ((int) (Math.random() * EnemyLabel.NUM_OF_ENEMY_TYPES) == 1) {
+                    enemy = new Goblin(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight()));
+                } else {
+                    enemy = new Bat(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight()));
+                }
+                enemyLabelList.add(enemy);
+                room.enemyLabelList.add(enemy);
             }
         }
     }
@@ -185,12 +198,7 @@ public class Grid {
     }
 
 
-    /**
-     * @param minObjects number of minimum placed objects in the grid of one typ
-     * @param maxObjects number of maximum placed objects in the grid of one typ
-     * @param amountOfPlaceableObjects number of different types to place
-     * @param type defines type (item or enemy)
-     */
+    //param type: zero = item; one = enemy
     public void placeGameObjects(int minObjects, int maxObjects, int amountOfPlaceableObjects, int type) {
 
         int amountGameObjects = (int) Math.floor(Math.random() * ((maxObjects-minObjects)+1) + minObjects);
@@ -211,13 +219,7 @@ public class Grid {
                     case 1: new HealthLabel(this, style, itemPosX, itemPosY, getRandomNumber(level)); break;
                     default: return;
                 }
-            } else if(type == 1) {
-                switch(objectType) {
-                    case 0: new Snake(this, itemPosX, itemPosY); break;
-                    case 1: new Goblin(this, itemPosX, itemPosY); break;
-                    case 2: new Bat(this, itemPosX, itemPosY); break;
-                    default: return;
-                }
+
             }
         }
     }
