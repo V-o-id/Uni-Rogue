@@ -150,12 +150,6 @@ public class PlayerLabel extends GameObjectLabel {
 			playState.pause();
 			gsm.push(new GameOverState(gsm, playState));
 		}
-
-		//if p is pressed, game over
-		if (Gdx.input.isKeyJustPressed(Input.Keys.P)) { // safe data TODO: remove
-			//safe data
-			gameFinishedDataHandler();
-		}
 	}
 
 	private void checkNewRoom(Grid grid, PlayState playState, int lastRoomNumber) {
