@@ -7,6 +7,13 @@ import com.mygdx.game.sprites.gameObjects.PlayerLabel;
 import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 import com.mygdx.game.states.PlayState;
 
+/**
+ * Enemy type Snake
+ * Poisons a player for 5 moves.
+ * <p>
+ * Health: 30
+ * Damage: 8
+ */
 public class Snake extends EnemyLabel {
     public Snake(Grid grid, int gridPosX, int gridPosY) {
         super("🐍", Constants.STYLE, grid, gridPosX, gridPosY);

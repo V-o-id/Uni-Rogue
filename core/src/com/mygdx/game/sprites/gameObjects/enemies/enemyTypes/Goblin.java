@@ -5,6 +5,13 @@ import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.gameObjects.PlayerLabel;
 import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 
+/**
+ * Enemy type Goblin
+ * 40% chance to steal player's gold.
+ * <p>
+ * Health: 70
+ * Damage: 8
+ */
 public class Goblin extends EnemyLabel {
     public Goblin(Grid grid, int gridPosX, int gridPosY) {
         super("👺", Constants.STYLE, grid, gridPosX, gridPosY);

@@ -4,6 +4,13 @@ import com.mygdx.game.sprites.Constants;
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.gameObjects.enemies.EnemyLabel;
 
+/**
+ * Enemy type Bat <n>
+ * No special abilities.
+ * <p>
+ * Health: 40
+ * Damage: 6
+ */
 public class Bat extends EnemyLabel {
 
     public Bat(Grid grid, int gridPosX, int gridPosY) {
