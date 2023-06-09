@@ -2,7 +2,6 @@ package com.mygdx.game.sprites.gameObjects.items.itemTypes;
 
 import com.mygdx.game.sprites.Grid;
 import com.mygdx.game.sprites.gameObjects.items.ItemLabel;
-import com.mygdx.game.sprites.roomstrategy.RoomStrategyException;
 
 public class HealthLabel extends ItemLabel {
   /**

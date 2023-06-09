@@ -28,7 +28,8 @@ import static com.mygdx.game.sprites.gameObjects.PathLabel.PATH_CHARACTER;
 import static com.mygdx.game.sprites.gameObjects.RoomLabel.ROOM_CHARACTER;
 
 /**
- * Contains information of the current player
+ * Is the Player itself.
+ * Contains movement handling and player information.
  */
 public class PlayerLabel extends GameObjectLabel {
 
@@ -56,6 +57,18 @@ public class PlayerLabel extends GameObjectLabel {
 		return currentRoom;
 	}
 
+	/**
+	 * Constructor of the player label.
+	 * @param grid grid of the game
+	 * @param style label style
+	 * @param gridPosX x position of the player in the grid
+	 * @param gridPosY y position of the player in the grid
+	 * @param currentRoom current room of the player
+	 * @param health health of the player
+	 * @param attackDamage attack damage of the player
+	 * @param gold gold of the player
+	 * @param gameInstance game instance of the game, contains data of the game
+	 */
 	public PlayerLabel(Grid grid, LabelStyle style, int gridPosX, int gridPosY, Room currentRoom, int health, int attackDamage, int gold, GameInstance gameInstance) {
 		super(playerCharacter, style);
 		playerCharacter = CurrentPlayer.getCurrentPlayer().getPlayerCharacter();
@@ -80,6 +93,7 @@ public class PlayerLabel extends GameObjectLabel {
 		this.stepSound = Gdx.audio.newSound(Gdx.files.internal("audio/Step.wav"));
 	}
 
+
 	private static String convertUnicodeToEmoji(String input) {
 		Pattern pattern = Pattern.compile("\\\\u([0-9A-Fa-f]{4})");
 		Matcher matcher = pattern.matcher(input);
@@ -103,6 +117,7 @@ public class PlayerLabel extends GameObjectLabel {
 	/**
 	 * Moves the player in the given direction
 	 * this Handler can handle holding down a key
+	 * Locks are used to prevent the player from moving in a direction twice as fast, when the player presses for example W and UP (arrow key) at the same time.
 	 */
 	private class MoveHandler implements Runnable {
 		private final int key;
@@ -237,6 +252,12 @@ public class PlayerLabel extends GameObjectLabel {
 		}
 	}
 
+	/**
+	 * Checks if the player went into a new room, to update the current room
+	 * @param grid the grid
+	 * @param playState the playState
+	 * @param lastRoomNumber the last room number
+	 */
 	private void checkNewRoom(Grid grid, PlayState playState, int lastRoomNumber) {
 		//check room of new position
 		Room[] rooms = grid.getRooms();
@@ -296,7 +317,10 @@ public class PlayerLabel extends GameObjectLabel {
 	}
 
 
-	// Handles attack damage, when a new weapon is taken and converts weapon to gold, if it is weaker
+	/**
+	 * Handles attack damage, when a new weapon is taken and converts weapon to gold, if it is weaker
+	 * @param attackDamage
+	 */
 	public void setAttackDamage(int attackDamage) {
 		if(this.attackDamage < attackDamage) {
 			this.attackDamage = attackDamage;
@@ -315,6 +339,10 @@ public class PlayerLabel extends GameObjectLabel {
 		return information;
 	}
 
+	/**
+	 * Sets the information text and clears it after 3 seconds
+	 * @param information the information text
+	 */
 	public void setInformation(String information) {
 		this.information = information;
 		clearInformation();
@@ -399,6 +427,10 @@ public class PlayerLabel extends GameObjectLabel {
 		}
 	}
 
+	/**
+	 * Checks if the player is dead and handles game over
+	 * @return true if the player is dead
+	 */
 	private boolean amIDeadYet() {
 		if(health <= 0) {
 			PlayState.pauseMusic();

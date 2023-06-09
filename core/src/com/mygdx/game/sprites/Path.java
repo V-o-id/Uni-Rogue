@@ -27,6 +27,13 @@ public class Path {
      */
     private final int toY;
 
+    /**
+     * Constructor for a path
+     * @param fromX x coordinate of the starting position of the path
+     * @param fromY y coordinate of the starting position of the path
+     * @param toX x coordinate of the ending position of the path
+     * @param toY y coordinate of the ending position of the path
+     */
     public Path(int fromX, int fromY, int toX, int toY) {
         this.fromX = fromX;
         this.fromY = fromY;

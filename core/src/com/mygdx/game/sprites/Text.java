@@ -54,6 +54,12 @@ public class Text extends Actor {
     this.text = text;
   }
 
+  /**
+   * Checks if the text has been clicked (in a rectangle around the text and checks if the click is inside the rectangle)
+   * @param x x-coordinate of the click
+   * @param y y-coordinate of the click
+   * @return true if the text has been clicked, false otherwise
+   */
   public boolean isClicked(int x, int y){
     return rectangle.contains(x, y);
   }
