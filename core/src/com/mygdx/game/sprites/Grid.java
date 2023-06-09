@@ -71,6 +71,7 @@ public class Grid {
 
         generateRooms(style);
 
+        //place Player in the grid
         Vector2 playerPos = new Vector2(getRooms()[0].getX(), getRooms()[0].getY());
         this.playerLabel = new PlayerLabel(this, style, (int) playerPos.x, (int) playerPos.y, getRooms()[0], playerHealth, playerAttackDamage, playerGold, gameInstanceData);
         //place Items (Sword, Health) in the grid
@@ -125,22 +126,6 @@ public class Grid {
                     grid[y][x] = new GameObjectLabel(" ", style);
                     grid[y][x].setPosition(x * SPACE_BETWEEN_CHARACTERS + START_POSX_GRID, y * SPACE_BETWEEN_CHARACTERS + START_POSY_GRID);
                 }
-            }
-        }
-
-        //Spawn 1-3 random enemy types in every room
-        for(Room room: roomsInOrder) {
-            for(int i = (int)(Math.random() * 3); i < 3; i++){
-                EnemyLabel enemy;
-                if ((int) (Math.random() * EnemyLabel.NUM_OF_ENEMY_TYPES) == 0) {
-                    enemy = new Snake(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight()));
-                } else if ((int) (Math.random() * EnemyLabel.NUM_OF_ENEMY_TYPES) == 1) {
-                    enemy = new Goblin(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight()));
-                } else {
-                    enemy = new Bat(this, room.getX() + (int) (Math.random() * room.getWidth()), room.getY() + (int) (Math.random() * room.getHeight()));
-                }
-                enemyLabelList.add(enemy);
-                room.enemyLabelList.add(enemy);
             }
         }
     }
