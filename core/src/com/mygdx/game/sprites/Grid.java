@@ -106,10 +106,9 @@ public class Grid {
         }
     }
 
-    //TODO comment
     /**
      * Method for randomly generating rooms
-     * @param style
+     * @param style of labels to playce
      */
     private void generateRooms(LabelStyle style) {
         roomMatrix = roomStrategy.alignRooms(ROWS, COLUMNS);
@@ -151,7 +150,10 @@ public class Grid {
         }
     }
 
-
+    /**
+     * Connects rooms with a walkable path
+     * @param style of path labels
+     */
     private void connectRooms(LabelStyle style) {
 
         int roomCounter = ROOMS_PER_COLUMN * ROOMS_PER_ROW;
@@ -197,8 +199,13 @@ public class Grid {
         }
     }
 
-
-    //param type: zero = item; one = enemy
+    /**
+     * Places either items or enemies in rooms
+     * @param minObjects Minimum number of objects
+     * @param maxObjects Maximum number of objects
+     * @param amountOfPlaceableObjects Amount of placeable objects
+     * @param type zero = item; one = enemy
+     */
     public void placeGameObjects(int minObjects, int maxObjects, int amountOfPlaceableObjects, int type) {
 
         int amountGameObjects = (int) Math.floor(Math.random() * ((maxObjects-minObjects)+1) + minObjects);
