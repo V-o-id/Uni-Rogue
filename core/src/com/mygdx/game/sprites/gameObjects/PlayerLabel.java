@@ -149,11 +149,11 @@ public class PlayerLabel extends GameObjectLabel {
 
 				try {
 					if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && moveSemaphore.availablePermits() == 1) {
-						Thread.sleep(125); // sprint
+						Thread.sleep(135); // sprint
 					} else if(moveSemaphore.availablePermits() == 1){
-						Thread.sleep(190);
+						Thread.sleep(200);
 					} else { // is moving in two directions at once
-						Thread.sleep(230);
+						Thread.sleep(235);
 					}
 				} catch (InterruptedException e) {
 					break;

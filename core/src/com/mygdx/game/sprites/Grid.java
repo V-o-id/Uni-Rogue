@@ -23,6 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Class that represents a grid.#
+ * The grid can be seen as the playing field.
+ * Mostly it consists of rooms.
+ */
 public class Grid {
     private static final int ROOMS_PER_ROW = 3;
     private static final int ROOMS_PER_COLUMN = 3;
@@ -40,6 +45,14 @@ public class Grid {
     private final int level;
     List<EnemyLabel> enemyLabelList = new ArrayList<>();
 
+    /**
+     * Constructor for a grid
+     * @param playerHealth health of the player
+     * @param playerAttackDamage attack damage of the player
+     * @param playerGold gold of the player
+     * @param level level of the player
+     * @param gameInstanceData game instance data
+     */
     public Grid(int playerHealth, int playerAttackDamage, int playerGold, int level, GameInstance gameInstanceData)  {
         this.grid = new GameObjectLabel[ROWS][COLUMNS];
         this.level = level;

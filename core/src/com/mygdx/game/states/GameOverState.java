@@ -10,6 +10,10 @@ import com.mygdx.game.data.GameInstance;
 import com.mygdx.game.sprites.Text;
 import com.mygdx.game.sprites.font.Font;
 
+/**
+ * Displays the game over screen when the player dies
+ * Allows the player to retry the level, return to the menu or close the game
+ */
 public class GameOverState extends State{
     private final Text gameOverText;
     private final Text retryText;
