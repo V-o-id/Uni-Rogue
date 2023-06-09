@@ -404,6 +404,7 @@ public class PlayerLabel extends GameObjectLabel {
 			PlayState.pauseMusic();
 			Sound gameOverSound = Gdx.audio.newSound(Gdx.files.internal("audio/GameOverSound.wav"));
 			gameOverSound.play(volume * 0.6f);
+			System.out.println(gameInstance.getDurationInSeconds());
 			gameFinishedDataHandler();
 			return true;
 		}
