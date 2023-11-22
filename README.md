@@ -1,4 +1,6 @@
-# MMS Project
+# Uni-Rogue
+
+* A little team project for a course in Multimedia-Systems
 
 ## Project Description
 
@@ -16,8 +18,8 @@
 *   GitHub for Version control
 
 ## Team Uni-Rogue
-*   Tobias Kathan       - K12210903
-*   Philipp Olivotto    - K12223453
-*   Julijan Vinojcic    - K12206775
-*   Manuel Hochreiter   - K12010201
-*   Haider Moritz       - K12215632
+*   Tobias
+*   Philipp
+*   Julijan
+*   Manuel
+*   Moritz
